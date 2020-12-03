@@ -1,0 +1,831 @@
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rabbit Ear</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
+<script type="text/javascript" src="../SVG/svg.js"></script>
+<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
+<script>
+SVG.use(FoldToSvg);
+FoldToSvg.use(SVG);
+ear.use(SVG);
+ear.use(FoldToSvg);
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<link rel="stylesheet" href="./css/reset.css" />
+<link rel="stylesheet" href="./css/style.css" />
+<link rel="stylesheet" href="./css/code.css" />
+<link rel="stylesheet" href="./css/nav.css" />
+<link rel="stylesheet" href="./css/input-range.css" />
+<link rel="stylesheet" href="./css/button.css" />
+</head>
+<body>
+  <nav>
+    <div class="mobile-nav-dropdown">
+      <div class="mobile-nav-button"><img src="images/menu.svg"></div>
+      <div class="nav-wrapper">
+        <ul>
+          <li class="dropdown">
+            <a href="/">HELLO</a>
+          </li>
+          <li class="dropdown">
+            <a href="math.html" class="dropbtn">I. MATH</a>
+          </li>
+          <li class="dropdown">
+            <a href="graph.html" class="dropbtn">II. GRAPHS</a>
+          </li>
+          <li class="dropdown">
+            <a href="svg.html" class="dropbtn">III: SVG</a>
+          </li>
+          <li class="dropdown">
+            <a href="origami.html" class="dropbtn">IV. ORIGAMI</a>
+          </li>
+          <li class="dropdown">
+            <a href="appendix.html" class="dropbtn">APPENDIX</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="main-content">
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+
+<!-- <script type="text/javascript" src="js/toolkit.js"></script> -->
+<script type="text/javascript" src="lib/d3.min.js"></script>
+<script type="text/javascript" src="js/graph.d3.js"></script>
+
+<h3>
+  CHAPTER II.
+</h3>
+
+<h1>
+  GRAPHS
+</h1>
+
+  <div class="d3-force-graph">
+    <svg id="svgTest00"></svg>
+  </div>
+
+<p class="quote">
+  A <b>graph</b> is a collection of <b>vertices</b>, <b>edges</b>, and <b>faces</b>.
+</p>
+
+<!--   <pre class="code"><code><f>var</f> graph <key>=</key> ear.<f>graph</f>()</code></pre>
+ -->
+
+  <pre class="code"><code>ear.<f>graph</f></code></pre>
+
+<p>
+  Graphs don't need to exist in 2D space (or any space), they are an abstract map showing connections between vertices.
+</p>
+
+<h3>Adjacency</h3>
+
+<div class="grid-2">
+  <div>
+    <div class="d3-force-graph">
+      <svg id="svgTest01"></svg>
+    </div>
+    <p class="quote">
+      adjacent vertices
+    </p>
+    <pre class="code"><code><span id="spanNodesAdjacentToNodeResult"></span>graph.vertices[<n><span id="spanNodesAdjacentToNodeInput" class="token argument"></span></n>].<f>vertices</f><br><span id="spanNodesAdjacentToEdgeResult"></span>graph.edges[<n><span id="spanNodesAdjacentToEdgeInput" class="token argument"></span></n>].<f>vertices</f></code></pre>
+  </div>
+  <div>
+    <div class="d3-force-graph">
+      <svg id="svgTest02"></svg>
+    </div>
+    <p class="quote">
+      adjacent edges
+    </p>
+    <pre class="code"><code><span id="spanEdgesAdjacentToNodeResult"></span>graph.vertices[<n><span id="spanEdgesAdjacentToNodeInput" class="token argument"></span></n>].<f>edges</f><br><span id="spanEdgesAdjacentToEdgeResult"></span>graph.edges[<n><span id="spanEdgesAdjacentToEdgeInput" class="token argument"></span></n>].<f>edges</f></code></pre>
+  </div>
+</div>
+
+<p class="quote">
+  Edge-adjacencies can be used to calculate faces.
+</p>
+
+<h3>
+  Components
+</h3>
+
+  <pre class="code"><code>graph.<f>vertices</f><br>graph.<f>edges</f><br>graph.<f>faces</f></code></pre>
+
+<p class="quote">
+  Components are referred to by their <b>indices</b>.
+</p>
+
+<p>
+  Component queries will return an integer; this is the component's index in its arrays.
+</p>
+
+  <div id="canvas-graph-nearest-components"></div>
+
+  <pre class="code"><code>ear.graph.<f>nearest_vertex</f>(<arg>graph</arg>)<br>ear.graph.<f>nearest_edge</f>(<arg>graph</arg>)<br>ear.graph.<f>nearest_face</f>(<arg>graph</arg>)</code></pre>
+
+<h2>
+  FOLD
+</h2>
+
+<p>
+  In 2016, a file format was developed specifically for origami: <a href="https://github.com/edemaine/fold#readme">the FOLD format</a>. The benefit of this being a Javascript library is that it integrates seamlessly with a JSON-based format.
+</p>
+
+<pre class="code compact"><code><f>FOLD graph</f>
+┃
+┃ <c>// vertices</c>
+┣━ vertices_coords
+┣━ <v>vertices_vertices</v>
+┣━ <v>vertices_edges</v>
+┣━ <v>vertices_faces</v>
+┃
+┃ <c>// edges</c>
+┣━ <v>edges_vertices</v>
+┣━ <v>edges_faces</v>
+┃
+┃ <c>// faces</c>
+┣━ <v>faces_vertices</v>
+┗━ <v>faces_edges</v>
+┗━ <v>faces_faces</v>
+</code></pre>
+
+<p>
+  FOLD is JSON-based, it's not hard to peek inside and modify the contents manually.
+</p>
+
+  <div id="canvas-f39fksa0fj2d">
+    <svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
+      <path stroke="#e53" d="M0,0L1,1" />
+      <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
+    </svg>
+  </div>
+
+  <pre class="code"><code>{<br>  vertices_coords: [[<n>0</n>, <n>0</n>], [<n>1</n>, <n>0</n>], [<n>1</n>, <n>1</n>], [<n>0</n>, <n>1</n>]],<br>  edges_vertices: [[<n>0</n>, <n>1</n>], [<n>1</n>, <n>2</n>], [<n>2</n>, <n>3</n>], [<n>3</n>, <n>0</n>], [<n>0</n>, <n>2</n>]],<br>  edges_assignment: [<str>"B"</str>, <str>"B"</str>, <str>"B"</str>, <str>"B"</str>, <str>"M"</str>]<br>}</code></pre>
+
+<p>
+  This library makes it so you don't have to learn the FOLD format. We have methods to add vertices, edges, and faces.
+</p>
+
+<h2>
+  Creating Graphs
+</h2>
+
+<p>
+  Our graph is simply a Javascript object.
+</p>
+
+  <pre class="code"><code><f>var</f> myGraph <key>=</key> {}</code></pre>
+
+<p>
+  Every graph method takes a similar form, the first parameter is the graph, if there are more they follow after.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)<br>ear.graph.<f>translate</f>(<arg>graph</arg>, <arg>x</arg>, <arg>y</arg>)</code></pre>
+
+<p>
+  There is also an object-oriented approach. The top-level graph key is also a constructor:
+</p>
+
+  <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.<f>graph</f>()</code></pre>
+
+<p>
+  This still creates a Javascript object but with a bound prototype so that methods can be called directly on the object.
+</p>
+
+<div class="grid-2">
+  <div>
+    <pre class="code"><code><f>var</f> myGraph <key>=</key> {}<br>ear.graph.<f>populate</f>(myGraph)<br>ear.graph.<f>translate</f>(myGraph, <n>2</n>, <n>1</n>)</code></pre>
+  </div>
+  <div>
+    <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.<f>graph</f>()<br>myGraph.<f>populate</f>()<br>myGraph.<f>translate</f>(<n>2</n>, <n>1</n>)</code></pre>
+  </div>
+</div>
+
+<h3>
+  Static Initializers
+</h3>
+
+<p>
+  When modeling origami you tend to start with a boundary. All of the regular polygons have named static initializers.
+</p>
+
+  <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.graph.<f>square</f>()</code></pre>
+
+<h2>
+  Adding Components
+</h2>
+
+<h3>
+  Vertices
+</h3>
+
+<p>
+  <b>add_vertices</b> makes sure that no two vertices exist in the same space, within an adjustable <b>epsilon</b>.
+</p>
+
+  <div id="canvas-graph-add-vertices"></div>
+
+  <pre class="code"><code>ear.graph.<f>add_vertices</f>(<arg>graph</arg>, [[<n>x</n>, <n>y</n>], [<n>x</n>, <n>y</n>], <key>...</key>])</code></pre>
+
+<p class="explain">
+  If you add vertices manually or import a graph, you can use <b>merge_duplicate_vertices</b> to clean them up after.
+</p>
+
+<h3>
+  Edges
+</h3>
+
+<p>
+  <b>split_edge</b> adds one new vertex and carefully rebuilds the graph around it, adding new edges and updating any adjacent faces.
+</p>
+
+  <div id="canvas-graph-split-edge"></div>
+
+  <pre class="code"><code>ear.graph.<f>split_edge</f>(<arg>graph</arg>, <arg>edge</arg>, <arg>coords</arg>)</code></pre>
+
+<p>
+  Give an <b>edge index</b> and <b>coordinates for a new vertex</b>. If no coordinates are given, it will be split at the midpoint.
+</p>
+
+<h3>
+  Faces
+</h3>
+
+<p>
+  Splitting a face is more complex; the number of all three component is altered.
+</p>
+
+  <div id="canvas-graph-split-face"></div>
+
+  <pre class="code"><code>ear.graph.<f>split_face</f>(<arg>graph</arg>, <arg>face</arg>, <arg>vector</arg>, <arg>origin</arg>)</code></pre>
+
+<p>
+  Give a <b>face index</b> and a line by specifying the line's <b>vector</b> and <b>origin</b>.
+</p>
+
+<h2>
+  Populating arrays
+</h2>
+
+<p>
+  Given a graph with a few components, we can construct more arrays that express relationships between components.
+</p>
+
+<pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)</code></pre>
+
+<svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
+  <path stroke="#e53" d="M0,0L1,1" />
+  <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
+</svg>
+
+<p>
+  The populate method will fill out the graph to the best of its ability.
+</p>
+
+<pre class="code"><code>vertices_coords: [[<n>0</n>,<n>0</n>], [<n>1</n>,<n>0</n>], [<n>1</n>,<n>1</n>], [<n>0</n>,<n>1</n>]]
+edges_vertices: [[<n>0</n>,<n>1</n>], [<n>1</n>,<n>2</n>], [<n>2</n>,<n>3</n>], [<n>3</n>,<n>0</n>], [<n>0</n>,<n>2</n>]]
+edges_assignment: [<str>"B"</str>, <str>"B"</str>, <str>"B"</str>, <str>"B"</str>, <str>"M"</str>]</code></pre>
+
+<p>
+  becomes
+</p>
+
+<pre class="code"><code>vertices_coords: [[<n>0</n>,<n>0</n>], [<n>1</n>,<n>0</n>], [<n>1</n>,<n>1</n>], [<n>0</n>,<n>1</n>]]
+vertices_vertices: [[<n>1</n>,<n>2</n>,<n>3</n>], [<n>2</n>,<n>0</n>], [<n>0</n>,<n>1</n>,<n>3</n>], [<n>0</n>,<n>2</n>]]
+vertices_edges: [[<n>0</n>,<n>3</n>,<n>4</n>], [<n>0</n>,<n>1</n>], [<n>1</n>,<n>2</n>,<n>4</n>], [<n>2</n>,<n>3</n>]]
+vertices_faces: [[<n>0</n>,<n>1</n>], [<n>0</n>], [<n>0</n>,<n>1</n>], [<n>1</n>]]
+edges_vertices: [[<n>0</n>,<n>1</n>], [<n>1</n>,<n>2</n>], [<n>2</n>,<n>3</n>], [<n>3</n>,<n>0</n>], [<n>0</n>,<n>2</n>]]
+edges_edges: [[<n>3</n>,<n>4</n>,<n>1</n>], [<n>0</n>,<n>2</n>,<n>4</n>], [<n>1</n>,<n>4</n>,<n>3</n>], [<n>2</n>,<n>0</n>,<n>4</n>], [<n>0</n>,<n>3</n>,<n>1</n>,<n>2</n>]]
+edges_faces: [[<n>0</n>], [<n>0</n>], [<n>1</n>], [<n>1</n>], [<n>0</n>,<n>1</n>]]
+edges_foldAngle: [<n>0</n>, <n>0</n>, <n>0</n>, <n>0</n>, -<n>180</n>]
+edges_assignment: [<str>"B"</str>, <str>"B"</str>, <str>"B"</str>, <str>"B"</str>, <str>"M"</str>]
+faces_vertices: [[<n>2</n>,<n>0</n>,<n>1</n>], [<n>3</n>,<n>0</n>,<n>2</n>]]
+faces_edges: [[<n>4</n>,<n>0</n>,<n>1</n>], [<n>3</n>,<n>4</n>,<n>2</n>]]
+faces_faces: [[<n>1</n>], [<n>0</n>]]
+</code></pre>
+
+<h3>
+  Individual Methods
+</h3>
+
+<p>
+  If you prefer, you can call these methods individually. Prerequisites for each method vary.
+</p>
+
+<pre class="code"><code><f>var</f> array <key>=</key> ear.graph.<f>make_vertices_vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  These arrays <b>do not modify</b> the input graph, they construct and return a new array, it's up to you to assign it to the graph if you wish.
+</p>
+
+<pre class="code"><code>ear.graph.<f>make_vertices_edges</f>()
+ear.graph.<f>make_vertices_vertices</f>()
+ear.graph.<f>make_vertices_faces</f>()
+ear.graph.<f>make_vertices_to_edge_bidirectional</f>()
+ear.graph.<f>make_vertices_to_edge</f>()
+ear.graph.<f>make_vertices_vertices_vector</f>()
+ear.graph.<f>make_vertices_sectors</f>()
+ear.graph.<f>make_vertices_coords_folded</f>()
+</code></pre>
+
+<pre class="code"><code>ear.graph.<f>make_edges_vertices</f>()
+ear.graph.<f>make_edges_edges</f>()
+ear.graph.<f>make_edges_faces</f>()
+ear.graph.<f>make_edges_foldAngle</f>()
+ear.graph.<f>make_edges_assignment</f>()
+ear.graph.<f>make_edges_vector</f>()
+ear.graph.<f>make_edges_length</f>()
+ear.graph.<f>make_edges_edges_intersections</f>()
+ear.graph.<f>make_edges_collinear_vertices</f>()
+</code></pre>
+
+<pre class="code"><code>ear.graph.<f>make_planar_faces</f>()
+ear.graph.<f>make_faces_vertices</f>()
+ear.graph.<f>make_faces_edges</f>()
+ear.graph.<f>make_faces_faces</f>()
+ear.graph.<f>get_face_face_shared_vertices</f>()
+ear.graph.<f>make_face_spanning_tree</f>()
+ear.graph.<f>make_faces_matrix</f>()
+ear.graph.<f>make_faces_center</f>()
+ear.graph.<f>make_faces_coloring_from_matrix</f>()
+ear.graph.<f>make_faces_coloring</f>()
+</code></pre>
+
+<h2>
+  More
+</h2>
+
+<h3>
+  Minimum Spanning Tree
+</h3>
+
+  <div id="canvas-graph-faces-tree"></div>
+
+  <pre class="code"><code>ear.graph.<f>make_face_spanning_tree</f>(<arg>graph</arg>, <n>5</n>)</code></pre>
+
+<p>
+  A minimum face spanning tree finds edge-adjacent faces; any face can be the starting face.
+</p>
+
+<h3>
+  Boundary
+</h3>
+
+<p>
+  Polygons are defined as a <b>sorted</b> array of vertices/edges; required for calculations like intersections.
+</p>
+
+<p>
+  Because edges are stored in no particular order, finding the boundary requires a sort. This method walks boundary edges until a cycle is found.
+</p>
+
+  <div id="canvas-graph-get-boundary"></div>
+
+  <pre class="code"><code>ear.graph.<f>get_boundary</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  Both edges and vertices are given, sorted clockwise / counter-clockwise.
+</p>
+
+<h3>
+  Transformations
+</h3>
+
+  <pre class="code"><code>ear.graph.<f>translate</f>(<arg>graph</arg>, <arg>x</arg>, <arg>y</arg>, <arg>z</arg>)
+ear.graph.<f>scale</f>(<arg>graph</arg>, <arg>scale</arg>, <arg>origin</arg>)
+ear.graph.<f>rotateZ</f>(<arg>graph</arg>, <arg>radians</arg>)
+ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
+
+<p>
+  We can transform graphs with matrices to rotate, scale, translate the entire graph. But things get more interesting if we apply transformation matrices to <b>subsets</b> of the graph.
+</p>
+
+  <div id="canvas-graph-faces-reflect"></div>
+
+  <pre class="code"><code>ear.graph.<f>make_faces_matrix</f>(<arg>graph</arg>)<br>ear.graph.<f>make_vertices_coords_folded</f>(<arg>graph</arg>)</code></pre>
+
+<h3>
+  Explode Faces
+</h3>
+
+  <div id="canvas-graph-explode-faces"></div>
+
+  <pre class="code"><code>ear.graph.<f>explode_faces</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  Because neighboring faces share vertices, separating faces requires cloning vertices, one unique occurence for every face.
+</p>
+
+<h2>
+  Reconstructing Graphs
+</h2>
+
+<h3>
+  Clean
+</h3>
+
+  <pre class="code"><code>ear.graph.<f>clean</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  Clean is a fast method that fixes simple issues with validity, it removes:
+</p>
+
+<ul>
+  <li><b>circular edges:</b> an edge's two vertices are actually the same vertex</li>
+  <li><b>duplicate edges:</b> two or more edges are connecting the same two vertices</li>
+</ul>
+
+<h3>
+  Merge Vertices
+</h3>
+
+  <div id="canvas-graph-merge-vertices-animate"></div>
+
+  <pre class="code"><code>ear.graph.<f>merge_duplicate_vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  If two vertices are near enough, merging will <b>remove</b> one of them and correct all pointers in the other arrays.
+</p>
+
+<h3>
+  Face-Finding
+</h3>
+
+<p>
+  The face-finding algorithm walks from edge to edge turning at each corner. This requires vertices be merged, without them corners don't exist.
+</p>
+
+  <div id="canvas-graph-merge-vertices"></div>
+
+  <p class="quote" id="graph-merge-vertices-label">epsilon</p>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="graph-merge-vertices-slider" min="0" max="1000" value="0"/>
+  </div>
+
+<p class="explain">
+  This library can build faces in 2D; it's not good with higher dimensions. Notice how faces can be built even if edges are crossing.
+</p>
+
+<h3>
+  Planar Graphs
+</h3>
+
+  <div id="canvas-graph-fragment"></div>
+
+<p class="quote">
+  In planar graphs, it's a violation for two edges to cross.
+</p>
+
+<p>
+  A crease pattern from a vector-drawing program usually contains these planar-graph violations:
+</p>
+
+<ul>
+  <li>lines usually cross each other.</li>
+  <li>lines don't always end at <b>exactly</b> the same point.</li>
+</ul>
+
+<h3>Fragment</h3>
+
+<p>
+  The fragment method converts a graph into a planar graph.
+</p>
+
+<div class="grid-2">
+  <div>
+    <div id="canvas-graph-fragment-edges"></div>
+    <p class="quote" id="fragment-edges-label">edge</p>
+    <div style="margin:auto; width: 75%">
+      <input type="range" id="fragment-edges-slider" min="0" max="1000" value="0"/>
+    </div>
+  </div>
+  <div>
+    <div id="canvas-graph-fragment-faces"></div>
+    <p class="quote" id="fragment-faces-label">face</p>
+    <div style="margin:auto; width: 75%">
+      <input type="range" id="fragment-faces-slider" min="0" max="1000" value="0"/>
+    </div>
+  </div>
+</div>
+
+  <pre class="code"><code><span id="span-merge-result"></span>ear.graph.<f>fragment</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  Fragment substitutes overlapping edges with 4 edges and a new vertex, it splits an edge if another endpoint lies collinear along it, and merges duplicate vertices.
+</p>
+
+  <div id="canvas-graph-fragment-epsilon-collinear"></div>
+
+  <p class="quote" id="fragment-epsilon-collinear-label">epsilon</p>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="fragment-epsilon-collinear-slider" min="0" max="1000" value="0"/>
+  </div>
+
+<p class="quote">
+  An edge is split if vertices are collinear within an epsilon.
+</p>
+
+<p class="explain">
+  The final parameter in many of these methods is an <b>optional epsilon</b>. By default it is very precise (1e-6). When importing crease patterns that were made in some vector drawing program you will want to play with this.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>fragment</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)<br>ear.graph.<f>merge_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)</code></pre>
+
+<h3>
+  Flat Graphs
+</h3>
+
+<p>
+  If we are modeling a crease pattern, we want to be able to add lines <b>inside the boundary</b>. Boundaries can clip lines.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>clip_line</f>(<arg>graph</arg>, <arg>line</arg>)</code></pre>
+
+<h2>
+  Counting Components
+</h2>
+
+<p>
+  Because the geometry is stored in flat, separate arrays, it's possible that the faces are defined in <b>faces_edges</b> but not <b>faces_vertices</b>; and querying the number of faces by checking <b>faces_vertices</b> will break. <b>Count</b> will search all the keys that begin with "faces_" and return the longest one.
+</p>
+
+  <pre class="code"><code>ear.graph.count.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.count.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.count.<f>vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  The <b>implied count</b> is useful for things like abstract graphs, a search for vertices will look inside things like "faces_vertices" for the largest index.
+</p>
+
+  <pre class="code"><code>ear.graph.implied.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p class="explain">
+  It's possible that arrays get out of sync, in which case, the longest might not be the correct one. It's very important to watch carefully and never let a component's arrays become unsynchronized.
+</p>
+
+<h2>
+  Removing Components
+</h2>
+
+  <pre class="code"><code>edges_vertices: {<br>  [[<n>0</n>,<n>1</n>], [<n>2</n>,<n>3</n>], <key>XXXX</key>, [<n>5</n>,<n>2</n>], [<n>1</n>,<n>3</n>]]<br>}</code></pre>
+
+<p>
+  When a component is removed the following array elements shift up by one, which breaks all references in other arrays.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>remove</f>(graph, <str>"vertices"</str>, [<n>5</n>, <n>9</n>])</code></pre>
+
+<p>
+  The <b>remove</b> method matches the key to the prefix (<b>vertices_coords</b>, <b>vertices_faces</b>, ...), deleting and shifting up indices; and it matches the suffix (<b>edges_vertices</b>, <b>faces_vertices</b>, ...) and updates any index that was changed due to shifting.
+
+<p class="explain">
+  If you remove a vertex, it's still your duty to make sure no faces or edges are continuing to use that vertex. This process is complicated and specific to what you are doing. Methods like <b>merge_duplicate_vertices</b> does this.
+</p>
+
+<h2>
+  Tracking Changes
+</h2>
+
+<p>
+  Methods that modify the graph return a summary of the changes. Each method has a unique summary, a combination of these structures below.
+</p>
+
+<h3>
+  Maps
+</h3>
+
+<p>
+  The vertex-adding method will not add a vertex if it already exists.
+</p>
+
+<p class="quote">
+  Given a square graph with four vertices,
+</p>
+
+  <pre class="code"><code>ear.graph.<f>add_vertices</f>(graph, [[<n>0.5</n>, <n>0.5</n>], [<n>1</n>, <n>1</n>]])</code></pre>
+
+<p class="quote">
+  adding two more vertices...
+</p>
+
+<svg viewBox="-0.2 -0.2 1.4 1.4" stroke-width="0.02" fill="none">
+  <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
+  <g stroke="black" fill="white">
+    <circle cx="0" cy="0" r="0.04" />
+    <circle cx="0" cy="1" r="0.04" />
+    <circle cx="1" cy="1" r="0.04" />
+    <circle cx="1" cy="0" r="0.04" />
+  </g>
+  <g fill="#e53" stroke="none">
+    <circle cx="1" cy="1" r="0.03" />
+    <circle cx="0.5" cy="0.5" r="0.03" />
+  </g>
+</svg>
+
+<p class="quote">
+  ...modifies the vertices_coords array...
+</p>
+
+  <pre class="code"><code>vertices_coords: [<br>  [<n>0</n>, <n>0</n>], [<n>1</n>, <n>0</n>], [<arg>1</arg>, <arg>1</arg>], [<n>0</n>, <n>1</n>], [<arg>0.5</arg>, <arg>0.5</arg>]<br>]</code></pre>
+
+<p class="quote">
+  ...and returns the indices of the vertices in the graph. This is the <b>map</b>.
+</p>
+
+  <pre class="code"><code>[<n>4</n>, <n>2</n>]</code></pre>
+
+<p>
+  A <b>map</b> is an array that matches the length of the component before the change. The value at each index is the new index after the change.
+</p>
+
+<p>
+  The first new vertex was added to the graph (0.5, 0.5), but the second vertex already existed (to the epsilon-distance test), instead of adding it to the graph it returned the index of the existing vertex.
+</p>
+
+<p class="quote">
+  Maps answer the question "where is the new location of the old vertex?"
+</p>
+
+  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>2</n>, <n>0</n>, <n>3</n>, <n>4</n>, <n>3</n>]</code></pre>
+
+<p>
+  The map from a merge_duplicate_vertices will contain multiple mentions of the same index, showing where vertices where merged. 
+</p>
+
+  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>2</n>, <n>null</n>, <n>3</n>, <n>4</n>]</code></pre>
+
+<p>
+  The map from a remove will contain <b>null</b> where removals occurred, and following indices will be shifted up by one.
+</p>
+
+<h3>
+  Complex operations
+</h3>
+
+<p>
+  If a component was removed, it will be mentioned under a <b>remove</b> key. However if a component was removed because of a substitution, where one or more components take its place, this will be under a <b>replace</b> key. This information is more useful in that form.
+
+  <pre class="code"><code>ear.graph.<f>split_face</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
+
+<p>
+  For example, after modifying vertices, edges, and faces, the split face operation returns this summary:
+</p>
+
+  <pre class="code"><code>{
+  vertices: {
+    new: [<n>5</n>, <n>12</n>],
+    map: [],
+  },
+  edges: {
+    new: [],
+    replace: {},
+  },
+  faces: {
+    replace: {},
+  }
+}</code></pre>
+
+<h3>
+  Change map
+</h3>
+
+  <pre class="code"><code>[<n>0</n>, <n>0</n>, <n>0</n>, <n>-1</n>, <n>-1</n>, <n>-1</n>, <n>-2</n>, <n>-2</n>]</code></pre>
+
+<p>
+  A change map is the same as a map but in a different form, rather, the <b>change</b> that each vertex travels.
+</p>
+
+<p>
+  Combining these operations, creasing multiple faces at once, reflecting vertices_coords, is how we are able to simulate folding.
+</p>
+
+<h2>
+  Thanks
+</h2>
+
+<p>
+  Interactive graphs in the introduction are <a href="https://observablehq.com/@d3/force-directed-graph">force direct graphs</a> from <a href="https://d3js.org/">d3.js</a>.
+</p>
+
+<script type="text/javascript" src="js/d3_graph_simple.js"></script>
+<script type="text/javascript" src="js/d3_graph_adjNode.js"></script>
+<script type="text/javascript" src="js/d3_graph_adjEdge.js"></script>
+
+<script type="text/javascript">
+const ExamplesHeader = {};
+const ExamplesFooter = {};
+ExamplesHeader["graph-fragment-edges"] = `
+slider = document.querySelector("#fragment-edges-slider");
+countLabel = document.querySelector("#fragment-edges-label");
+`;
+ExamplesHeader["graph-fragment-faces"] = `
+slider = document.querySelector("#fragment-faces-slider");
+countLabel = document.querySelector("#fragment-faces-label");
+`;
+ExamplesHeader["graph-fragment-epsilon-collinear"] = `
+slider = document.querySelector("#fragment-epsilon-collinear-slider");
+countLabel = document.querySelector("#fragment-epsilon-collinear-label");
+`;
+ExamplesHeader["graph-merge-vertices"] = `
+slider = document.querySelector("#graph-merge-vertices-slider");
+countLabel = document.querySelector("#graph-merge-vertices-label");
+`;
+</script>
+
+<script>
+const Callbacks = {};
+
+const loadAndRun = (id, body) => {
+  const headText = ExamplesHeader[id] ? ExamplesHeader[id] : "";
+  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\n${headText}\nvar callback = Callbacks["${id}"];\n`;
+  const foot = ExamplesFooter[id]
+    ? `\n${ExamplesFooter[id]}\n});\n`
+    : `\n});\n`;
+  const script = document.createElement("script");
+  script.innerHTML = `${head}${body}${foot}`;
+  document.body.appendChild(script);
+  const node = document.querySelector(`#canvas-${id}`);
+  if (!node) { return; }
+  const scriptLink = document.createElement("div");
+  scriptLink.className = "script-link";
+  scriptLink.onclick = function (e) {
+    e.preventDefault();
+    window.location.href = `/examples/?example=${id}`;
+  }
+  // node.parentNode.insertBefore(scriptLink, node.nextSibling);
+  node.appendChild(scriptLink);
+};
+
+[ "graph-add-vertices",
+  "graph-faces-tree",
+  "graph-faces-reflect",
+  "graph-nearest-components",
+  "graph-get-boundary",
+  "graph-explode-faces",
+  "graph-split-edge",
+  "graph-split-face",
+  "graph-merge-vertices",
+  "graph-merge-vertices-animate",
+  "graph-fragment",
+  "graph-fragment-edges",
+  "graph-fragment-faces",
+  "graph-fragment-epsilon-collinear",
+].forEach(function (id) {
+  fetch(`../examples/${id}.js`)
+    .then(function(body) { return body.text(); })
+    .then(function(text) { return loadAndRun(id, text); });
+});
+</script>
+
+
+<script>
+  // $(".accordion-title").html("MORE");
+  function updateNodesAdjacentToNode(input, output){
+    var outString = '[<span class="token argument">' + output + '</span>] ← ';
+    if(input == undefined) { input = ''; outString = ''; }
+    document.getElementById("spanNodesAdjacentToNodeInput").innerHTML = input;
+    document.getElementById("spanNodesAdjacentToNodeResult").innerHTML = outString;
+  }
+  function updateNodesAdjacentToEdge(input, output){
+    var outString = '[<span class="token argument">' + output + '</span>] ← ';
+    if(input == undefined) { input = ''; outString = ''; }
+    document.getElementById("spanNodesAdjacentToEdgeInput").innerHTML = input;
+    document.getElementById("spanNodesAdjacentToEdgeResult").innerHTML = outString;
+  }
+  function updateEdgesAdjacentToNode(input, output){
+    var outString = '[<span class="token argument">' + output + '</span>] ← ';
+    if(input == undefined) { input = ''; outString = ''; }
+    document.getElementById("spanEdgesAdjacentToNodeInput").innerHTML = input;
+    document.getElementById("spanEdgesAdjacentToNodeResult").innerHTML = outString;
+  }
+  function updateEdgesAdjacentToEdge(input, output){
+    var outString = '[<span class="token argument">' + output + '</span>] ← ';
+    if(input == undefined) { input = ''; outString = ''; }
+    document.getElementById("spanEdgesAdjacentToEdgeInput").innerHTML = input;
+    document.getElementById("spanEdgesAdjacentToEdgeResult").innerHTML = outString;
+  }
+  var svg = d3.select("div#container")
+    .append("svg")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 960 400")
+    .classed("svg-content", true);
+</script>
+
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+  </div>
+</body>
+</html>
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->

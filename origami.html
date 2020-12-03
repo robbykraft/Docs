@@ -1,0 +1,360 @@
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rabbit Ear</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
+<script type="text/javascript" src="../SVG/svg.js"></script>
+<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
+<script>
+SVG.use(FoldToSvg);
+FoldToSvg.use(SVG);
+ear.use(SVG);
+ear.use(FoldToSvg);
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<link rel="stylesheet" href="./css/reset.css" />
+<link rel="stylesheet" href="./css/style.css" />
+<link rel="stylesheet" href="./css/code.css" />
+<link rel="stylesheet" href="./css/nav.css" />
+<link rel="stylesheet" href="./css/input-range.css" />
+<link rel="stylesheet" href="./css/button.css" />
+</head>
+<body>
+  <nav>
+    <div class="mobile-nav-dropdown">
+      <div class="mobile-nav-button"><img src="images/menu.svg"></div>
+      <div class="nav-wrapper">
+        <ul>
+          <li class="dropdown">
+            <a href="/docs/">HELLO</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="main-content">
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+
+<link rel="stylesheet" href="lib/katex/katex.min.css">
+<script type="text/javascript" src="lib/katex/katex.min.js"></script>
+
+<h3>
+  Chapter IV.
+</h3>
+
+<h1>
+  Origami
+</h1>
+
+  <div id="canvas-origami-two-coloring"></div>
+
+<p class="quote">
+  Flat-foldable origami crease patterns are two-colorable.
+</p>
+
+<h2>
+  Single Vertex
+</h2>
+
+<h3>
+  Kawasaki's Theorem
+</h3>
+
+  <div id="canvas-origami-kawasaki"></div>
+
+  <p class="quote" id="origami-kawasaki-result"></p>
+
+  <pre class="code"><code>junction.<f>alternateAngleSum</f>()</code></pre>
+
+<p>
+  For a vertex to be flat-foldable, the sum of alternating sector angles must be 180&deg;.
+</p>
+
+<p>
+  This implies an even number of creases. Given an odd number, we can compute creases that can satisfy a solution.
+</p>
+
+  <div id="canvas-origami-kawasaki-solver"></div>
+
+  <p class="quote" id="kawasaki-solver-label"></p>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="kawasaki-solver-slider" min="1" max="7" value="2"/>
+  </div>
+
+  <div class="equation" id="equation-input-result"></div>
+
+<p class="quote">
+  The number of results will be less than or equal to the number of input creases.
+</p>
+
+<p>
+  Only one result is required for a solution; however, we can add any number of these results to our single-vertex (as long as it totals even in number) and Kawasaki's theorem will still be satisfied.
+</p>
+
+<p>
+  However we can't yet determine flat-foldability; we need to look at mountain/valley assignment.
+</p>
+
+<h3>
+  Maekawa's theorem
+</h3>
+
+  <div class="equation" id="maekawa-equation"></div>
+
+<p>
+  For a vertex to be flat-foldable, the number of mountain and valley creases should differ by 2.
+</p>
+
+<p>
+  Maekawa's Theorem makes it easy to check if a vertex <b>fails</b>, but to determine success, we still need to see if layers intersect.
+</p>
+
+<h3>
+  Layer solver
+</h3>
+
+<p>
+  Given a single-vertex crease pattern with mountain/valley assignments, this recursive layer solver will uncover all possible layer ordering when collapsed, or will determine if no solution is possible.
+</p>
+
+  <div id="canvas-origami-layer-solver"></div>
+
+<p class="quote">
+  The smallest top-right sector must be surrounded by a mountain and a valley.
+</p>
+
+<p class="explain">
+  Notice how satisfying Kawasaki's and Maekawa's theorem does not always result in a solution. This is when layer self-intersection occurs.
+</p>
+
+<p>
+  Given a flat-foldable vertex, the layer solver will give each face a z-index.
+</p>
+
+  <div id="canvas-origami-single-vertex-layers-topview"></div>
+
+<p>
+  This solution comes in an array for when the single vertex has more than one valid layer arrangement.
+</p>
+
+  <div id="canvas-origami-assignment-solver"></div>
+
+<p>
+  This is using the layer solver to check for self intersection.
+</p>
+
+<!--   <div id="canvas-origami-kawasaki-solver-layers"></div>
+
+<p class="explain">
+  If the solver finds N number of solutions (same # as input creases), choose <b>any</b> N-2 solutions and the M/V assignment is trivial: the inputs are all one assignment and the solutions are the opposite.
+</p>
+ -->
+
+<h3>
+  Summary
+</h3>
+
+<p>
+  The homepage sketch demonstrates all operations at once.
+</p>
+
+  <div id="canvas-origami-single-vertex"></div>
+
+<p>
+  The angle of the fourth crease is calculated by Kawasaki, the assignments are determined by Maekawa and by checking for self-intersection, which also solves the layer order for the folded state.
+</p>
+
+  <pre class="code"><code>ear.math.<f>kawasaki_solutions</f>()<br>ear.graph.<f>layer_solver</f>()<br>ear.graph.<f>assignment_solver</f>()</code></pre>
+
+<p>
+  Using Kawasaki alone, we can generalize the origami square twist.
+</p>
+
+  <div id="canvas-origami-twist"></div>
+
+  <pre class="code"><code>ear.math.<f>kawasaki_solutions</f>()</code></pre>
+
+<h2>
+  Axioms
+</h2>
+
+  <div id="canvas-origami-axioms"></div>
+
+<div style="text-align: center;">
+  <div class="button nopress">Axiom #</div>
+  <div id="button-axiom-1" class="button">1</div>
+  <div id="button-axiom-2" class="button red">2</div>
+  <div id="button-axiom-3" class="button">3</div>
+  <div id="button-axiom-4" class="button">4</div>
+  <div id="button-axiom-5" class="button">5</div>
+  <div id="button-axiom-6" class="button">6</div>
+  <div id="button-axiom-7" class="button">7</div>
+</div>
+
+<p class="quote" id="axiom-description">
+  fold two points together
+</p>
+
+  <pre class="code"><code>ear.<f>axiom</f>(<n id="axiom-number">2</n>, <arg>params</arg>)</code></pre>
+
+<p>
+  Each axiom takes a certain combination of <b>points</b> and <b>lines</b>. The second method parameter is a javascript object.
+</p>
+
+  <pre class="code"><code>{
+  points: [],
+  lines: [],
+}</code></pre>
+
+<p>
+  Where points can be arrays or objects, and lines are objects with a <b>vector</b> and <b>origin</b>:
+</p>
+
+  <pre class="code"><code>{
+  points: [
+    [<n>0.8</n>, <n>0.75</n>],
+    { x: <n>0.5</n>, y: <n>0.22</n> }
+  ],
+  lines: [
+    { vector: [<n>0.75</n>, <n>0.25</n>], origin: [<n>0.5</n>, <n>0.5</n>] }
+  ],
+}</code></pre>
+
+<!--<p>
+  Axiom 3
+</p>
+  <div id="canvas-line-bisect"></div> -->
+
+<h2>
+  Strip Grafting
+</h2>
+
+
+  <div id="canvas-origami-miura"></div>
+
+<script type="text/javascript">
+  katex.render("\\mathbf{m} - \\mathbf{v} = \\pm2", document.querySelector("#maekawa-equation"));
+  katex.render("N_{results} \\leq N_{input}", document.querySelector("#equation-input-result"));
+</script>
+
+<script type="text/javascript">
+const Callbacks = {};
+Callbacks["origami-kawasaki"] = (e) => {
+  if (e == undefined) { return; }
+  const colors = e.isFlatFoldable
+    ? ["yellow", "yellow"]
+    : ["red", "blue"];
+  const func = e.kawasaki[0] < e.kawasaki[1]
+    ? [Math.ceil, Math.floor]
+    : [Math.floor, Math.ceil];
+  document.querySelector("#origami-kawasaki-result").innerHTML = `<b><${colors[0]}>${func[0](e.kawasaki[0] * 360)}&deg;</${colors[0]}> & <${colors[1]}>${func[1](e.kawasaki[1] * 360)}&deg;</${colors[1]}></b>`;
+};
+Callbacks["origami-kawasaki-solver"] = (e) => {
+  if (e.slider === undefined) {
+    e.slider = document.querySelector("#kawasaki-solver-slider");
+  }
+}
+</script>
+
+<script type="text/javascript">
+const ExamplesHeader = {};
+const ExamplesFooter = {};
+ExamplesHeader["origami-kawasaki-solver"] = `
+slider = document.querySelector("#kawasaki-solver-slider");
+countLabel = document.querySelector("#kawasaki-solver-label");
+`;
+</script>
+
+<script>
+ExamplesHeader["origami-axioms"] = `
+document.querySelectorAll("[id^=button-axiom]").forEach(el => {
+  el.onclick = (e) => {
+    document.querySelectorAll("[id^=button-axiom]")
+      .forEach(btns => btns.setAttribute("class", "button"))
+    e.target.setAttribute("class", "button red");
+    const axiom = e.target.innerHTML;
+    setAxiom(axiom);
+    const desc = document.querySelector("#axiom-description");
+    if (desc) {
+      desc.innerHTML = ear.text.axioms.en[axiom];
+    }
+    const numElem = document.querySelector("#axiom-number");
+    if (numElem) {
+      numElem.innerHTML = axiom;
+    }
+  }
+});
+`;
+</script>
+
+<script type="text/javascript">
+const loadAndRun = (id, body) => {
+  const headText = ExamplesHeader[id] ? ExamplesHeader[id] : "";
+  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\n${headText}\nvar callback = Callbacks["${id}"];\n`;
+  const foot = ExamplesFooter[id]
+    ? `\n${ExamplesFooter[id]}\n});\n`
+    : `\n});\n`;
+  const script = document.createElement("script");
+  script.innerHTML = `${head}${body}${foot}`;
+  document.body.appendChild(script);
+  const node = document.querySelector(`#canvas-${id}`);
+  const scriptLink = document.createElement("div");
+  scriptLink.className = "script-link";
+  scriptLink.onclick = function (e) {
+    e.preventDefault();
+    window.location.href = `/examples/?example=${id}`;
+  }
+  node.appendChild(scriptLink);
+};
+
+[ "origami-two-coloring",
+  "origami-axioms",
+  "origami-kawasaki",
+  "origami-kawasaki-solver",
+  "origami-layer-solver",
+  "origami-assignment-solver",
+  "origami-kawasaki-solver-layers",
+  "origami-twist",
+  "origami-single-vertex",
+  "origami-single-vertex-layers-topview",
+  "origami-miura",
+  "line-bisect",
+].forEach(function (id) {
+  fetch(`../examples/${id}.js`)
+    .then(function(body) { return body.text(); })
+    .then(function(text) { return loadAndRun(id, text); });
+});
+</script>
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+  </div>
+</body>
+</html>
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->

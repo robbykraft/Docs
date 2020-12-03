@@ -1,0 +1,154 @@
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rabbit Ear</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
+<script type="text/javascript" src="../SVG/svg.js"></script>
+<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
+<script>
+SVG.use(FoldToSvg);
+FoldToSvg.use(SVG);
+ear.use(SVG);
+ear.use(FoldToSvg);
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<link rel="stylesheet" href="./css/reset.css" />
+<link rel="stylesheet" href="./css/style.css" />
+<link rel="stylesheet" href="./css/code.css" />
+<link rel="stylesheet" href="./css/nav.css" />
+<link rel="stylesheet" href="./css/input-range.css" />
+<link rel="stylesheet" href="./css/button.css" />
+</head>
+<body>
+  <nav>
+    <div class="mobile-nav-dropdown">
+      <div class="mobile-nav-button"><img src="images/menu.svg"></div>
+      <div class="nav-wrapper">
+        <ul>
+          <li class="dropdown">
+            <a href="/docs/">HELLO</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="main-content">
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+
+<h3></h3>
+
+<h1>
+  Rabbit Ear
+</h1>
+
+  <div id="canvas-graph-flat-fold"></div>
+
+<p class="quote">
+  grab
+</p>
+
+<p>
+  This is a Javascript library for modeling origami.
+</p>
+
+  <div id="canvas-graph-flat-fold-cp"></div>
+
+<h2>
+  Three Categories
+</h2>
+
+<p>
+  This library is comprised of three smaller libraries: a math library, a graph library, and a library for drawing SVGs.
+</p>
+
+<h3>
+  Math
+</h3>
+
+  <pre class="code"><code>ear.<f>math</f></code></pre>
+
+<h3>
+  Graph
+</h3>
+
+  <pre class="code"><code>ear.<f>graph</f></code></pre>
+
+<h3>
+  SVG
+</h3>
+
+  <pre class="code"><code>ear.<f>svg</f></code></pre>
+
+<h2>
+  Download
+</h2>
+
+<p>
+  Two versions of the library, full (150k), and core (80k) that excludes all SVG-drawing and rendering methods. Both versions work in Node JS.
+</p>
+
+<svg viewBox="-0.1 -0.1 1.2 1.2" stroke-width="0.01" fill="none">
+  <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
+</svg>
+
+<script type="text/javascript">
+const Callbacks = {};
+
+const loadAndRun = (id, body) => {
+  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\nvar callback = Callbacks["${id}"];\n`;
+  const foot = `\n});\n`;
+  const script = document.createElement("script");
+  script.innerHTML = `${head}${body}${foot}`;
+  document.body.appendChild(script);
+  const node = document.querySelector(`#canvas-${id}`);
+  const scriptLink = document.createElement("div");
+  scriptLink.className = "script-link";
+  scriptLink.onclick = function (e) {
+    e.preventDefault();
+    window.location.href = `/examples/?example=${id}`;
+  }
+  node.appendChild(scriptLink);
+};
+
+[
+  "graph-flat-fold",
+  "graph-flat-fold-cp",
+].forEach(function (id) {
+  fetch(`../examples/${id}.js`)
+    .then(function(body) { return body.text(); })
+    .then(function(text) { return loadAndRun(id, text); });
+});
+</script>
+
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+  </div>
+</body>
+</html>
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->

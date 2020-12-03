@@ -1,0 +1,312 @@
+
+<h2 id="appendix">APPENDIX</h2>
+
+<h3>Vector()</h3>
+
+<pre>
+<lc>// properties</lc>
+float magnitude
+
+<lc>// methods</lc>
+function isEquivalent (...) -> boolean
+function isParallel (...) -> boolean
+function dot (...) -> number
+function cross (...) -> number
+function distanceTo (...) -> number
+function normalize () -> vector
+function transform (...) -> vector
+function add (...) -> vector
+function subtract (...) -> vector
+function rotateZ (angle, origin) -> vector
+function rotateZ90 () -> vector
+function rotateZ180 () -> vector
+function rotateZ270 () -> vector
+function reflect (...) -> vector
+function lerp (vector, pct) -> vector
+function scale (mag) -> vector
+function midpoint (...) -> vector
+function bisect (...) -> vector
+</pre>
+
+<h3>Matrix2() (two-dimensional)</h3>
+<pre>
+function multiply (...)
+function determinant ()
+function inverse ()
+function translate (x, y)
+function scale (...)
+function rotate (...)
+function reflect (...)
+function transform (...)
+function transformVector (vector)
+function transformLine (origin, vector)
+</pre>
+
+<h3>Matrix() (three-dimensional)</h3>
+<pre>
+function multiply (...)
+function determinant ()
+function inverse ()
+function translate (x, y, z)
+function rotateX (angle_radians)
+function rotateY (angle_radians)
+function rotateZ (angle_radians)
+function rotate (angle_radians, vector, origin)
+function scale (amount)
+function reflectZ (vector, origin)
+function transform (...)
+function transformVector (vector)
+function transformLine (origin, vector)
+</pre>
+
+
+<h3>Line()</h3>
+<pre>
+function isParallel (line, epsilon)
+function isDegenerate ()
+function reflection ()
+function nearestPoint (...)
+function intersect (other)
+function intersectLine (...)
+function intersectRay (...)
+function intersectSegment (...)
+function bisectLine (...)
+function bisectRay (...)
+function bisectSegment (...)
+function transform (...)
+</pre>
+
+<h3>Ray()</h3>
+<pre>
+(include Line)
+function rotate180 ()
+</pre>
+
+<h3>Segment()</h3>
+<pre>
+(include Line)
+function vector ()
+function midpoint ()
+function magnitude ()
+</pre>
+
+<h3>Polygon()</h3>
+<pre>
+function area ()
+function midpoint ()
+function enclosingRectangle ()
+function sectors ()
+function contains (...)
+function polyCentroid ()
+function nearest (...)
+function clipSegment (...)
+function clipLine (...)
+function clipRay (...)
+function split (...)
+function scale (magnitude, center)
+function rotate (angle, centerPoint)
+function translate (...)
+function transform (...)
+</pre>
+
+
+<h3>ConvexPolygon()</h3>
+<pre>
+  (including above)
+function overlaps (...)
+</pre>
+
+
+<h3>Rectangle</h3>
+<pre>
+function scale (magnitude, center_point)
+function rotate (...)
+function transform (...)
+</pre>
+
+
+<h3>Circle</h3>
+<pre>
+function intersectionLine (...)
+function intersectionRay (...)
+function intersectionSegment (...)
+</pre>
+
+
+
+<h1>
+	Graph
+</h1>
+
+
+<pre><code>
+make_vertices_edges({ edges_vertices })
+make_vertices_vertices({ vertices_coords, vertices_edges, edges_vertices })
+make_vertices_faces({ faces_vertices })
+make_vertices_to_edge_bidirectional({ edges_vertices })
+make_vertices_to_edge({ edges_vertices })
+make_vertices_vertices_vector({ vertices_coords, vertices_vertices, edges_vertices, edges_vector })
+make_vertices_sectors({ vertices_coords, vertices_vertices, edges_vertices, edges_vector })
+make_vertices_coords_folded({ vertices_coords, vertices_faces, edges_vertices, edges_foldAngle, edges_assignment, faces_vertices, faces_faces, faces_matrix }, root_face = 0)
+</code></pre>
+
+<pre><code>
+make_edges_vertices({ faces_vertices })
+make_edges_edges({ edges_vertices, vertices_edges })
+make_edges_faces({ faces_edges })
+make_edges_foldAngle({ edges_assignment })
+make_edges_assignment({ edges_foldAngle })
+make_edges_vector({ vertices_coords, edges_vertices })
+make_edges_length({ vertices_coords, edges_vertices })
+make_edges_edges_intersections(
+  { vertices_coords, edges_vertices, edges_vector, edges_origin },
+  epsilon = math.core.EPSILON
+)
+make_edges_collinear_vertices = function (
+  { vertices_coords, edges_vertices, edges_coords },
+  subset_of_vertices_indices,
+  epsilon = math.core.EPSILON
+)
+</code></pre>
+
+<pre><code>
+make_planar_faces({ vertices_coords, vertices_vertices, vertices_edges, vertices_sectors, edges_vertices, edges_vector })
+make_faces_vertices({ vertices_coords, vertices_vertices, vertices_edges, vertices_sectors, edges_vertices, edges_vector })
+make_faces_edges({ vertices_coords, vertices_vertices, vertices_edges, vertices_sectors, edges_vertices, edges_vector })
+make_faces_faces({ faces_vertices })
+get_face_face_shared_vertices(face_a_vertices, face_b_vertices)
+make_face_spanning_tree({ faces_vertices, faces_faces }, root_face = 0)
+make_faces_matrix({ vertices_coords, edges_vertices, edges_foldAngle, edges_assignment, faces_vertices, faces_faces }, root_face = 0)
+make_faces_center({ vertices_coords, faces_vertices })
+make_faces_coloring_from_matrix({ faces_matrix })
+make_faces_coloring({ faces_matrix })
+make_faces_coloring({ faces_vertices, faces_faces }, root_face = 0)
+</code></pre>
+
+
+<h2>
+  Core Methods
+</h2>
+
+<p>
+  The bulk of Rabbit Ear's engine are methods which modify FOLD objects. Here is an abbreviated list:
+</p>
+
+<p>
+  These methods validate and repair a FOLD object.
+</p>
+
+<pre class="code compact"><code><f>RabbitEar</f>.core
+┃
+┣━ <f>clean</f>(<arg>graph</arg>)
+┣━ <f>populate</f>(<arg>graph</arg>)
+┣━ <f>validate</f>(<arg>graph</arg>)
+┣━ <f>rebuild</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+┃
+┃ <c>// into a valid planar graph</c>
+┣━ <f>fragment</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+</code></pre>
+
+<p>
+  Methods for removing things.
+</p>
+
+<pre class="code compact"><code>┃ <c>// remove components</c>
+┣━ <f>remove</f>(graph, key, removeIndices)
+┃
+┃ <c>// vertices left behind after edges removal</c>
+┣━ <f>collinear_vertices</f>(<arg>graph</arg>, <arg>point</arg>, <arg>vector</arg>)
+┣━ <f>collinear_edges</f>(<arg>graph</arg>, <arg>point</arg>, <arg>vector</arg>)
+┣━ <f>remove_all_collinear_vertices</f>(<arg>graph</arg>)
+┣━ <f>find_isolated_vertices</f>(<arg>graph</arg>)
+┃
+┃ <c>// additional clean up</c>
+┣━ <f>get_collinear_vertices</f>(<arg>graph</arg>)
+┣━ <f>get_isolated_vertices</f>(<arg>graph</arg>)
+┣━ <f>get_duplicate_vertices</f>(<arg>graph</arg>)
+┣━ <f>get_duplicate_edges</f>(<arg>graph</arg>)
+┣━ <f>get_duplicate_edges_old</f>(<arg>graph</arg>)
+┣━ <f>find_collinear_face_edges</f>(<arg>edge</arg>, <arg>face_vertices</arg>, <arg>vertices_coords</arg>)
+</code></pre>
+
+<p>
+  Methods for creating graph components.
+</p>
+
+<pre class="code compact"><code>┃ <c>// makers</c>
+┣━ <f>make_vertices_edges</f>(<arg>graph</arg>)
+┣━ <f>make_edges_vertices</f>(<arg>graph</arg>)
+┣━ <f>make_faces_faces</f>(<arg>graph</arg>)
+┣━ <f>make_edges_faces</f>(<arg>graph</arg>)
+┣━ <f>make_edges_length</f>(<arg>graph</arg>)
+┣━ <f>make_edges_foldAngle</f>(<arg>graph</arg>)
+┣━ <f>make_vertex_pair_to_edge_map</f>(<arg>graph</arg>)
+┣━ <f>make_vertices_faces</f>(<arg>graph</arg>)
+┣━ <f>make_face_walk_tree</f>(<arg>graph</arg>, <arg>root_face</arg> <key>=</key> <n>0</n>)
+┣━ <f>make_faces_matrix</f>(<arg>graph</arg>, <arg>root_face</arg>)
+┣━ <f>make_faces_matrix_inv</f>(<arg>graph</arg>, <arg>root_face</arg>)
+┣━ <f>make_vertices_coords_folded</f>(<arg>graph</arg>, <arg>face_stationary</arg>, <arg>faces_matrix</arg>)
+┗━ <f>make_vertices_isBoundary</f>(<arg>graph</arg>)
+make_faces_coloring_from_faces_matrix(<arg>faces_matrix</arg>)
+</code></pre>
+
+<p>
+  Methods for counting a graph's components.
+</p>
+
+<pre class="code compact"><code>┃ <c>// query the component arrays</c>
+┣━ <f>vertices_count</f>(graph)
+┣━ <f>edges_count</f>(graph)
+┣━ <f>faces_count</f>(graph)
+┃
+┃ <c>// search other arrays for evidence of components</c>
+┣━ <f>implied_vertices_count</f>(graph)
+┣━ <f>implied_edges_count</f>(graph)
+┣━ <f>implied_faces_count</f>(graph)
+</code></pre>
+
+<p>
+  Search the graph.
+</p>
+
+<pre class="code compact"><code>┃ <c>// using vertices_coords and Euclidean distance</c>
+┣━ <f>select_vertices</f>(graph, poly_points)
+┣━ <f>select_edges</f>(graph, poly_points)
+┣━ <f>nearest_vertex</f>(graph, point)
+┣━ <f>nearest_edge</f>(graph, point)
+┣━ <f>face_containing_point</f>(graph, point)
+┣━ <f>folded_faces_containing_point</f>(graph, point, faces_matrix)
+┣━ <f>faces_containing_point</f>(graph, point)
+┣━ <f>topmost_face</f>(graph, faces)
+</code></pre>
+
+<p>
+  Kawasaki's theorem, sector math, angles around a vertex.
+</p>
+
+<pre class="code compact"><code>┃ <c>// sector angles and Kawasaki</c>
+┣━ <f>alternating_sum</f>(...numbers)
+┣━ <f>kawasaki_flatness</f>(...sectorAngles)
+┣━ <f>vertex_adjacent_vectors</f>(graph, vertex)
+┣━ <f>vertex_sectorAngles</f>(graph, vertex)
+┣━ <f>vertex_kawasaki_flatness</f>(graph, vertex)
+┣━ <f>make_vertices_sectorAngles</f>(graph)
+┣━ <f>make_vertices_kawasaki_flatness</f>(graph)
+┣━ <f>make_vertices_kawasaki</f>(graph)
+┣━ <f>make_vertices_nudge_matrix</f>(graph)
+┣━ <f>kawasaki_test</f>(graph, EPSILON = math.core.EPSILON)
+┣━ <f>make_vertices_nudge</f>(graph)
+┣━ <f>kawasaki_solutions_radians</f>(...vectors_radians)
+┣━ <f>kawasaki_solutions</f>(...vectors)
+┣━ <f>kawasaki_collapse</f>(graph, vertex, face, crease_direction = "F")
+</code></pre>
+
+<pre class="code compact"><code>┃ <c>// </c>
+copy_without_marks: ƒ (graph)
+
+add_edge: ƒ (graph, a, b, c, d, assignment = "U")
+split_edge_run: ƒ ( graph, x, y, old_edge_index )
+apply_run: ƒ (graph, diff)
+merge_run: ƒ (graph, target, source)
+apply_axiom: ƒ (axiom, solutions, parameters)
+</code></pre>

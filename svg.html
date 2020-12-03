@@ -1,0 +1,485 @@
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rabbit Ear</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
+<script type="text/javascript" src="../SVG/svg.js"></script>
+<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
+<script>
+SVG.use(FoldToSvg);
+FoldToSvg.use(SVG);
+ear.use(SVG);
+ear.use(FoldToSvg);
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<link rel="stylesheet" href="./css/reset.css" />
+<link rel="stylesheet" href="./css/style.css" />
+<link rel="stylesheet" href="./css/code.css" />
+<link rel="stylesheet" href="./css/nav.css" />
+<link rel="stylesheet" href="./css/input-range.css" />
+<link rel="stylesheet" href="./css/button.css" />
+</head>
+<body>
+  <nav>
+    <div class="mobile-nav-dropdown">
+      <div class="mobile-nav-button"><img src="images/menu.svg"></div>
+      <div class="nav-wrapper">
+        <ul>
+          <li class="dropdown">
+            <a href="/docs/">HELLO</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
+          </li>
+          <li class="dropdown">
+            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="main-content">
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+<!-- END OF HEADER -->
+
+<link rel="stylesheet" href="lib/katex/katex.min.css">
+<script type="text/javascript" src="lib/katex/katex.min.js"></script>
+
+<h3>
+  Chapter III.
+</h3>
+
+<h1>
+  SVG
+</h1>
+
+  <div id="canvas-svg-parabola"></div>
+
+  <pre class="code"><code><f>ear</f>.svg</code></pre>
+
+<p>
+  SVGs are vector-based, look great at any resolution, and have fantastic interoperability with plotters, cutters, and web browsers.
+</p>
+
+<h2>
+  Introduction
+</h2>
+
+  <div id="canvas-svg-albers"></div>
+
+  <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>()</code></pre>
+
+<p>
+  This SVG initializes with a 300x150 blank canvas, but doesn't exist on screen. Everything adheres to the HTML DOM standard with methods like appendChild and setAttribute.
+</p>
+
+<p>
+  Your first task is to append it to the DOM.
+</p>
+
+  <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>()<br><f>document</f>.<f>body</f>.<f>appendChild</f>(svg)</code></pre>
+
+<p>
+  Or, more conveniently:
+</p>
+
+
+  <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>(<f>document</f>.<f>body</f>)</code></pre>
+
+<p>
+  the svg initializer doesn't require any arguments, but optionally can accept:
+</p>
+
+<ul>
+  <li>a DOM element to append to</li>
+  <li>a function, which will be called after initialization</li>
+</ul>
+
+<p>
+  The function parameter is an extremely convenient way of creating an SVG.
+</p>
+
+  <pre class="code"><code>ear.<f>svg</f>((<arg>svg</arg>) <f>=&gt;</f> {<br>  svg.<f>circle</f>(<n>0</n>, <n>1</n>, <n>2</n>);<br>});</code></pre>
+
+<p>
+  Combining both of these looks like
+</p>
+
+  <pre class="code"><code>ear.<f>svg</f>(<f>document</f>.<f>body</f>, (<arg>svg</arg>) <f>=&gt;</f> {<br>  svg.<f>circle</f>(<n>0</n>, <n>1</n>, <n>2</n>);<br>});</code></pre>
+
+<p>
+  All elements created with this library are HTML DOM Elements and work with DOM level 1 methods like appendChild. You can create an svg and append it yourself.
+</p>
+
+  <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>()<br><f>document</f>.<f>querySelector</f>(<str>"#container"</str>).<f>appendChild</f>(svg)</code></pre>
+
+<h2>
+  Drawing Shapes
+</h2>
+
+  <div id="canvas-svg-dragon"></div>
+
+<p>
+  Drawing a shape is a method called on the shape's parent:
+</p>
+
+  <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>();<br>svg.<f>circle</f>(<n>0</n>, <n>1</n>, <n>2</n>);</code></pre>
+
+<p>
+  These are the simple primitives:
+</p>
+
+  <pre class="code"><code>svg.<f>circle</f>(<arg>x</arg>, <arg>y</arg>, <arg>radius</arg>)<br>svg.<f>ellipse</f>(<arg>x</arg>, <arg>y</arg>, <arg>rx</arg>, <arg>ry</arg>)<br>svg.<f>line</f>(<arg>x1</arg>, <arg>y1</arg>, <arg>x2</arg>, <arg>y2</arg>)<br>svg.<f>rect</f>(<arg>x</arg>, <arg>y</arg>, <arg>width</arg>, <arg>height</arg>)<br>svg.<f>text</f>(<arg>string</arg>, <arg>x</arg>, <arg>y</arg>)</code></pre>
+
+<p>
+  Every method argument is a number except for the string on <b>text</b>.
+</p>
+
+<p class="explain">
+  All primitives are initially black fill with <b>no stroke</b>, causing a <i>line to be invisible</i>. If you draw a line <b>remember</b> it needs to be styled.
+</p>
+
+  <div id="canvas-svg-astroid"></div>
+
+<h3>
+  Polygon, Polyline
+</h3>
+
+  <pre class="code"><code>svg.<f>polygon</f>(<arg>points</arg>)<br>svg.<f>polyline</f>(<arg>points</arg>)</code></pre>
+
+<p>
+  Polygon and polyline take a series of <b>points</b>, which can come in the form of a list of arrays of numbers, or an array of x,y objects.
+</p>
+
+  <pre class="code"><code>[ [<n>4</n>, <n>5</n>], [<n>1</n>, <n>1</n>], [<n>9</n>, <n>12</n>] ]<br>[ {x:<n>5</n>, y:<n>2</n>}, {x:<n>1</n>, y:<n>1</n>} ]</code></pre>
+
+  <div id="canvas-svg-ten-print"></div>
+
+<h3>
+  Paths
+</h3>
+
+<p>
+  Paths are the most powerful SVG drawing tool. Think of them like a pen tool; drawing is done by stacking functions one after another.
+</p>
+
+<pre class="code"><code>svg.<f>path</f>()
+  .<f>moveTo</f>(<n>50</n>, <n>50</n>)
+  .<f>lineTo</f>(<n>100</n>, <n>150</n>)
+  .<f>curveTo</f>(<n>200</n>, <n>200</n>, <n>300</n>, <n>0</n>)</code></pre>
+
+<h3>
+  Groups
+</h3>
+
+<p>
+  So far we have only drawn shapes onto the SVG, the base layer. If you create a group, you can draw shapes into it instead and manage layer order of shapes.
+</p>
+
+  <pre class="code"><code><f>var</f> group <key>=</key> svg.<f>g</f>()<br>svg.<f>rect</f>(<n>0</n>, <n>0</n>, <n>20</n>, <n>20</n>)<br>group.<f>circle</f>(<n>10</n>, <n>10</n>, <n>20</n>)</code></pre>
+
+<p>
+  In this example, this circle is below the rectangle.
+</p>
+
+<h2>
+  Viewbox
+</h2>
+
+<p>
+  The actual size on screen is managed by the DOM. The viewbox is our tool to set the size and scale of our drawing canvas.
+</p>
+
+  <pre class="code"><code>svg.<f>size</f>(<n>-1</n>, <n>-1</n>, <n>2</n>, <n>2</n>) <c> // x, y, width, height</code></pre>
+
+<p>
+  The first two parameters define the top left corner; followed by the width and height.
+</p>
+
+  <div class="full" id="canvas-svg-math"></div>
+
+  <pre class="code"><code><f>svg</f>.<v>onMove</v> <key>=</key> <f>function</f> (<arg>mouse</arg>) { }<br> ↳ <span id="span-svg-math-coordinate">{ x: , y: }</span></code></pre>
+
+<p>
+  We can easily zoom into unit-space where drawing a unit-circle fills the canvas. This makes it especially great playing with math.
+</p>
+
+  <div class="equation" id="math-coordinate-equations"></div>
+
+<p>
+  Notice the equations being rendered, notice how they appear upside-down.
+</p>
+
+<h3>
+  Y-Axis
+</h3>
+
+<p>
+  Because of a computer standard, the SVG y-axis increases downwards.
+</p>
+
+  <div class="full" id="canvas-svg-math-inverted"></div>
+
+<p>
+  It's very easy to invert the y-axis if you want.
+</p>
+
+  <pre class="code"><code>svg.<f>scale</f>(<n>1</n>, <key>-</key><n>1</n>)</code></pre>
+
+<h2>
+  Style
+</h2>
+
+  <div id="canvas-svg-mask"></div>
+
+<p>
+  Style is applied by chaining methods, each name is an SVG attribute where kebab-case becomes camelCase.
+</p>
+
+<pre class="code"><code>svg.<f>ellipse</f>(<n>40</n>, <n>30</n>, <n>20</n>, <n>10</n>)
+  .<f>fill</f>(<str>"crimson"</str>)
+  .<f>stroke</f>(<str>"#fcd"</str>)
+  .<f>strokeDasharray</f>(<str>"5 10"</str>)
+  .<f>strokeWidth</f>(<n>5</n>);</code></pre>
+
+<h2>
+  Interactivity
+</h2>
+
+  <div id="canvas-svg-draw"></div>
+
+<p class="quote">
+  draw
+</p>
+
+  <pre class="code"><code><f>var</f> points <key>=</key> []<br><f>var</f> shape <key>=</key> svg.<f>polygon</f>()
+
+<f>svg</f>.<v>onMove</v> <key>=</key> <f>function</f> (<arg>mouse</arg>) {
+  points.<f>push</f>(mouse);
+  <key>if</key> (points.length <key>&gt;</key> <n>100</n>) { points.<f>shift</f>(); }
+  shape.<f>setPoints</f>(points);
+};
+</code></pre>
+
+<p>
+  An SVG created with this library comes with 3 touch methods.
+</p>
+
+<ul>
+  <li>onMove</li>
+  <li>onPress</li>
+  <li>onRelease</li>
+</ul>
+
+<p>
+  The typical event handler includes position in on-screen pixels, this object is overloaded to include x,y coordinates scaled to the viewBox instead.
+</p>
+
+  <div id="canvas-svg-touch"></div>
+
+<pre class="code"><code><span id="svg-draw-touch">event <key>=</key> {
+  position: {x: <n>0.000</n>, y: <n>0.000</n>}
+  previous: {x: <n>0.000</n>, y: <n>0.000</n>}
+  isPressed: <n>false</n>
+  pressed: {x: <n>0.000</n>, y: <n>0.000</n>}
+  drag: {x: <n>0.000</n>, y: <n>0.000</n>}
+}</span></code></pre>
+
+<p class="explain">
+  While you design, keep in mind that mice and trackpads can move without being pressed but touchscreens are always pressed when moved.
+</p>
+
+<h2>
+  Controls
+</h2>
+
+  <div id="canvas-svg-controls"></div>
+
+  <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)</code></pre>
+
+<p>
+  A <b>control point</b> is a persistant interactive touch point that responds to your touches and remains in the place where you left it.
+</p>
+
+  <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)
+  .<f>onChange</f>((<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) <f>=></f> {
+    <f>console</f>.<f>log</f>(point) <c>// a coordinate, like [23, 102]</c>
+  })</code></pre>
+
+<p>
+  The <b>onChange</b> handler fires every time a point is moved. The three arguments (item, iterator, array) reflect the same found in familiar Javascript methods like <b>map</b>, <b>filter</b>.
+</p>
+
+<pre class="code"><code>svg.<f>controls</f>(<n>4</n>)
+  .<f>svg</f>(<f>function</f> () { <key>return</key> ear.svg.<f>circle</f>(svg.<f>getWidth</f>() <key>*</key> <n>0.05</n>).fill(<str>"#e53"</str>); })
+  .<f>position</f>(<f>function</f> () { <key>return</key> [random(svg.getWidth()), random(svg.getHeight())]; })
+  .<f>parent</f>(back)
+  .<f>onChange</f>(<f>function</f> (<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) {
+    l1.setPoints(points[0], points[1]);
+    l2.setPoints(points[3], points[2]);
+    curve.clear().moveTo(points[0]).curveTo(points[1], points[2], points[3]);
+  }, <n>true</n>);
+</code></pre>
+
+<h2>
+  Animation
+</h2>
+
+  <div id="canvas-svg-hanoi"></div>
+
+  <pre class="code"><code>svg.<f>play</f> <key>=</key> <f>function</f> (<arg>e</arg>) {<br>  <c>// animation code here</c><br>}</code></pre>
+
+<p>
+  The play function uses the DOM method <b>requestAnimationFrame</b> and will fire with as little delay as your display allows, typically around 60 fps. 
+</p>
+
+<p>
+  If you come from a background using Processing or openFrameworks, the following code might look fine, but it contains a serious issue in the case of this SVG library.
+</p>
+
+  <pre class="code"><code><c>// bad code!</c><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=></f> {<br>  svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>10</n>)<br>  <c>// after a few seconds, your svg</c><br>  <c>// will contain hundreds of circles</c><br>  <c>// slowing down the renderer</c><br>}</code></pre>
+
+<p>
+  the SVG primitives are actual objects that get appended to the SVG. There are no pixels, and there is no automatic screen clearing. At the very least, call <b>removeChildren</b> somewhere in your animation loop.
+</p>
+
+  <pre class="code"><code>svg.<f>removeChildren</f>()</code></pre>
+
+<p>
+  Better yet, consider this approach to animation.
+</p>
+
+<ul>
+  <ol>create a shape <b>outside</b> the animation loop</ol>
+  <ol><b>update</b> the shape's attributes inside the animation loop</ol>
+</ul>
+
+  <pre class="code"><code><f>var</f> circle <key>=</key> svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>1</n>)<br><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=></f> {<br>  circle.<f>setRadius</f>(e.time)<br>}</code></pre>
+
+<p>
+  And at any time, you can stop the animation loop.
+</p>
+
+  <pre class="code"><code>svg.<f>stop</f>()</code></pre>
+
+<h2>
+  Integration
+</h2>
+
+<p>
+  Because of FoldToSvg, you can pass in a fold object to render as an SVG.
+</p>
+
+  <pre class="code"><code>ear.<f>svg</f>(<arg>foldGraph</arg>, <arg>options</arg>)</code></pre>
+
+<p>
+  Any of the math primitives can easily convert to SVG components; excluding non-visual primitives like vector, matrix.
+</p>
+
+  <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>).<f>svg</f>()</code></pre>
+
+<p>
+  For consistency, all the math primitives convert into <b>path</b> objects. Remember to add it to the svg, or group. It's easy with the <b>appendTo</b> method.
+</p>
+
+  <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>)<br>  .<f>svg</f>()<br>  .<f>appendTo</f>(svg)</code></pre>
+
+  <div id="canvas-svg-spiral"></div>
+
+<script type="text/javascript">
+katex.render("y = x, \\sqrt{x}, x^2, x^3", document.getElementById("math-coordinate-equations"));
+</script>
+
+<script type="text/javascript">
+const Callbacks = {};
+// Callbacks["vector-lerp"] = (e) => {
+//  if (e == undefined || e.t === undefined) { return; }
+//  document.querySelector("#lerp-time-1").innerHTML = e.t.toFixed(2);
+//  document.querySelector("#lerp-time-2").innerHTML = e.t.toFixed(2);
+//  document.querySelector("#lerp-time-3").innerHTML = e.t.toFixed(2);
+// };
+Callbacks["svg-touch"] = (e) => {
+  // console.log(e);
+  var string = "event <key>=</key> {<br>  "
+    + "position: {x: <n>" + e.x.toFixed(3)
+      + "</n>, y: <n>" + e.y.toFixed(3) + "</n>}<br>  "
+    // + "previous: {x: <n>" + e.previous.x.toFixed(3)
+    //   + "</n>, y: <n>" + e.previous.y.toFixed(3) + "</n>}<br>  "
+    + "isPressed: <n>" + (e.isPressed ? "true" : "false") + "</n><br>"
+    // + "pressed: {x: <n>" + e.pressed.x.toFixed(3)
+    //   + "</n>, y: <n>" + e.pressed.y.toFixed(3) + "</n>}<br>  "
+    // + "pressed: {x: <n>" + e.startX.toFixed(3)
+    //   + "</n>, y: <n>" + e.startY.toFixed(3) + "</n>}<br>  "
+    // + "drag: {x: <n>" + e.drag.x.toFixed(3)
+    //   + "</n>, y: <n>" + e.drag.y.toFixed(3) + "</n>}<br>"
+    + "}";
+  document.querySelector("#svg-draw-touch").innerHTML = string;
+};
+Callbacks["svg-math"] = (e) => {
+  if (e == null || e.x == null) { return; }
+  var string = "{ x: <n>" + e.x.toFixed(2) + "</n>, y: <n>" + e.y.toFixed(2) + "</n> }";
+  document.querySelector("#span-svg-math-coordinate").innerHTML = string;
+}
+</script>
+
+<script type="text/javascript">
+const loadAndRun = (id, body) => {
+  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\nvar callback = Callbacks["${id}"];\n`;
+  const foot = `\n});\n`;
+  const script = document.createElement("script");
+  script.innerHTML = `${head}${body}${foot}`;
+  document.body.appendChild(script);
+  const node = document.querySelector(`#canvas-${id}`);
+  const scriptLink = document.createElement("div");
+  scriptLink.className = "script-link";
+  scriptLink.onclick = function (e) {
+    e.preventDefault();
+    window.location.href = `/examples/?example=${id}`;
+  }
+  node.appendChild(scriptLink);
+};
+
+[ "svg-parabola",
+  "svg-albers",
+  "svg-astroid",
+  "svg-ten-print",
+  "svg-math",
+  "svg-math-inverted",
+  "svg-mask",
+  "svg-draw",
+  "svg-dragon",
+  "svg-touch",
+  "svg-controls",
+  "svg-spiral",
+  "svg-hanoi",
+].forEach(function (id) {
+  fetch(`../examples/${id}.js`)
+    .then(function(body) { return body.text(); })
+    .then(function(text) { return loadAndRun(id, text); });
+});
+</script>
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+<!-- START OF FOOTER -->
+  </div>
+</body>
+</html>
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->
+<!-- END OF FOOTER -->
