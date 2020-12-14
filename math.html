@@ -233,12 +233,16 @@ ear.use(FoldToSvg);
   Intersections
 </h2>
 
+<h3>
+  Epsilon
+</h3>
+
 <p>
-  Because geometric comparisons are made on floating point numbers, an <b>epsilon</b> is always involved. For example, both 0.0000001 and -0.00000001 should be equivalent to 0 so we mark the area around 0 by subtracting and adding a tiny amount.
+  Because geometric comparisons are made on floating point numbers, an <b>epsilon</b> is always involved. For example, both 0.0000001 and -0.0000001 should be equivalent to 0 so we mark the area around 0 by subtracting and adding a tiny amount.
 </p>
 
 <p class="explain">
-  All intersection methods allow you to specify the epsilon; the default value is <b>1e-6</b>.
+  All intersection methods allow you to specify a custom epsilon; the default value is <b>1e-6</b>.
 </p>
 
 <h3>

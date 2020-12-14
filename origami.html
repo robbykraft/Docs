@@ -152,13 +152,19 @@ ear.use(FoldToSvg);
 </p>
 
 <p>
-  Given a flat-foldable vertex, the layer solver will give each face a z-index.
+  If a solution is possible, the layer solver will assign each face a z-index. Positive values are closer to the viewer.
 </p>
 
   <div id="canvas-origami-single-vertex-layers-topview"></div>
 
+  <pre class="code"><code>[<n>4</n>, <n>0</n>, <n>2</n>, <n>7</n>, <n>6</n>, <n>1</n>, <n>5</n>, <n>3</n>]</code></pre>
+
+<p class="quote">
+  The index is the face # and the value is the z-layer (face 0 is on the 4th z-layer)
+</p>
+
 <p>
-  This solution comes in an array for when the single vertex has more than one valid layer arrangement.
+  Because one single-vertex can have multiple valid layer arrangements, the layer solver returns an array of solutions.
 </p>
 
   <div id="canvas-origami-assignment-solver"></div>

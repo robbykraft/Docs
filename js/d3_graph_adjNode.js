@@ -57,13 +57,13 @@ window.document.addEventListener("DOMContentLoaded", () => {
 
   function updateSelection(id, circles, links, highlighted_id) {
     for (let i = 0; i < circles.length; i += 1) {
-      if (id == circles[i].id)                          circles[i].style.stroke = "#F00";
-      else if (contains(circles[i].id, highlighted_id)) circles[i].style.stroke = "#09F";
+      if (id == circles[i].id)                          circles[i].style.stroke = "#e53";
+      else if (contains(circles[i].id, highlighted_id)) circles[i].style.stroke = "#37c";
       else                                             circles[i].style.stroke = "#000";
     }
     for (let i = 0; i < links.length; i += 1) {
-      if (id == links[i].id)                          links[i].style.stroke = "#F00";
-      else if (contains(links[i].id, highlighted_id)) links[i].style.stroke = "#09F";
+      if (id == links[i].id)                          links[i].style.stroke = "#e53";
+      else if (contains(links[i].id, highlighted_id)) links[i].style.stroke = "#37c";
       else                                           links[i].style.stroke = "#000";
     }
   }

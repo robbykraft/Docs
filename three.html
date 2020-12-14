@@ -57,84 +57,39 @@ ear.use(FoldToSvg);
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
+<style>
+@media (min-width: 2000px) {
+	div[id^=threejs-] { height: 500px; }
+}
+/* large computers */
+@media (min-width: 1600px) {
+	div[id^=threejs-] { height: 500px; }
+}
+/* medium computers */
+@media (max-width: 1000px) {
+  div[id^=threejs-] { height: 500px; }
+}
+/* small computers. basically mobile */
+@media (max-width: 700px) {
+  div[id^=threejs-] { height: 400px; }
+}
+</style>
+<script src="./lib/threejs/three.min.js"></script>
+<script src="./lib/threejs/THREE.OrbitControls.js"></script>
 
-<h3></h3>
+<h3>Appendix</h3>
 
 <h1>
-  Rabbit Ear
+  WebGL
 </h1>
 
-  <div id="canvas-graph-flat-fold"></div>
-
-<p class="quote">
-  grab
-</p>
-
-<p>
-  This is a Javascript library for modeling origami.
-</p>
-
 <h2>
-  Download
+  three.js
 </h2>
 
-<p>
-  The library is in <b>pre-release</b>. Download the current version here.
-</p>
+  <div id="webgl-origami-twist"></div>
 
-  <div class="button">rabbit-ear.js (130kb)</div>
-
-<p>
-  The library is just one file. Link it for use in browsers.
-</p>
-
-  <pre class="code"><code>&lt;<key>script</key> <v>src</v>=<str>"./rabbit-ear.js"</str>&gt;&lt;/<key>script</key>&gt;</code></pre>
-
-<p>
-  Or, use the library in NodeJS.
-</p>
-  <pre class="code"><code>npm i rabbit-ear</code></pre>
-
-  <pre class="code"><code><f>const</f> ear <key>=</key> <f>require</f>(<str>"rabbit-ear"</str>)</code></pre>
-
-<p class="quote">
-  NodeJS requires one dependency: XMLDom, for SVG rendering.
-</p>
-
-<h3>
-  Try it online
-</h3>
-
-  <div class="button">Live code</div>
-
-<p>
-  Or, click on the icon to the right of <b>any sketch</b> you see in the documentation, this will open the code for that sketch.
-</p>
-
-<h2>
-  Overview
-</h2>
-
-  <div id="canvas-graph-flat-fold-cp"></div>
-
-<p>
-  This library can model origami.
-</p>
-
-<h2>
-  Inside the library
-</h2>
-
-<p>
-  This library is comprised of three smaller libraries: a math library, a graph library, and a library for drawing SVGs.
-</p>
-
-  <pre class="code"><code>ear.<f>math</f><br>ear.<f>graph</f><br>ear.<f>svg</f></code></pre>
-
-
-<svg viewBox="-0.1 -0.1 1.2 1.2" stroke-width="0.01" fill="none">
-  <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
-</svg>
+<script src="./js/three-origami.js"></script>
 
 <script type="text/javascript">
 const Callbacks = {};
@@ -156,8 +111,7 @@ const loadAndRun = (id, body) => {
 };
 
 [
-  "graph-flat-fold",
-  "graph-flat-fold-cp",
+//  "origami-three",
 ].forEach(function (id) {
   fetch(`../examples/${id}.js`)
     .then(function(body) { return body.text(); })

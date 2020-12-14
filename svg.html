@@ -95,10 +95,13 @@ ear.use(FoldToSvg);
 
   <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>()<br><f>document</f>.<f>body</f>.<f>appendChild</f>(svg)</code></pre>
 
+<p class="quote">
+  Elements made with this library are HTML DOM Elements and work with DOM level 1 methods.
+</p>
+
 <p>
   Or, more conveniently:
 </p>
-
 
   <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>(<f>document</f>.<f>body</f>)</code></pre>
 
@@ -124,10 +127,8 @@ ear.use(FoldToSvg);
   <pre class="code"><code>ear.<f>svg</f>(<f>document</f>.<f>body</f>, (<arg>svg</arg>) <f>=&gt;</f> {<br>  svg.<f>circle</f>(<n>0</n>, <n>1</n>, <n>2</n>);<br>});</code></pre>
 
 <p>
-  All elements created with this library are HTML DOM Elements and work with DOM level 1 methods like appendChild. You can create an svg and append it yourself.
+  This is a very convenient way to wait for page load and encapsulate all your code within a function-scope.
 </p>
-
-  <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>()<br><f>document</f>.<f>querySelector</f>(<str>"#container"</str>).<f>appendChild</f>(svg)</code></pre>
 
 <h2>
   Drawing Shapes
@@ -148,7 +149,7 @@ ear.use(FoldToSvg);
   <pre class="code"><code>svg.<f>circle</f>(<arg>x</arg>, <arg>y</arg>, <arg>radius</arg>)<br>svg.<f>ellipse</f>(<arg>x</arg>, <arg>y</arg>, <arg>rx</arg>, <arg>ry</arg>)<br>svg.<f>line</f>(<arg>x1</arg>, <arg>y1</arg>, <arg>x2</arg>, <arg>y2</arg>)<br>svg.<f>rect</f>(<arg>x</arg>, <arg>y</arg>, <arg>width</arg>, <arg>height</arg>)<br>svg.<f>text</f>(<arg>string</arg>, <arg>x</arg>, <arg>y</arg>)</code></pre>
 
 <p>
-  Every method argument is a number except for the string on <b>text</b>.
+  The type of all arguments are numbers, except for "string" on <b>text</b>.
 </p>
 
 <p class="explain">
@@ -181,8 +182,12 @@ ear.use(FoldToSvg);
 
 <pre class="code"><code>svg.<f>path</f>()
   .<f>moveTo</f>(<n>50</n>, <n>50</n>)
-  .<f>lineTo</f>(<n>100</n>, <n>150</n>)
+  .<f>LineTo</f>(<n>100</n>, <n>150</n>)
   .<f>curveTo</f>(<n>200</n>, <n>200</n>, <n>300</n>, <n>0</n>)</code></pre>
+
+<p class="explain">
+  Path command names follow <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#Path_commands">the spec</a>, including capitalization for absolute/relative.
+</p>
 
 <h3>
   Groups
@@ -379,7 +384,7 @@ ear.use(FoldToSvg);
   <pre class="code"><code>svg.<f>stop</f>()</code></pre>
 
 <h2>
-  Integration
+  Graph Integration
 </h2>
 
 <p>
@@ -387,6 +392,10 @@ ear.use(FoldToSvg);
 </p>
 
   <pre class="code"><code>ear.<f>svg</f>(<arg>foldGraph</arg>, <arg>options</arg>)</code></pre>
+
+<p>
+  size and scale are handled for you. an SVG inside a unit square and a square 800pts wide appear the same.
+</p>
 
 <p>
   Any of the math primitives can easily convert to SVG components; excluding non-visual primitives like vector, matrix.

@@ -58,10 +58,6 @@ ear.use(FoldToSvg);
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 
-<!-- <script type="text/javascript" src="js/toolkit.js"></script> -->
-<script type="text/javascript" src="lib/d3.min.js"></script>
-<script type="text/javascript" src="js/graph.d3.js"></script>
-
 <h3>
   CHAPTER II.
 </h3>
@@ -78,10 +74,7 @@ ear.use(FoldToSvg);
   A <b>graph</b> is a collection of <b>vertices</b>, <b>edges</b>, and <b>faces</b>.
 </p>
 
-<!--   <pre class="code"><code><f>var</f> graph <key>=</key> ear.<f>graph</f>()</code></pre>
- -->
-
-  <pre class="code"><code>ear.<f>graph</f></code></pre>
+  <pre class="code"><code><f>var</f> graph <key>=</key> ear.<f>graph</f>()</code></pre>
 
 <p>
   Graphs don't need to exist in 2D space (or any space), they are an abstract map showing connections between vertices.
@@ -110,9 +103,10 @@ ear.use(FoldToSvg);
   </div>
 </div>
 
-<p class="quote">
-  Edge-adjacencies can be used to calculate faces.
+<!-- <p class="quote">
+  Adjacencies can be used to calculate faces.
 </p>
+ -->
 
 <h3>
   Components
@@ -159,12 +153,12 @@ ear.use(FoldToSvg);
 </code></pre>
 
 <p>
-  FOLD is JSON-based, it's not hard to peek inside and modify the contents manually.
+  FOLD is JSON-based, it's not impossible to peek inside and modify the contents manually.
 </p>
 
   <div id="canvas-f39fksa0fj2d">
     <svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
-      <path stroke="#e53" d="M0,0L1,1" />
+      <path stroke="black" stroke-dasharray="0.0001 0.05 0.0333 0.05" stroke-linecap="round" d="M0,0L1,1" />
       <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
     </svg>
   </div>
@@ -186,7 +180,13 @@ ear.use(FoldToSvg);
   <pre class="code"><code><f>var</f> myGraph <key>=</key> {}</code></pre>
 
 <p>
-  Every graph method takes a similar form, the first parameter is the graph, if there are more they follow after.
+  Every method that operates on graphs is found under this key:
+</p>
+
+  <pre class="code"><code>ear.<f>graph</f></code></pre>
+
+<p>
+  Every graph method takes a similar form where the first parameter is the graph; if there are more parameters they come after.
 </p>
 
   <pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)<br>ear.graph.<f>translate</f>(<arg>graph</arg>, <arg>x</arg>, <arg>y</arg>)</code></pre>
@@ -198,7 +198,7 @@ ear.use(FoldToSvg);
   <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.<f>graph</f>()</code></pre>
 
 <p>
-  This still creates a Javascript object but with a bound prototype so that methods can be called directly on the object.
+  If you prefer the object-oriented approach, all the methods exist on your object, allowing you to leave out the first parameter.
 </p>
 
 <div class="grid-2">
@@ -237,7 +237,7 @@ ear.use(FoldToSvg);
   <pre class="code"><code>ear.graph.<f>add_vertices</f>(<arg>graph</arg>, [[<n>x</n>, <n>y</n>], [<n>x</n>, <n>y</n>], <key>...</key>])</code></pre>
 
 <p class="explain">
-  If you add vertices manually or import a graph, you can use <b>merge_duplicate_vertices</b> to clean them up after.
+  If you import a FOLD file with already existing vertices, you can call <b>remove_duplicate_vertices</b> at any time to clean up vertices.
 </p>
 
 <h3>
@@ -277,7 +277,7 @@ ear.use(FoldToSvg);
 </h2>
 
 <p>
-  Given a graph with a few components, we can construct more arrays that express relationships between components.
+  Without modifying the geometry of a graph we can construct more arrays that express relationships between components.
 </p>
 
 <pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)</code></pre>
@@ -318,13 +318,13 @@ faces_faces: [[<n>1</n>], [<n>0</n>]]
 </h3>
 
 <p>
-  If you prefer, you can call these methods individually. Prerequisites for each method vary.
+  Populate calls a bunch of methods, each of which is also available for you to call individually. Prerequisites for each method vary.
 </p>
 
 <pre class="code"><code><f>var</f> array <key>=</key> ear.graph.<f>make_vertices_vertices</f>(<arg>graph</arg>)</code></pre>
 
 <p>
-  These arrays <b>do not modify</b> the input graph, they construct and return a new array, it's up to you to assign it to the graph if you wish.
+  These methods <b>do not modify</b> the input graph, they construct and return a new array, it's up to you to assign it to the graph if you wish.
 </p>
 
 <pre class="code"><code>ear.graph.<f>make_vertices_edges</f>()
@@ -344,7 +344,7 @@ ear.graph.<f>make_edges_foldAngle</f>()
 ear.graph.<f>make_edges_assignment</f>()
 ear.graph.<f>make_edges_vector</f>()
 ear.graph.<f>make_edges_length</f>()
-ear.graph.<f>make_edges_edges_intersections</f>()
+ear.graph.<f>get_edges_edges_intersections</f>()
 ear.graph.<f>make_edges_collinear_vertices</f>()
 </code></pre>
 
@@ -361,7 +361,7 @@ ear.graph.<f>make_faces_coloring</f>()
 </code></pre>
 
 <h2>
-  More
+  More Methods
 </h2>
 
 <h3>
@@ -393,7 +393,11 @@ ear.graph.<f>make_faces_coloring</f>()
   <pre class="code"><code>ear.graph.<f>get_boundary</f>(<arg>graph</arg>)</code></pre>
 
 <p>
-  Both edges and vertices are given, sorted clockwise / counter-clockwise.
+  Both edges and vertices are included, sorted clockwise / counter-clockwise.
+</p>
+
+<p class="explain">
+  todo: support for multiple boundaries; a method that tests connected vertices.
 </p>
 
 <h3>
@@ -426,8 +430,32 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
 <h2>
-  Reconstructing Graphs
+  Counting Components
 </h2>
+
+<p>
+  Because the geometry is stored in flat, separate arrays, it's possible that the faces are defined in <b>faces_edges</b> but not <b>faces_vertices</b>; and querying the number of faces by checking <b>faces_vertices</b> will break. <b>Count</b> will search all the keys that begin with "faces_" and return the longest one.
+</p>
+
+  <pre class="code"><code>ear.graph.count.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.count.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.count.<f>vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  The <b>implied count</b> is useful for things like abstract graphs, a search for vertices will look inside things like "faces_vertices" for the largest index.
+</p>
+
+  <pre class="code"><code>ear.graph.implied.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p class="explain">
+  It's possible that arrays get out of sync, in which case, the longest might not be the correct one. It's very important to watch carefully and never let a component's arrays become unsynchronized.
+</p>
+
+<h2>
+  Rebuilding Graphs
+</h2>
+
+<p>
+  This library supports importing a crease pattern from any vector-based drawing program; but some clean-up is necessary.
+</p>
 
 <h3>
   Clean
@@ -444,36 +472,17 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   <li><b>duplicate edges:</b> two or more edges are connecting the same two vertices</li>
 </ul>
 
-<h3>
-  Merge Vertices
-</h3>
-
-  <div id="canvas-graph-merge-vertices-animate"></div>
-
-  <pre class="code"><code>ear.graph.<f>merge_duplicate_vertices</f>(<arg>graph</arg>)</code></pre>
-
 <p>
-  If two vertices are near enough, merging will <b>remove</b> one of them and correct all pointers in the other arrays.
+  The method supports cleaning vertices too; the second parameter is options.
 </p>
 
-<h3>
-  Face-Finding
-</h3>
-
-<p>
-  The face-finding algorithm walks from edge to edge turning at each corner. This requires vertices be merged, without them corners don't exist.
-</p>
-
-  <div id="canvas-graph-merge-vertices"></div>
-
-  <p class="quote" id="graph-merge-vertices-label">epsilon</p>
-
-  <div style="margin:auto; width: 50%">
-    <input type="range" id="graph-merge-vertices-slider" min="0" max="1000" value="0"/>
-  </div>
+  <pre class="code"><code>ear.graph.<f>clean</f>(<arg>graph</arg>, {
+  edges: <n>true</n>,
+  vertices: <n>true</n>
+})</code></pre>
 
 <p class="explain">
-  This library can build faces in 2D; it's not good with higher dimensions. Notice how faces can be built even if edges are crossing.
+  Clean is meant to modify the graph as little as possible; more information on remove operations after the next section.
 </p>
 
 <h3>
@@ -487,18 +496,20 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
 <p>
-  A crease pattern from a vector-drawing program usually contains these planar-graph violations:
+  These are the typical planar graph violations that need addressing when importing from other software:
 </p>
 
 <ul>
-  <li>lines usually cross each other.</li>
-  <li>lines don't always end at <b>exactly</b> the same point.</li>
+  <li>lines cross over other lines.</li>
+  <li>lines don't always end at <em>exactly</em> the same point.</li>
 </ul>
 
-<h3>Fragment</h3>
+<h3>
+  Fragment
+</h3>
 
 <p>
-  The fragment method converts a graph into a planar graph.
+  The fragment method converts a graph into a planar graph by solving the first issue: <b>lines crossing other lines</b>.
 </p>
 
 <div class="grid-2">
@@ -537,13 +548,14 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
 <p class="explain">
-  The final parameter in many of these methods is an <b>optional epsilon</b>. By default it is very precise (1e-6). When importing crease patterns that were made in some vector drawing program you will want to play with this.
+  The final parameter in many of these methods is an <b>optional epsilon</b>. By default it is very precise (1e-6). When importing crease patterns that were made in some vector drawing program you will want to increase this.
 </p>
 
-  <pre class="code"><code>ear.graph.<f>fragment</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)<br>ear.graph.<f>merge_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)</code></pre>
+  <pre class="code"><code>ear.graph.<f>fragment</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)<br>ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)</code></pre>
 
+<!-- 
 <h3>
-  Flat Graphs
+  Boundary clipping
 </h3>
 
 <p>
@@ -551,60 +563,222 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
   <pre class="code"><code>ear.graph.<f>clip_line</f>(<arg>graph</arg>, <arg>line</arg>)</code></pre>
+ -->
 
-<h2>
-  Counting Components
-</h2>
-
-<p>
-  Because the geometry is stored in flat, separate arrays, it's possible that the faces are defined in <b>faces_edges</b> but not <b>faces_vertices</b>; and querying the number of faces by checking <b>faces_vertices</b> will break. <b>Count</b> will search all the keys that begin with "faces_" and return the longest one.
-</p>
-
-  <pre class="code"><code>ear.graph.count.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.count.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.count.<f>vertices</f>(<arg>graph</arg>)</code></pre>
+<h3>
+  Face-Finding
+</h3>
 
 <p>
-  The <b>implied count</b> is useful for things like abstract graphs, a search for vertices will look inside things like "faces_vertices" for the largest index.
+  The face-finding algorithm walks from edge to edge turning at each corner. This requires vertices be merged, without them corners don't exist.
 </p>
 
-  <pre class="code"><code>ear.graph.implied.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>vertices</f>(<arg>graph</arg>)</code></pre>
+  <div id="canvas-graph-merge-vertices"></div>
+
+  <p class="quote" id="graph-merge-vertices-label">epsilon</p>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="graph-merge-vertices-slider" min="0" max="1000" value="0"/>
+  </div>
 
 <p class="explain">
-  It's possible that arrays get out of sync, in which case, the longest might not be the correct one. It's very important to watch carefully and never let a component's arrays become unsynchronized.
+  This library can build faces in 2D; it's not good with higher dimensions. Notice how faces can be built even if edges are crossing.
+</p>
+
+<h3>
+  Merge Vertices
+</h3>
+
+  <div id="canvas-graph-merge-vertices-animate"></div>
+
+  <pre class="code"><code>ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  Removing duplicate vertices will search all the component arrays and make sure the removed vertices are now pointing to the one remaining vertex.
+</p>
+
+<p>
+  Let's take a closer look at this remove operation.
 </p>
 
 <h2>
+  Keeping track of changes
+</h2>
+
+<h3>
   Removing Components
-</h2>
-
-  <pre class="code"><code>edges_vertices: {<br>  [[<n>0</n>,<n>1</n>], [<n>2</n>,<n>3</n>], <key>XXXX</key>, [<n>5</n>,<n>2</n>], [<n>1</n>,<n>3</n>]]<br>}</code></pre>
+</h3>
 
 <p>
-  When a component is removed the following array elements shift up by one, which breaks all references in other arrays.
+  This library contains methods for removing bad geometry from graphs.
 </p>
 
-  <pre class="code"><code>ear.graph.<f>remove</f>(graph, <str>"vertices"</str>, [<n>5</n>, <n>9</n>])</code></pre>
+  <pre class="code"><code>ear.graph.<f>remove_circular_edges</f>(<arg>graph</arg>)
+ear.graph.<f>remove_duplicate_edges</f>(<arg>graph</arg>)
+ear.graph.<f>remove_isolated_vertices</f>(<arg>graph</arg>)
+ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg>)</code></pre>
+
+<!-- ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>) -->
 
 <p>
-  The <b>remove</b> method matches the key to the prefix (<b>vertices_coords</b>, <b>vertices_faces</b>, ...), deleting and shifting up indices; and it matches the suffix (<b>edges_vertices</b>, <b>faces_vertices</b>, ...) and updates any index that was changed due to shifting.
-
-<p class="explain">
-  If you remove a vertex, it's still your duty to make sure no faces or edges are continuing to use that vertex. This process is complicated and specific to what you are doing. Methods like <b>merge_duplicate_vertices</b> does this.
+  Each of these methods calls the <b>remove</b> method:
 </p>
 
-<h2>
-  Tracking Changes
-</h2>
+  <pre class="code"><code>ear.graph.<f>remove</f>(<arg>graph</arg>, <arg>key</arg>, <arg>indices</arg>)</code></pre>
+
+<h3>
+  Remove
+</h3>
 
 <p>
-  Methods that modify the graph return a summary of the changes. Each method has a unique summary, a combination of these structures below.
+  Consider this, the removal of edges at index 2 and 4.
+</p>
+
+  <pre class="code"><code>edges_vertices: {<br>  [[<n>0</n>,<n>1</n>], [<n>2</n>,<n>3</n>], <key>XXXX</key>, [<n>5</n>,<n>2</n>], <key>XXXX</key>, [<n>1</n>,<n>3</n>]]<br>}</code></pre>
+
+<p>
+  When a component is removed the following array elements shift up which breaks all references in other arrays. The <b>remove</b> method takes care of this.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>remove</f>(graph, <str>"edges"</str>, [<n>2</n>, <n>4</n>])</code></pre>
+
+<p>
+  The remove method makes two types of changes to two kinds of arrays:
+</p>
+
+<ul>
+  <li>any arrays with matching prefix (<b>edges_</b>), it will simply remove the index.</li>
+  <li>any arrays with matching suffix (<b>_edges</b>), go inside each array and update indices to their new reference values due to shifting.</li>
+</ul>
+
+<p>
+  The remove method returns an array that summarizes the changes.
+</p>
+
+  <pre class="code"><code><c>// a result with no changes</c>
+[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>4</n>, <n>5</n>, <n>6</n>, <n>7</n>, <n>8</n>, <n>9</n>]
+<c>// a result where indices 4, 6, 7 are removed</c>
+[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <key>u</key>, <n>4</n>, <key>u</key>, <key>u</key>, <n>5</n>, <n>6</n>]
+<c>// "u" short for undefined</c></code></pre>
+
+<p>
+  The length matches the size of the array <em>before</em> the change. I call this a <b>map</b> because it can be used to easily map components to their new indices.
 </p>
 
 <h3>
   Maps
 </h3>
 
+<p class="quote">
+  "What is the new location of the old component?"
+</p>
+
 <p>
-  The vertex-adding method will not add a vertex if it already exists.
+  An example of of a map being used is a game of dodge ball where players are vertices and one of the vertices is a team leader. Players are removed after one round. 
+</p>
+
+  <pre class="code"><code><f>var</f> teamLeader <key>=</key> <n>5</n>;
+<f>var</f> changeMap <key>=</key> ear.graph.<f>remove</f>(graph, <str>"vertices"</str>, playersHit);
+teamLeader <key>=</key> changeMap[teamLeader];
+</code></pre>
+
+<p>
+  Or updating multiple components:
+</p>
+
+  <pre class="code"><code>leaders <key>=</key> leaders.<f>map</f>(<arg>i</arg> <f>=&gt;</f> changeMap[i]);</code></pre>
+
+<p>
+  However, there are two kinds of maps. This type relates the current state to the former, there is also the inverse. Methods that <b>remove</b> are best represented by the former, methods which <b>add</b> prefer the inverse:
+</p>
+
+<p class="quote">
+  "What is the old location of the new component?"
+</p>
+
+<h3>
+  Adding Components
+</h3>
+
+<p>
+  If we were to represent the map from the <b>fragment</b> method using the same map that remove methods use we would get arrays inside arrays, because one element now exists in many locations.
+</p>
+
+  <pre class="code"><code>[ [0, 1, 2], [3, 4], [5], [6, 7, 8, 9] ]</code></pre>
+
+<p>
+  The inverse map which reflects the old index of the new component looks like:
+</p>
+
+  <pre class="code"><code>[0, 0, 0, 1, 1, 2, 3, 3, 3, 3]</code></pre>
+
+<p>
+  There exists two forms of maps, each one better suited with methods that add and remove.
+</p>
+
+<h3>
+  Combining Maps
+</h3>
+
+<p>
+  Maps allow keeping track of motion across multiple transformations on the graph. The simplest is combining similar maps.
+</p>
+
+  <pre class="code"><code><c>// merge 2 vertices</c><br>[0, 1, 2, 1, 3, 2, 4]<br><c>// merge 2 more</c><br>[0, 1, 1, 0, 2]</code></pre>
+
+<p>
+  Combining the maps gives you the path for each index from start to finish.
+</p>
+
+  <pre class="code"><code>[0, 1, 1, 1, 0, 1, 2]</code></pre>
+
+<p>
+  The inverse map.
+</p>
+
+  <pre class="code"><code>[0, 1, 6]</code></pre>
+
+<h3>
+  Change Summaries
+</h3>
+
+  <pre class="code"><code>ear.graph.<f>remove_circular_edges</f>(<arg>graph</arg>)
+ear.graph.<f>remove_duplicate_edges</f>(<arg>graph</arg>)
+ear.graph.<f>remove_isolated_vertices</f>(<arg>graph</arg>)
+ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg>)</code></pre>
+
+<!-- ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>) -->
+
+<p>
+  Any method that modifies the graph will return an object that summarizes the changes. This object includes a map, among other things; isolated and circular removals look something like this:
+</p>
+
+  <pre class="code"><code>{<br>  map: [<n>0</n>, <n>1</n>, <n>2</n>, <n>undefined</n>, <n>3</n>, <n>undefined</n>, <n>4</n>]<br>  remove: [<n>3</n>, <n>5</n>]<br>}</code></pre>
+
+<p>
+  Notice the undefineds match the remove indices. Alternatively, the maps from duplicate removals <b>do not</b> contain undefined:
+</p>
+
+  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>1</n>, <n>4</n>, <n>3</n>, <n>0</n>, <n>5</n>, <n>6</n>]</code></pre>
+
+<p>
+  Vertices or edges that are marked as duplicates are treated as "merged together". The "remove" key makes it a little quicker to discern that indices <b>4, 6, 7</b> were removed.
+</p>
+
+  <pre class="code"><code>{<br>  map: [<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>1</n>, <n>4</n>, <n>3</n>, <n>0</n>, <n>5</n>, <n>6</n>]<br>  remove: [<n>4</n>, <n>6</n>, <n>7</n>]<br>}</code></pre>
+
+<p class="explain">
+  todo: remove collinear vertices
+</p>
+
+  <!-- <pre class="code"><code>ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>)</code></pre> -->
+
+<h3>
+  Adding Geometry
+</h3>
+
+<p>
+  Remember, the vertex-adding method will not add a vertex if it already exists.
 </p>
 
 <p class="quote">
@@ -632,52 +806,51 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </svg>
 
 <p class="quote">
-  ...modifies the vertices_coords array...
+  ...only adds one vertex to the array...
 </p>
 
   <pre class="code"><code>vertices_coords: [<br>  [<n>0</n>, <n>0</n>], [<n>1</n>, <n>0</n>], [<arg>1</arg>, <arg>1</arg>], [<n>0</n>, <n>1</n>], [<arg>0.5</arg>, <arg>0.5</arg>]<br>]</code></pre>
 
 <p class="quote">
-  ...and returns the indices of the vertices in the graph. This is the <b>map</b>.
+  ...and returns <b>the map</b>, the indices of the vertices in the new graph...
 </p>
 
   <pre class="code"><code>[<n>4</n>, <n>2</n>]</code></pre>
 
-<p>
-  A <b>map</b> is an array that matches the length of the component before the change. The value at each index is the new index after the change.
-</p>
-
-<p>
-  The first new vertex was added to the graph (0.5, 0.5), but the second vertex already existed (to the epsilon-distance test), instead of adding it to the graph it returned the index of the existing vertex.
-</p>
-
 <p class="quote">
-  Maps answer the question "where is the new location of the old vertex?"
-</p>
-
-  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>2</n>, <n>0</n>, <n>3</n>, <n>4</n>, <n>3</n>]</code></pre>
-
-<p>
-  The map from a merge_duplicate_vertices will contain multiple mentions of the same index, showing where vertices where merged. 
-</p>
-
-  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>2</n>, <n>null</n>, <n>3</n>, <n>4</n>]</code></pre>
-
-<p>
-  The map from a remove will contain <b>null</b> where removals occurred, and following indices will be shifted up by one.
+  ...showing how the second parameter <b>[1, 1]</b> already exists at index <b>2</b>.
 </p>
 
 <h3>
-  Complex operations
+  Complex Changes
 </h3>
 
+  <pre class="code"><code>{
+  vertices: {
+    new: [],
+    map: [],
+  },
+  edges: {
+    new: [],
+    replace: {},
+  },
+  faces: {
+    replace: {},
+  }
+}</code></pre>
+
 <p>
-  If a component was removed, it will be mentioned under a <b>remove</b> key. However if a component was removed because of a substitution, where one or more components take its place, this will be under a <b>replace</b> key. This information is more useful in that form.
+  Split_face is one of the more involved isolated changes to the graph, modifying all three geometries.
+</p>
+
+<p>
+  If a component was removed it will be under a <b>remove</b> key. However, if a component was removed because of a substitution where one or more components take its place then it will be under a <b>replace</b> key.
+</p>
 
   <pre class="code"><code>ear.graph.<f>split_face</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
 
 <p>
-  For example, after modifying vertices, edges, and faces, the split face operation returns this summary:
+  An example where one split_face operation is run on a graph:
 </p>
 
   <pre class="code"><code>{
@@ -694,28 +867,20 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   }
 }</code></pre>
 
-<h3>
-  Change map
-</h3>
-
-  <pre class="code"><code>[<n>0</n>, <n>0</n>, <n>0</n>, <n>-1</n>, <n>-1</n>, <n>-1</n>, <n>-2</n>, <n>-2</n>]</code></pre>
-
-<p>
-  A change map is the same as a map but in a different form, rather, the <b>change</b> that each vertex travels.
-</p>
-
 <p>
   Combining these operations, creasing multiple faces at once, reflecting vertices_coords, is how we are able to simulate folding.
 </p>
 
 <h2>
-  Thanks
+  Acknowledgements
 </h2>
 
 <p>
-  Interactive graphs in the introduction are <a href="https://observablehq.com/@d3/force-directed-graph">force direct graphs</a> from <a href="https://d3js.org/">d3.js</a>.
+  Interactive graphs at the top of this page are <a href="https://observablehq.com/@d3/force-directed-graph">force direct graphs</a> from <a href="https://d3js.org/">d3.js</a>.
 </p>
 
+<script type="text/javascript" src="lib/d3.min.js"></script>
+<script type="text/javascript" src="js/graph.d3.js"></script>
 <script type="text/javascript" src="js/d3_graph_simple.js"></script>
 <script type="text/javascript" src="js/d3_graph_adjNode.js"></script>
 <script type="text/javascript" src="js/d3_graph_adjEdge.js"></script>
@@ -765,14 +930,15 @@ const loadAndRun = (id, body) => {
   node.appendChild(scriptLink);
 };
 
-[ "graph-add-vertices",
-  "graph-faces-tree",
-  "graph-faces-reflect",
+[
   "graph-nearest-components",
-  "graph-get-boundary",
-  "graph-explode-faces",
+  "graph-add-vertices",
   "graph-split-edge",
   "graph-split-face",
+  "graph-faces-tree",
+  "graph-faces-reflect",
+  "graph-get-boundary",
+  "graph-explode-faces",
   "graph-merge-vertices",
   "graph-merge-vertices-animate",
   "graph-fragment",

@@ -158,7 +158,7 @@ make_edges_foldAngle({ edges_assignment })
 make_edges_assignment({ edges_foldAngle })
 make_edges_vector({ vertices_coords, edges_vertices })
 make_edges_length({ vertices_coords, edges_vertices })
-make_edges_edges_intersections(
+get_edges_edges_intersections(
   { vertices_coords, edges_vertices, edges_vector, edges_origin },
   epsilon = math.core.EPSILON
 )

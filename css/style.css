@@ -97,9 +97,14 @@ p.quote + .code {
 .code + .code {
 	margin-top: -1.5rem;
 }
+/* svg canvases */
 div[id^=canvas-] {
 	margin: 1rem 0;
 	position: relative;
+}
+/* webgl canvases */
+div[id^=webgl-] {
+  height: 500px;
 }
 .script-link {
 	width: 1.5rem;
