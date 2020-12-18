@@ -89,7 +89,18 @@ ear.use(FoldToSvg);
 
   <div id="webgl-origami-twist"></div>
 
-<script src="./js/three-origami.js"></script>
+<h2>
+	single vertex
+</h2>
+
+  <div id="webgl-origami-single-vertex"></div>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="single-vertex-3d-slider" min="0" max="1023" value="0"/>
+  </div>
+
+<!-- <script src="./js/three-origami.js"></script> -->
+<script src="./js/three-single-vertex.js"></script>
 
 <script type="text/javascript">
 const Callbacks = {};
@@ -117,6 +128,15 @@ const loadAndRun = (id, body) => {
     .then(function(body) { return body.text(); })
     .then(function(text) { return loadAndRun(id, text); });
 });
+</script>
+
+<script type="text/javascript">
+const ExamplesHeader = {};
+const ExamplesFooter = {};
+ExamplesHeader["origami-kawasaki-solver"] = `
+slider = document.querySelector("#kawasaki-solver-slider");
+countLabel = document.querySelector("#kawasaki-solver-label");
+`;
 </script>
 
 <!-- START OF FOOTER -->
