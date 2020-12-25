@@ -32,22 +32,22 @@ ear.use(FoldToSvg);
       <div class="nav-wrapper">
         <ul>
           <li class="dropdown">
-            <a href="/">HELLO</a>
+            <a href="/docs/">HELLO</a>
           </li>
           <li class="dropdown">
-            <a href="math.html" class="dropbtn">I. MATH</a>
+            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
           </li>
           <li class="dropdown">
-            <a href="graph.html" class="dropbtn">II. GRAPHS</a>
+            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
           </li>
           <li class="dropdown">
-            <a href="svg.html" class="dropbtn">III: SVG</a>
+            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
           </li>
           <li class="dropdown">
-            <a href="origami.html" class="dropbtn">IV. ORIGAMI</a>
+            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
           <li class="dropdown">
-            <a href="appendix.html" class="dropbtn">APPENDIX</a>
+            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
           </li>
         </ul>
       </div>
@@ -156,7 +156,7 @@ ear.use(FoldToSvg);
   FOLD is JSON-based, it's not impossible to peek inside and modify the contents manually.
 </p>
 
-  <div id="canvas-f39fksa0fj2d">
+  <div>
     <svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
       <path stroke="black" stroke-dasharray="0.0001 0.05 0.0333 0.05" stroke-linecap="round" d="M0,0L1,1" />
       <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
@@ -282,10 +282,10 @@ ear.use(FoldToSvg);
 
 <pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)</code></pre>
 
-<svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
-  <path stroke="#e53" d="M0,0L1,1" />
-  <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
-</svg>
+  <svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
+    <path stroke="black" stroke-dasharray="0.0001 0.05 0.0333 0.05" stroke-linecap="round" d="M0,0L1,1" />
+    <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
+  </svg>
 
 <p>
   The populate method will fill out the graph to the best of its ability.
@@ -312,6 +312,10 @@ faces_vertices: [[<n>2</n>,<n>0</n>,<n>1</n>], [<n>3</n>,<n>0</n>,<n>2</n>]]
 faces_edges: [[<n>4</n>,<n>0</n>,<n>1</n>], [<n>3</n>,<n>4</n>,<n>2</n>]]
 faces_faces: [[<n>1</n>], [<n>0</n>]]
 </code></pre>
+
+<p>
+  but the pattern itself doesn't change.
+</p>
 
 <h3>
   Individual Methods
@@ -352,7 +356,6 @@ ear.graph.<f>make_edges_collinear_vertices</f>()
 ear.graph.<f>make_faces_vertices</f>()
 ear.graph.<f>make_faces_edges</f>()
 ear.graph.<f>make_faces_faces</f>()
-ear.graph.<f>get_face_face_shared_vertices</f>()
 ear.graph.<f>make_face_spanning_tree</f>()
 ear.graph.<f>make_faces_matrix</f>()
 ear.graph.<f>make_faces_center</f>()
@@ -602,7 +605,7 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
 <h2>
-  Keeping track of changes
+  Tracking Changes
 </h2>
 
 <h3>
@@ -642,39 +645,47 @@ ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg>)
 
   <pre class="code"><code>ear.graph.<f>remove</f>(graph, <str>"edges"</str>, [<n>2</n>, <n>4</n>])</code></pre>
 
+<!-- <p> -->
+<!--   The remove method makes two types of changes to two kinds of arrays: -->
+<!-- </p> -->
+
+<!-- <ul> -->
+<!--   <li>any arrays with matching prefix (<b>edges_</b>), it will simply remove the index.</li> -->
+<!--   <li>any arrays with matching suffix (<b>_edges</b>), go inside each array and update indices to their new reference values due to shifting.</li> -->
+<!-- </ul> -->
+
 <p>
-  The remove method makes two types of changes to two kinds of arrays:
+  Calling the method modifies the input graph and returns a summary of changes as an array that relates each index to its new location.
 </p>
 
-<ul>
-  <li>any arrays with matching prefix (<b>edges_</b>), it will simply remove the index.</li>
-  <li>any arrays with matching suffix (<b>_edges</b>), go inside each array and update indices to their new reference values due to shifting.</li>
-</ul>
+  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>undefined</n>, <n>2</n>, <n>undefined</n>, <n>3</n>]</code></pre>
 
 <p>
-  The remove method returns an array that summarizes the changes.
+  Notice how the length matches the size of the array <em>before</em> the change. The values in the array answer the question:
 </p>
 
-  <pre class="code"><code><c>// a result with no changes</c>
-[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>4</n>, <n>5</n>, <n>6</n>, <n>7</n>, <n>8</n>, <n>9</n>]
-<c>// a result where indices 4, 6, 7 are removed</c>
-[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <key>u</key>, <n>4</n>, <key>u</key>, <key>u</key>, <n>5</n>, <n>6</n>]
-<c>// "u" short for undefined</c></code></pre>
+<p class="quote">
+  "What is the new location of the old component?"
+</p>
+
+<!-- <p> -->
+<!-- 	Hence, <em>undefined</em> for components that got removed. -->
+<!-- </p> -->
 
 <p>
-  The length matches the size of the array <em>before</em> the change. I call this a <b>map</b> because it can be used to easily map components to their new indices.
+	I've been calling these arrays <b>maps</b>.
 </p>
 
 <h3>
   Maps
 </h3>
 
-<p class="quote">
-  "What is the new location of the old component?"
+<p>
+	Maps are useful for keeping track of changes <b>from outside the graph</b>. Here's an example:
 </p>
 
 <p>
-  An example of of a map being used is a game of dodge ball where players are vertices and one of the vertices is a team leader. Players are removed after one round. 
+  Imagine a game of dodge ball as a graph, where players are vertices and one of the vertices is a team leader. Players are removed after one round. The last line updates the team leader to its new index.
 </p>
 
   <pre class="code"><code><f>var</f> teamLeader <key>=</key> <n>5</n>;
@@ -683,112 +694,118 @@ teamLeader <key>=</key> changeMap[teamLeader];
 </code></pre>
 
 <p>
-  Or updating multiple components:
+  Updating multiple pointers is also one line of code:
 </p>
 
   <pre class="code"><code>leaders <key>=</key> leaders.<f>map</f>(<arg>i</arg> <f>=&gt;</f> changeMap[i]);</code></pre>
 
+<h3>
+	Types of maps
+</h3>
+
 <p>
-  However, there are two kinds of maps. This type relates the current state to the former, there is also the inverse. Methods that <b>remove</b> are best represented by the former, methods which <b>add</b> prefer the inverse:
+	So far, we've only looked at methods that remove. An example of a method that <em>adds components</em> is the <b>fragment</b> method, in which a single edge can turn into multiple edges. A map to describe this change requires arrays at every index.
+</p>
+
+	<pre class="code"><code>[ [<n>0</n>, <n>1</n>, <n>2</n>], [<n>3</n>, <n>4</n>], [<n>5</n>], [<n>6</n>, <n>7</n>, <n>8</n>, <n>9</n>] ]</code></pre>
+
+<p>
+	Remember a map answers the question,
+</p>
+
+<p class="quote">
+  "What is the new location of the old component?"
+</p>
+
+<p>
+  and fragment converts one edge to multiple edges. However, it is possible to represent the inverse relationship, posing and answering the question:
 </p>
 
 <p class="quote">
   "What is the old location of the new component?"
 </p>
 
+<p>
+	These arrays have a length that matches the geometry <em>after</em> the change, better at representing changes which add entries. This kind of map with the same example above looks like:
+</p>
+
+  <pre class="code"><code>[<n>0</n>, <n>0</n>, <n>0</n>, <n>1</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>3</n>, <n>3</n>, <n>3</n>]</code></pre>
+
+<p>
+	I've been calling this kind of map a <b>backmap</b>; it looks <em>back</em> in the history, it relates the current state to the state before the change. The first kind of map we talked about is a <b>nextmap</b>.
+</p>
+
+<ul>
+	<li><b>nextmap</b>: what is the new index of this old element? the length matches <em>before</em> the change.</li>
+	<li><b>backmap</b>: what is the old index of this new element? the length matches <em>after</em> the change.</li>
+</ul>
+
+<p>
+	All methods in this library, by default, use <b>nextmap</b>.
+</p>
+
 <h3>
-  Adding Components
+	Invert
 </h3>
 
 <p>
-  If we were to represent the map from the <b>fragment</b> method using the same map that remove methods use we would get arrays inside arrays, because one element now exists in many locations.
+  The <b>invert</b> method will convert one nextmap to a backmap, or visa versa.
 </p>
 
-  <pre class="code"><code>[ [0, 1, 2], [3, 4], [5], [6, 7, 8, 9] ]</code></pre>
+  <pre class="code"><code>ear.graph.<f>invert_map</f>([<n>0</n>, [<n>1</n>, <n>4</n>], <n>6</n>])<br> <key>-&gt;</key> [<n>0</n>, <n>1</n>, <n>undefined</n>, <n>1</n>, <n>2</n>]</code></pre>
 
-<p>
-  The inverse map which reflects the old index of the new component looks like:
-</p>
-
-  <pre class="code"><code>[0, 0, 0, 1, 1, 2, 3, 3, 3, 3]</code></pre>
-
-<p>
-  There exists two forms of maps, each one better suited with methods that add and remove.
-</p>
 
 <h3>
   Combining Maps
 </h3>
 
 <p>
-  Maps allow keeping track of motion across multiple transformations on the graph. The simplest is combining similar maps.
+	What makes maps really powerful is the ability to track changes across <em>multiple operations</em> on a graph.
 </p>
 
-  <pre class="code"><code><c>// merge 2 vertices</c><br>[0, 1, 2, 1, 3, 2, 4]<br><c>// merge 2 more</c><br>[0, 1, 1, 0, 2]</code></pre>
+<pre class="code"><code>ear.graph.<f>merge_nextmaps</f>(<key>...</key>maps)</code></pre>
 
 <p>
-  Combining the maps gives you the path for each index from start to finish.
+	If you perform multiple operations on a graph and save each map you can <b>merge</b> the maps to make one map reflecting the entire change from start to finish.
 </p>
 
-  <pre class="code"><code>[0, 1, 1, 1, 0, 1, 2]</code></pre>
+  <pre class="code"><code><c>// start with 7 components</c>
+[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>4</n>, <n>5</n>, <n>6</n>]
+<c>// merge 2 duplicate edges</c>
+[<n>0</n>, <n>1</n>, <n>2</n>, <n>1</n>, <n>3</n>, <n>2</n>, <n>4</n>]
+<c>// fragment, adds 4 edges</c>
+[<n>0</n>, [<n>1</n>, <n>2</n>], <n>3</n>, [<n>4</n>, <n>5</n>, <n>6</n>], [<n>7</n>, <n>8</n>]]
+<c>// merge 2 more edges</c>
+[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>0</n>, <n>4</n>, <n>3</n>, <n>5</n>, <n>6</n>]</code></pre>
 
 <p>
-  The inverse map.
+  The merged map relates each index before the first change to after the final change.
 </p>
 
-  <pre class="code"><code>[0, 1, 6]</code></pre>
+  <pre class="code"><code>[<n>0</n>, [<n>1</n>, <n>2</n>], <n>3</n>, [<n>1</n>, <n>2</n>], [<n>0</n>, <n>4</n>, <n>3</n>], <n>3</n>, [<n>5</n>, <n>6</n>]]</code></pre>
+
+<p>
+	Parameters should be ordered from <em>earliest to most recent</em>, the first change in time should be first.
+</p>
+
+<pre class="code"><code>ear.graph.<f>merge_nextmaps</f>(<arg>first</arg>, <arg>second</arg>, <key>...</key>, <arg>final</arg>)</code></pre>
+
+<!-- <p> -->
+<!-- 	Imagine this in practice, a crease is added to a crease pattern, getting fragmented and partially merged with existing edges, and in the end you have all the indices to change the mountain/valley assignment later. -->
+<!-- </p> -->
 
 <h3>
-  Change Summaries
+	Method responses
 </h3>
-
-  <pre class="code"><code>ear.graph.<f>remove_circular_edges</f>(<arg>graph</arg>)
-ear.graph.<f>remove_duplicate_edges</f>(<arg>graph</arg>)
-ear.graph.<f>remove_isolated_vertices</f>(<arg>graph</arg>)
-ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg>)</code></pre>
-
-<!-- ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>) -->
-
-<p>
-  Any method that modifies the graph will return an object that summarizes the changes. This object includes a map, among other things; isolated and circular removals look something like this:
-</p>
-
-  <pre class="code"><code>{<br>  map: [<n>0</n>, <n>1</n>, <n>2</n>, <n>undefined</n>, <n>3</n>, <n>undefined</n>, <n>4</n>]<br>  remove: [<n>3</n>, <n>5</n>]<br>}</code></pre>
-
-<p>
-  Notice the undefineds match the remove indices. Alternatively, the maps from duplicate removals <b>do not</b> contain undefined:
-</p>
-
-  <pre class="code"><code>[<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>1</n>, <n>4</n>, <n>3</n>, <n>0</n>, <n>5</n>, <n>6</n>]</code></pre>
-
-<p>
-  Vertices or edges that are marked as duplicates are treated as "merged together". The "remove" key makes it a little quicker to discern that indices <b>4, 6, 7</b> were removed.
-</p>
-
-  <pre class="code"><code>{<br>  map: [<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>1</n>, <n>4</n>, <n>3</n>, <n>0</n>, <n>5</n>, <n>6</n>]<br>  remove: [<n>4</n>, <n>6</n>, <n>7</n>]<br>}</code></pre>
-
-<p class="explain">
-  todo: remove collinear vertices
-</p>
-
-  <!-- <pre class="code"><code>ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>)</code></pre> -->
-
-<h3>
-  Adding Geometry
-</h3>
-
-<p>
-  Remember, the vertex-adding method will not add a vertex if it already exists.
-</p>
 
 <p class="quote">
-  Given a square graph with four vertices,
+	Given a square graph with 4 vertices and edges, adding two more vertices...
 </p>
 
   <pre class="code"><code>ear.graph.<f>add_vertices</f>(graph, [[<n>0.5</n>, <n>0.5</n>], [<n>1</n>, <n>1</n>]])</code></pre>
 
 <p class="quote">
-  adding two more vertices...
+  ...only adds one unique vertex to the array...
 </p>
 
 <svg viewBox="-0.2 -0.2 1.4 1.4" stroke-width="0.02" fill="none">
@@ -805,67 +822,109 @@ ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg>)
   </g>
 </svg>
 
-<p class="quote">
-  ...only adds one vertex to the array...
-</p>
-
-  <pre class="code"><code>vertices_coords: [<br>  [<n>0</n>, <n>0</n>], [<n>1</n>, <n>0</n>], [<arg>1</arg>, <arg>1</arg>], [<n>0</n>, <n>1</n>], [<arg>0.5</arg>, <arg>0.5</arg>]<br>]</code></pre>
+	<pre class="code"><code>vertices_coords: [<br>  [<n>0</n>, <n>0</n>], [<n>1</n>, <n>0</n>], [<arg>1</arg>, <arg>1</arg>], [<n>0</n>, <n>1</n>], [<arg>0.5</arg>, <arg>0.5</arg>]<br>]</code></pre>
 
 <p class="quote">
-  ...and returns <b>the map</b>, the indices of the vertices in the new graph...
+	The response object is a nextmap describing the new index of <em>your parameters</em> provided in the method call.
 </p>
 
   <pre class="code"><code>[<n>4</n>, <n>2</n>]</code></pre>
 
 <p class="quote">
-  ...showing how the second parameter <b>[1, 1]</b> already exists at index <b>2</b>.
+	Notice the second parameter already existed at index 2.
 </p>
 
-<h3>
-  Complex Changes
-</h3>
+<!-- ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>) -->
 
-  <pre class="code"><code>{
-  vertices: {
-    new: [],
-    map: [],
-  },
+<p>
+	All methods that modify a graph return a response object that summarizes the changes.
+</p>
+
+<p>
+	These remove methods return an object containing a nextmap and the indices that were removed. The indices in the <b>remove</b> array relate to indices <em>before</em> the change.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>remove_circular_edges</f>(<arg>graph</arg>)
+ear.graph.<f>remove_duplicate_edges</f>(<arg>graph</arg>)
+ear.graph.<f>remove_isolated_vertices</f>(<arg>graph</arg>)
+ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg>)</code></pre>
+
+  <pre class="code"><code>{<br>  map: [<n>0</n>, <n>1</n>, <n>2</n>, <n>3</n>, <n>1</n>, <n>4</n>, <n>3</n>, <n>0</n>, <n>5</n>, <n>6</n>]<br>  remove: [<n>4</n>, <n>6</n>, <n>7</n>]<br>}</code></pre>
+
+<p class="explain">
+  todo: remove collinear vertices
+</p>
+
+<p>
+	These two <b>add</b> methods simply return a nextmap. Adding is generally more simple than removing.
+</p>
+
+	<pre class="code"><code>ear.graph.<f>add_vertices</f>(<arg>graph</arg>, <key>...</key>)
+ear.graph.<f>add_edges</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
+
+  <pre class="code"><code>[<n>4</n>, <n>2</n>]</code></pre>
+
+
+<!-- ear.graph.<f>add_vertices_split_edges</f>(<arg>graph</arg>) -->
+
+<p>
+	Splitting an edge creates one new vertex, removes one edge, and provides one edge nextmap.
+</p>
+
+<pre class="code"><code>ear.graph.<f>split_edge</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
+
+<pre class="code"><code>{
+  vertex: <n>5</n>,
   edges: {
-    new: [],
-    replace: {},
-  },
-  faces: {
-    replace: {},
+    map: [<n>0</n>, <n>1</n>, <n>2</n>, [<n>3</n>, <n>4</n>], <n>5</n>, <n>6</n>],
+    remove: <n>3</n>,
   }
 }</code></pre>
 
 <p>
-  Split_face is one of the more involved isolated changes to the graph, modifying all three geometries.
+	Splitting a face creates two new vertices (or maps to one or two existing), removes one face and contains a nextmap containing two new faces, removes up to two edges, creates one new edge (which splits the face), and provides a nextmap which contains the up to four new edges that were made when splitting edges.
 </p>
 
-<p>
-  If a component was removed it will be under a <b>remove</b> key. However, if a component was removed because of a substitution where one or more components take its place then it will be under a <b>replace</b> key.
-</p>
+<pre class="code"><code>ear.graph.<f>split_face</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
 
-  <pre class="code"><code>ear.graph.<f>split_face</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
-
-<p>
-  An example where one split_face operation is run on a graph:
-</p>
-
-  <pre class="code"><code>{
-  vertices: {
-    new: [<n>5</n>, <n>12</n>],
-    map: [],
+<pre class="code"><code>{
+  vertices: [<n>8</n>, <n>13</n>],
+  faces: {
+    map: [<n>0</n>, [<n>2</n>, <n>3</n>], <n>1</n>],
+    remove: <n>1</n>,
   },
   edges: {
-    new: [],
-    replace: {},
-  },
-  faces: {
-    replace: {},
+    map: [<n>0</n>, <n>1</n>, <n>2</n>, [<n>6</n>, <n>7</n>], <n>3</n>, <n>4</n>, [<n>8</n>, <n>9</n>], <n>5</n>],
+    new: <n>8</n>,
+    remove: [<n>3</n>, <n>6</n>]
   }
 }</code></pre>
+
+<p>
+	Fragment returns a nextmap for edges.
+</p>
+
+<p class="explain">
+	todo: include vertices nextmap
+</p>
+
+	<pre class="code"><code>ear.graph.<f>fragment</f>(<arg>graph</arg>)</code></pre>
+	<pre class="code"><code>{
+  edges: {
+    map: [[<n>0</n>, <n>1</n>], [<n>2</n>, <n>3</n>, <n>4</n>], [<n>5</n>, <n>6</n>, <n>7</n>], [<n>8</n>, <n>9</n>, <n>10</n>, <n>11</n>]]
+  }
+}</code></pre>
+
+<!-- <pre class="code"><code>{ -->
+<!--   vertices: { -->
+<!--     map: [[<n>0</n>], [<n>1</n>], [<n>2</n>], [<n>3</n>], [<n>4</n>], [<n>5</n>], [<n>6</n>], [<n>7</n>]] -->
+<!--   }, -->
+<!--   edges: { -->
+<!--     map: [[<n>0</n>, <n>1</n>], [<n>2</n>, <n>3</n>, <n>4</n>], [<n>5</n>, <n>6</n>, <n>7</n>], [<n>8</n>, <n>9</n>, <n>10</n>, <n>11</n>]] -->
+<!--   } -->
+<!-- }</code></pre> -->
+
+  <!-- <pre class="code"><code>ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>)</code></pre> -->
 
 <p>
   Combining these operations, creasing multiple faces at once, reflecting vertices_coords, is how we are able to simulate folding.

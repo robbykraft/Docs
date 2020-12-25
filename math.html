@@ -72,13 +72,13 @@ ear.use(FoldToSvg);
   <div id="canvas-junction-bisect"></div>
 
 <p>
-  What math will we need to digitally represent origami? Geometry is pretty clearly involved. We also need a good bit of linear algebra. As it turns out, a lot of time is spent calculating intersections of shapes.
+	An origami math library contains a fair bit of geometry and linear algebra, as it turns out a lot of time is spent calculating the intersection of shapes. A lot of these intersections happen to be what other libraries would call edge-cases (collinear polygons and lines) so it should be important to manage the <b>epsilon</b> too.
 </p>
 
   <pre class="code"><code>ear.<f>math</f></code></pre>
 
 <p>
-  The library makes every method accessible under the "math" key. But there are many functions and it might feel overwhelming. It may be easier to first engage with the primitives.
+  Every method discussed here is accessible under the "math" key, except for about 10 object-oriented style primitives, these are at the top-level, and make for good place to begin.
 </p>
 
 <h2 id="vector">
@@ -406,18 +406,6 @@ ear.math.<f>distance</f>(<arg>vec1</arg>, <arg>vec2</arg>)</code></pre>
 
 <p>
   This is an abbreviated list. Check out more in the Appendix.
-</p>
-
-<h2>
-  Links
-</h2>
-
-<p>
-  This stand-alone library is <a href="https://github.com/robbykraft/Math">available here</a>.
-</p>
-
-<p>
-  The source code is <a href="https://github.com/robbykraft/Math">available</a> as well.
 </p>
 
 <script type="text/javascript">

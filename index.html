@@ -64,77 +64,124 @@ ear.use(FoldToSvg);
   Rabbit Ear
 </h1>
 
-  <div id="canvas-graph-flat-fold"></div>
+  <div id="canvas-origami-flat-fold"></div>
 
 <p class="quote">
   grab
 </p>
 
+	<pre class="code"><code><f>var</f> myOrigami <key>=</key> ear.<f>origami</f>()</code></pre>
+
 <p>
   This is a Javascript library for modeling origami.
 </p>
+
+	<div id="canvas-origami-single-vertex"></div>
+
+<p>
+	It can fold a crease pattern.
+</p>
+
+	<div id="canvas-origami-fold-crane"></div>
+
+<p>
+	Design based on rules of origami.
+</p>
+
+	<div id="canvas-origami-twist-fold"></div>
+
+<p>
+	Make Diagrams.
+</p>
+
+<h2>
+	Try it
+</h2>
+
+<p>
+	Check out these docs, this button is located next to all the sketches, click on it to reveal the source code.
+</p>
+ 
+	<div style="text-align:center">
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+		viewBox="-50 -100 740 712"
+		style="width: 80px; height: 80px; padding: 2rem;"
+	white>
+		<rect x="-50" y="-100" width="740" height="712" fill="black"/>
+		<path d="M278.9 511.5l-61-17.7c-6.4-1.8-10-8.5-8.2-14.9L346.2 8.7c1.8-6.4 8.5-10 14.9-8.2l61 17.7c6.4 1.8 10 8.5 8.2 14.9L293.8 503.3c-1.9 6.4-8.5 10.1-14.9 8.2zm-114-112.2l43.5-46.4c4.6-4.9 4.3-12.7-.8-17.2L117 256l90.6-79.7c5.1-4.5 5.5-12.3.8-17.2l-43.5-46.4c-4.5-4.8-12.1-5.1-17-.5L3.8 247.2c-5.1 4.7-5.1 12.8 0 17.5l144.1 135.1c4.9 4.6 12.5 4.4 17-.5zm327.2.6l144.1-135.1c5.1-4.7 5.1-12.8 0-17.5L492.1 112.1c-4.8-4.5-12.4-4.3-17 .5L431.6 159c-4.6 4.9-4.3 12.7.8 17.2L523 256l-90.6 79.7c-5.1 4.5-5.5 12.3-.8 17.2l43.5 46.4c4.5 4.9 12.1 5.1 17 .6z" fill="white"/>
+</svg>
+	</div>
+
+<p>
+	The code opens in the Rabbit Ear editor, start the editor directly:
+</p>
+
+	<div style="text-align:center">
+		<a href="//svg.rabbitear.org/">
+			<div id="button-code-editor" class="button">code.rabbitear.org</div>
+		</a>
+	</div>
+
+<h3>
+	Example Apps
+</h3>
+
+<p>
+	Examples of full web apps build with Rabbit Ear.
+</p>
+
+<ul>
+  <li><a href="//finder.origami.tools/">Reference Finder</a></li>
+  <li><a href="https://convert.rabbitear.org/">File Converter</a></li>
+  <li><a href="https://beta.rabbitear.org/diagram/">Fold and Diagram</a></li>
+</ul>
 
 <h2>
   Download
 </h2>
 
-<p>
-  The library is in <b>pre-release</b>. Download the current version here.
+<p class="explain">
+	This library is in <b>pre-release</b>.
 </p>
 
-  <div class="button">rabbit-ear.js (130kb)</div>
-
 <p>
-  The library is just one file. Link it for use in browsers.
+	The library is one file; download it, link the CDN, or grab it from NPM if you are in Node.
 </p>
 
-  <pre class="code"><code>&lt;<key>script</key> <v>src</v>=<str>"./rabbit-ear.js"</str>&gt;&lt;/<key>script</key>&gt;</code></pre>
+	<div style="text-align:center">
+  	<div class="button">rabbit-ear.js (130kb)</div>
+	</div>
 
-<p>
-  Or, use the library in NodeJS.
-</p>
+  <pre class="code"><code>https://robbykraft.github.io/Origami/rabbit-ear.js</code></pre>
+
   <pre class="code"><code>npm i rabbit-ear</code></pre>
 
-  <pre class="code"><code><f>const</f> ear <key>=</key> <f>require</f>(<str>"rabbit-ear"</str>)</code></pre>
-
-<p class="quote">
-  NodeJS requires one dependency: XMLDom, for SVG rendering.
-</p>
-
 <h3>
-  Try it online
+	Usage
 </h3>
 
-  <div class="button">Live code</div>
+<pre class="code"><code><c>&lt;!-- BROWSER --&gt;</c>
+&lt;!<key>DOCTYPE</key> html&gt;
+&lt;<key>script</key> <v>src</v>=<str>"./rabbit-ear.js"</str>&gt;&lt;/<key>script</key>&gt;
+&lt;<key>script</key>&gt;
+<f>var</f> origami <key>=</key> ear.<f>origami</f>();
+&lt;/<key>script</key>&gt;
+</code></pre>
 
-<p>
-  Or, click on the icon to the right of <b>any sketch</b> you see in the documentation, this will open the code for that sketch.
-</p>
-
-<h2>
-  Overview
-</h2>
-
-  <div id="canvas-graph-flat-fold-cp"></div>
-
-<p>
-  This library can model origami.
-</p>
+<pre class="code"><code><c>// NODE JS</c>
+<f>const</f> ear <key>=</key> <f>require</f>(<str>"rabbit-ear"</str>);
+<f>var</f> origami <key>=</key> ear.<f>origami</f>();
+</code></pre>
 
 <h2>
-  Inside the library
+	Developers
 </h2>
 
 <p>
-  This library is comprised of three smaller libraries: a math library, a graph library, and a library for drawing SVGs.
+	This library is written in ES6 Javascript. <a href="https://github.com/robbykraft/Origami#rabbit-ear">Here</a> is the source code including an overview of it.
 </p>
 
-  <pre class="code"><code>ear.<f>math</f><br>ear.<f>graph</f><br>ear.<f>svg</f></code></pre>
-
-
-<svg viewBox="-0.1 -0.1 1.2 1.2" stroke-width="0.01" fill="none">
-  <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
-</svg>
+	<div id="canvas-straight-skeleton"></div>
 
 <script type="text/javascript">
 const Callbacks = {};
@@ -156,8 +203,11 @@ const loadAndRun = (id, body) => {
 };
 
 [
-  "graph-flat-fold",
-  "graph-flat-fold-cp",
+	"straight-skeleton",
+  "origami-flat-fold",
+	"origami-fold-crane",
+	"origami-single-vertex",
+	"origami-twist-fold",
 ].forEach(function (id) {
   fetch(`../examples/${id}.js`)
     .then(function(body) { return body.text(); })

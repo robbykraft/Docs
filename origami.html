@@ -60,6 +60,26 @@ ear.use(FoldToSvg);
 
 <link rel="stylesheet" href="lib/katex/katex.min.css">
 <script type="text/javascript" src="lib/katex/katex.min.js"></script>
+<style>
+@media (min-width: 2000px) {
+	div[id^=webgl-] { height: 500px; }
+}
+/* large computers */
+@media (min-width: 1600px) {
+	div[id^=webgl-] { height: 500px; }
+}
+/* medium computers */
+@media (max-width: 1000px) {
+  div[id^=webgl-] { height: 500px; }
+}
+/* small computers. basically mobile */
+@media (max-width: 700px) {
+  div[id^=webgl-] { height: 400px; }
+}
+</style>
+
+
+
 
 <h3>
   Chapter IV.
@@ -76,8 +96,45 @@ ear.use(FoldToSvg);
 </p>
 
 <h2>
+	Graphs
+</h2>
+
+<p>
+	This example demonstrates folding an origami using <em>only low-level methods</em>. The graph is simply a Javascript object; see <a href="./graph.html">Chapter II: Graphs</a>.
+</p>
+
+	<div id="canvas-origami-flat-fold-cp"></div>
+
+	<pre class="code"><code><f>var</f> origami <key>=</key> {}</code></pre>
+
+<p>
+	These object-oriented style objects are each tailored to a specific use. The <b>graph</b> is the most general, simply binding graph functions as object methods.
+</p>
+
+	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>graph</f>()</code></pre>
+
+<p>
+	The <b>crease pattern</b> includes additional line/ray/shape drawing methods and maintains the graph is always planar.
+</p>
+
+	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>cp</f>()</code></pre>
+
+<p>
+	The <b>origami</b> object is basically a foldable sheet of paper.
+</p>
+
+	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()</code></pre>
+
+
+<h2>
   Single Vertex
 </h2>
+
+  <div id="webgl-origami-single-vertex"></div>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="single-vertex-3d-slider" min="0" max="1023" value="0"/>
+  </div>
 
 <h3>
   Kawasaki's Theorem
@@ -262,6 +319,9 @@ ear.use(FoldToSvg);
 
   <div id="canvas-origami-miura"></div>
 
+<!-- <script src="./js/three-origami.js"></script> -->
+<script type="module" src="./js/three-single-vertex.js"></script>
+
 <script type="text/javascript">
   katex.render("\\mathbf{m} - \\mathbf{v} = \\pm2", document.querySelector("#maekawa-equation"));
   katex.render("N_{results} \\leq N_{input}", document.querySelector("#equation-input-result"));
@@ -338,6 +398,7 @@ const loadAndRun = (id, body) => {
 };
 
 [ "origami-two-coloring",
+	"origami-flat-fold-cp",
   "origami-axioms",
   "origami-kawasaki",
   "origami-kawasaki-solver",
