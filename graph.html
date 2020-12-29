@@ -7,17 +7,9 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
-<script type="text/javascript" src="../SVG/svg.js"></script>
-<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
-<script>
-SVG.use(FoldToSvg);
-FoldToSvg.use(SVG);
-ear.use(SVG);
-ear.use(FoldToSvg);
-</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<script type="text/javascript" src="/rabbit-ear.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
 <link rel="stylesheet" href="./css/style.css" />
 <link rel="stylesheet" href="./css/code.css" />
@@ -46,9 +38,6 @@ ear.use(FoldToSvg);
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
-          <li class="dropdown">
-            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -57,6 +46,8 @@ ear.use(FoldToSvg);
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
+
+
 
 <h3>
   CHAPTER II.
@@ -313,22 +304,18 @@ faces_edges: [[<n>4</n>,<n>0</n>,<n>1</n>], [<n>3</n>,<n>4</n>,<n>2</n>]]
 faces_faces: [[<n>1</n>], [<n>0</n>]]
 </code></pre>
 
-<p>
-  but the pattern itself doesn't change.
-</p>
-
 <h3>
   Individual Methods
 </h3>
 
 <p>
-  Populate calls a bunch of methods, each of which is also available for you to call individually. Prerequisites for each method vary.
+  <b>Populate</b> calls a bunch of methods, each of which is also available for you to call individually. Prerequisites for each method vary.
 </p>
 
 <pre class="code"><code><f>var</f> array <key>=</key> ear.graph.<f>make_vertices_vertices</f>(<arg>graph</arg>)</code></pre>
 
 <p>
-  These methods <b>do not modify</b> the input graph, they construct and return a new array, it's up to you to assign it to the graph if you wish.
+  Unlike <b>populate</b>, these methods <em>do not modify the input graph</em>; they construct and return a new array, it's up to you to assign it to the graph if you wish.
 </p>
 
 <pre class="code"><code>ear.graph.<f>make_vertices_edges</f>()
@@ -348,7 +335,6 @@ ear.graph.<f>make_edges_foldAngle</f>()
 ear.graph.<f>make_edges_assignment</f>()
 ear.graph.<f>make_edges_vector</f>()
 ear.graph.<f>make_edges_length</f>()
-ear.graph.<f>get_edges_edges_intersections</f>()
 ear.graph.<f>make_edges_collinear_vertices</f>()
 </code></pre>
 
@@ -518,16 +504,16 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 <div class="grid-2">
   <div>
     <div id="canvas-graph-fragment-edges"></div>
-    <p class="quote" id="fragment-edges-label">edge</p>
+    <p class="quote" id="graph-fragment-edges-label">edge</p>
     <div style="margin:auto; width: 75%">
-      <input type="range" id="fragment-edges-slider" min="0" max="1000" value="0"/>
+      <input type="range" id="graph-fragment-edges-slider" min="0" max="1000" value="0"/>
     </div>
   </div>
   <div>
     <div id="canvas-graph-fragment-faces"></div>
-    <p class="quote" id="fragment-faces-label">face</p>
+    <p class="quote" id="graph-fragment-faces-label">face</p>
     <div style="margin:auto; width: 75%">
-      <input type="range" id="fragment-faces-slider" min="0" max="1000" value="0"/>
+      <input type="range" id="graph-fragment-faces-slider" min="0" max="1000" value="0"/>
     </div>
   </div>
 </div>
@@ -540,10 +526,10 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 
   <div id="canvas-graph-fragment-epsilon-collinear"></div>
 
-  <p class="quote" id="fragment-epsilon-collinear-label">epsilon</p>
+  <p class="quote" id="graph-fragment-epsilon-collinear-label">epsilon</p>
 
   <div style="margin:auto; width: 50%">
-    <input type="range" id="fragment-epsilon-collinear-slider" min="0" max="1000" value="0"/>
+    <input type="range" id="graph-fragment-epsilon-collinear-slider" min="0" max="1000" value="0"/>
   </div>
 
 <p class="quote">
@@ -607,6 +593,10 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 <h2>
   Tracking Changes
 </h2>
+
+<p>
+	Imagine adding a crease to a crease pattern but the crease became three edges due to planar overlaps. If you intend to update mountain/valley assignments for example, you need those three indices. This section explains how indices shift and how to keep track of them.
+</p>
 
 <h3>
   Removing Components
@@ -704,7 +694,7 @@ teamLeader <key>=</key> changeMap[teamLeader];
 </h3>
 
 <p>
-	So far, we've only looked at methods that remove. An example of a method that <em>adds components</em> is the <b>fragment</b> method, in which a single edge can turn into multiple edges. A map to describe this change requires arrays at every index.
+	So far, we've only looked at methods that remove. An example of a method that <em>adds components</em> is the <b>fragment</b> method, in which a single edge can turn into multiple edges. A map to describe this change requires an array at every index.
 </p>
 
 	<pre class="code"><code>[ [<n>0</n>, <n>1</n>, <n>2</n>], [<n>3</n>, <n>4</n>], [<n>5</n>], [<n>6</n>, <n>7</n>, <n>8</n>, <n>9</n>] ]</code></pre>
@@ -790,23 +780,9 @@ teamLeader <key>=</key> changeMap[teamLeader];
 
 <pre class="code"><code>ear.graph.<f>merge_nextmaps</f>(<arg>first</arg>, <arg>second</arg>, <key>...</key>, <arg>final</arg>)</code></pre>
 
-<!-- <p> -->
-<!-- 	Imagine this in practice, a crease is added to a crease pattern, getting fragmented and partially merged with existing edges, and in the end you have all the indices to change the mountain/valley assignment later. -->
-<!-- </p> -->
-
 <h3>
 	Method responses
 </h3>
-
-<p class="quote">
-	Given a square graph with 4 vertices and edges, adding two more vertices...
-</p>
-
-  <pre class="code"><code>ear.graph.<f>add_vertices</f>(graph, [[<n>0.5</n>, <n>0.5</n>], [<n>1</n>, <n>1</n>]])</code></pre>
-
-<p class="quote">
-  ...only adds one unique vertex to the array...
-</p>
 
 <svg viewBox="-0.2 -0.2 1.4 1.4" stroke-width="0.02" fill="none">
   <path stroke="black" d="M0,0L1,0L1,1L0,1Z" />
@@ -822,22 +798,32 @@ teamLeader <key>=</key> changeMap[teamLeader];
   </g>
 </svg>
 
-	<pre class="code"><code>vertices_coords: [<br>  [<n>0</n>, <n>0</n>], [<n>1</n>, <n>0</n>], [<arg>1</arg>, <arg>1</arg>], [<n>0</n>, <n>1</n>], [<arg>0.5</arg>, <arg>0.5</arg>]<br>]</code></pre>
-
 <p class="quote">
-	The response object is a nextmap describing the new index of <em>your parameters</em> provided in the method call.
+	Given a square graph with 4 vertices and edges,
 </p>
 
-  <pre class="code"><code>[<n>4</n>, <n>2</n>]</code></pre>
+<p class="quote">
+  attempting to add two vertices results in only one new unique vertex.
+</p>
 
 <p class="quote">
-	Notice the second parameter already existed at index 2.
+	The response object is a map of <em>your parameters</em> from the method call.
 </p>
+
+<p class="quote">
+	Notice the second vertex parameter already existed at index 2.
+</p>
+
+  <pre class="code"><code>ear.<f>add_vertices</f>(graph, [[<n>0.5</n>, <n>0.5</n>], [<n>1</n>, <n>1</n>]])<br><c>// returns</c><br>[<n>4</n>, <n>2</n>]</code></pre>
 
 <!-- ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>) -->
 
 <p>
 	All methods that modify a graph return a response object that summarizes the changes.
+</p>
+
+<p>
+	Each method has a unique summary.
 </p>
 
 <p>
@@ -904,16 +890,17 @@ ear.graph.<f>add_edges</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
 	Fragment returns a nextmap for edges.
 </p>
 
-<p class="explain">
-	todo: include vertices nextmap
-</p>
-
 	<pre class="code"><code>ear.graph.<f>fragment</f>(<arg>graph</arg>)</code></pre>
 	<pre class="code"><code>{
   edges: {
     map: [[<n>0</n>, <n>1</n>], [<n>2</n>, <n>3</n>, <n>4</n>], [<n>5</n>, <n>6</n>, <n>7</n>], [<n>8</n>, <n>9</n>, <n>10</n>, <n>11</n>]]
   }
 }</code></pre>
+
+<p class="explain">
+	todo: include vertices nextmap
+</p>
+
 
 <!-- <pre class="code"><code>{ -->
 <!--   vertices: { -->
@@ -925,10 +912,6 @@ ear.graph.<f>add_edges</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
 <!-- }</code></pre> -->
 
   <!-- <pre class="code"><code>ear.graph.<f>remove_collinear_vertices</f>(<arg>graph</arg>)</code></pre> -->
-
-<p>
-  Combining these operations, creasing multiple faces at once, reflecting vertices_coords, is how we are able to simulate folding.
-</p>
 
 <h2>
   Acknowledgements
@@ -944,52 +927,22 @@ ear.graph.<f>add_edges</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
 <script type="text/javascript" src="js/d3_graph_adjNode.js"></script>
 <script type="text/javascript" src="js/d3_graph_adjEdge.js"></script>
 
+<script type="text/javascript" src="./js/loadExamples.js"></script>
+
 <script type="text/javascript">
-const ExamplesHeader = {};
-const ExamplesFooter = {};
-ExamplesHeader["graph-fragment-edges"] = `
-slider = document.querySelector("#fragment-edges-slider");
-countLabel = document.querySelector("#fragment-edges-label");
-`;
-ExamplesHeader["graph-fragment-faces"] = `
-slider = document.querySelector("#fragment-faces-slider");
-countLabel = document.querySelector("#fragment-faces-label");
-`;
-ExamplesHeader["graph-fragment-epsilon-collinear"] = `
-slider = document.querySelector("#fragment-epsilon-collinear-slider");
-countLabel = document.querySelector("#fragment-epsilon-collinear-label");
-`;
-ExamplesHeader["graph-merge-vertices"] = `
-slider = document.querySelector("#graph-merge-vertices-slider");
-countLabel = document.querySelector("#graph-merge-vertices-label");
-`;
-</script>
-
-<script>
-const Callbacks = {};
-
-const loadAndRun = (id, body) => {
-  const headText = ExamplesHeader[id] ? ExamplesHeader[id] : "";
-  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\n${headText}\nvar callback = Callbacks["${id}"];\n`;
-  const foot = ExamplesFooter[id]
-    ? `\n${ExamplesFooter[id]}\n});\n`
-    : `\n});\n`;
-  const script = document.createElement("script");
-  script.innerHTML = `${head}${body}${foot}`;
-  document.body.appendChild(script);
-  const node = document.querySelector(`#canvas-${id}`);
-  if (!node) { return; }
-  const scriptLink = document.createElement("div");
-  scriptLink.className = "script-link";
-  scriptLink.onclick = function (e) {
-    e.preventDefault();
-    window.location.href = `/examples/?example=${id}`;
-  }
-  // node.parentNode.insertBefore(scriptLink, node.nextSibling);
-  node.appendChild(scriptLink);
+const options = {
+	header: {}
 };
 
-[
+["graph-fragment-edges",
+	"graph-fragment-faces",
+	"graph-fragment-epsilon-collinear",
+	"graph-merge-vertices",
+].forEach(function(key) {
+	options.header[key] = 'slider = document.querySelector("#' + key + '-slider");\ncountLabel = document.querySelector("#' + key + '-label");\n';
+});
+
+loadExamples([
   "graph-nearest-components",
   "graph-add-vertices",
   "graph-split-edge",
@@ -1004,11 +957,7 @@ const loadAndRun = (id, body) => {
   "graph-fragment-edges",
   "graph-fragment-faces",
   "graph-fragment-epsilon-collinear",
-].forEach(function (id) {
-  fetch(`../examples/${id}.js`)
-    .then(function(body) { return body.text(); })
-    .then(function(text) { return loadAndRun(id, text); });
-});
+], options);
 </script>
 
 

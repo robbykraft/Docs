@@ -7,17 +7,9 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
-<script type="text/javascript" src="../SVG/svg.js"></script>
-<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
-<script>
-SVG.use(FoldToSvg);
-FoldToSvg.use(SVG);
-ear.use(SVG);
-ear.use(FoldToSvg);
-</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<script type="text/javascript" src="/rabbit-ear.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
 <link rel="stylesheet" href="./css/style.css" />
 <link rel="stylesheet" href="./css/code.css" />
@@ -46,9 +38,6 @@ ear.use(FoldToSvg);
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
-          <li class="dropdown">
-            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -60,6 +49,7 @@ ear.use(FoldToSvg);
 
 <link rel="stylesheet" href="lib/katex/katex.min.css">
 <script type="text/javascript" src="lib/katex/katex.min.js"></script>
+
 <style>
 @media (min-width: 2000px) {
 	div[id^=webgl-] { height: 500px; }
@@ -77,8 +67,6 @@ ear.use(FoldToSvg);
   div[id^=webgl-] { height: 400px; }
 }
 </style>
-
-
 
 
 <h3>
@@ -120,11 +108,10 @@ ear.use(FoldToSvg);
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>cp</f>()</code></pre>
 
 <p>
-	The <b>origami</b> object is basically a foldable sheet of paper.
+	The <b>origami</b> object is basically a foldable sheet of paper, it starts with a square boundary.
 </p>
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()</code></pre>
-
 
 <h2>
   Single Vertex
@@ -242,13 +229,13 @@ ear.use(FoldToSvg);
 </h3>
 
 <p>
-  The homepage sketch demonstrates all operations at once.
+  This sketch demonstrates all operations at once.
 </p>
 
   <div id="canvas-origami-single-vertex"></div>
 
 <p>
-  The angle of the fourth crease is calculated by Kawasaki, the assignments are determined by Maekawa and by checking for self-intersection, which also solves the layer order for the folded state.
+  The angle of the fourth crease (bottom-left) is calculated by Kawasaki, the assignments are determined by Maekawa and by checking for self-intersection, which also solves the layer order for the folded state.
 </p>
 
   <pre class="code"><code>ear.math.<f>kawasaki_solutions</f>()<br>ear.graph.<f>layer_solver</f>()<br>ear.graph.<f>assignment_solver</f>()</code></pre>
@@ -323,40 +310,43 @@ ear.use(FoldToSvg);
 <script type="module" src="./js/three-single-vertex.js"></script>
 
 <script type="text/javascript">
-  katex.render("\\mathbf{m} - \\mathbf{v} = \\pm2", document.querySelector("#maekawa-equation"));
-  katex.render("N_{results} \\leq N_{input}", document.querySelector("#equation-input-result"));
+katex.render(
+	"\\mathbf{m} - \\mathbf{v} = \\pm2",
+	document.querySelector("#maekawa-equation")
+);
+katex.render(
+	"N_{results} \\leq N_{input}",
+	document.querySelector("#equation-input-result")
+);
 </script>
 
-<script type="text/javascript">
-const Callbacks = {};
-Callbacks["origami-kawasaki"] = (e) => {
-  if (e == undefined) { return; }
-  const colors = e.isFlatFoldable
-    ? ["yellow", "yellow"]
-    : ["red", "blue"];
-  const func = e.kawasaki[0] < e.kawasaki[1]
-    ? [Math.ceil, Math.floor]
-    : [Math.floor, Math.ceil];
-  document.querySelector("#origami-kawasaki-result").innerHTML = `<b><${colors[0]}>${func[0](e.kawasaki[0] * 360)}&deg;</${colors[0]}> & <${colors[1]}>${func[1](e.kawasaki[1] * 360)}&deg;</${colors[1]}></b>`;
-};
-Callbacks["origami-kawasaki-solver"] = (e) => {
-  if (e.slider === undefined) {
-    e.slider = document.querySelector("#kawasaki-solver-slider");
-  }
-}
-</script>
+<script type="text/javascript" src="./js/loadExamples.js"></script>
 
 <script type="text/javascript">
-const ExamplesHeader = {};
-const ExamplesFooter = {};
-ExamplesHeader["origami-kawasaki-solver"] = `
+var options = {
+	callback: {
+		"origami-kawasaki": (e) => {
+  		if (e == undefined) { return; }
+  		const colors = e.isFlatFoldable
+  		  ? ["yellow", "yellow"]
+  		  : ["red", "blue"];
+  		const func = e.kawasaki[0] < e.kawasaki[1]
+  		  ? [Math.ceil, Math.floor]
+  		  : [Math.floor, Math.ceil];
+  		document.querySelector("#origami-kawasaki-result").innerHTML = `<b><${colors[0]}>${func[0](e.kawasaki[0] * 360)}&deg;</${colors[0]}> & <${colors[1]}>${func[1](e.kawasaki[1] * 360)}&deg;</${colors[1]}></b>`;
+		},
+		"origami-kawasaki-solver": (e) => {
+  		if (e.slider === undefined) {
+  		  e.slider = document.querySelector("#kawasaki-solver-slider");
+  		}
+		}
+	},
+	header: {
+		"origami-kawasaki-solver": `
 slider = document.querySelector("#kawasaki-solver-slider");
 countLabel = document.querySelector("#kawasaki-solver-label");
-`;
-</script>
-
-<script>
-ExamplesHeader["origami-axioms"] = `
+`,
+		"origami-axioms": `
 document.querySelectorAll("[id^=button-axiom]").forEach(el => {
   el.onclick = (e) => {
     document.querySelectorAll("[id^=button-axiom]")
@@ -374,47 +364,25 @@ document.querySelectorAll("[id^=button-axiom]").forEach(el => {
     }
   }
 });
-`;
-</script>
-
-<script type="text/javascript">
-const loadAndRun = (id, body) => {
-  const headText = ExamplesHeader[id] ? ExamplesHeader[id] : "";
-  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\n${headText}\nvar callback = Callbacks["${id}"];\n`;
-  const foot = ExamplesFooter[id]
-    ? `\n${ExamplesFooter[id]}\n});\n`
-    : `\n});\n`;
-  const script = document.createElement("script");
-  script.innerHTML = `${head}${body}${foot}`;
-  document.body.appendChild(script);
-  const node = document.querySelector(`#canvas-${id}`);
-  const scriptLink = document.createElement("div");
-  scriptLink.className = "script-link";
-  scriptLink.onclick = function (e) {
-    e.preventDefault();
-    window.location.href = `/examples/?example=${id}`;
-  }
-  node.appendChild(scriptLink);
+`,
+	}
 };
 
-[ "origami-two-coloring",
+loadExamples([
+  "origami-two-coloring",
 	"origami-flat-fold-cp",
   "origami-axioms",
   "origami-kawasaki",
   "origami-kawasaki-solver",
   "origami-layer-solver",
   "origami-assignment-solver",
-  "origami-kawasaki-solver-layers",
+//  "origami-kawasaki-solver-layers",
   "origami-twist",
   "origami-single-vertex",
   "origami-single-vertex-layers-topview",
   "origami-miura",
-  "line-bisect",
-].forEach(function (id) {
-  fetch(`../examples/${id}.js`)
-    .then(function(body) { return body.text(); })
-    .then(function(text) { return loadAndRun(id, text); });
-});
+//  "line-bisect",
+], options);
 </script>
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->

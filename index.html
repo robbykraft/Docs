@@ -7,17 +7,9 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
-<script type="text/javascript" src="../SVG/svg.js"></script>
-<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
-<script>
-SVG.use(FoldToSvg);
-FoldToSvg.use(SVG);
-ear.use(SVG);
-ear.use(FoldToSvg);
-</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<script type="text/javascript" src="/rabbit-ear.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
 <link rel="stylesheet" href="./css/style.css" />
 <link rel="stylesheet" href="./css/code.css" />
@@ -46,9 +38,6 @@ ear.use(FoldToSvg);
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
-          <li class="dropdown">
-            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -57,6 +46,7 @@ ear.use(FoldToSvg);
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
+
 
 <h3></h3>
 
@@ -99,7 +89,7 @@ ear.use(FoldToSvg);
 </h2>
 
 <p>
-	Check out these docs, this button is located next to all the sketches, click on it to reveal the source code.
+	A great way to learn is to look for this button located next to all the sketches in these docs, click on it to reveal the source code.
 </p>
  
 	<div style="text-align:center">
@@ -118,7 +108,7 @@ ear.use(FoldToSvg);
 
 	<div style="text-align:center">
 		<a href="//svg.rabbitear.org/">
-			<div id="button-code-editor" class="button">code.rabbitear.org</div>
+			<div id="button-code-editor" class="button">svg.rabbitear.org</div>
 		</a>
 	</div>
 
@@ -132,8 +122,8 @@ ear.use(FoldToSvg);
 
 <ul>
   <li><a href="//finder.origami.tools/">Reference Finder</a></li>
-  <li><a href="https://convert.rabbitear.org/">File Converter</a></li>
-  <li><a href="https://beta.rabbitear.org/diagram/">Fold and Diagram</a></li>
+  <li><a href="//convert.rabbitear.org/">FOLD File Converter</a></li>
+  <li><a href="//beta.rabbitear.org/diagram/">Fold and Diagram</a></li>
 </ul>
 
 <h2>
@@ -145,16 +135,16 @@ ear.use(FoldToSvg);
 </p>
 
 <p>
-	The library is one file; download it, link the CDN, or grab it from NPM if you are in Node.
+	The library is one file; link the CDN, grab it from NPM if you are in Node, or download the latest release.
 </p>
-
-	<div style="text-align:center">
-  	<div class="button">rabbit-ear.js (130kb)</div>
-	</div>
 
   <pre class="code"><code>https://robbykraft.github.io/Origami/rabbit-ear.js</code></pre>
 
   <pre class="code"><code>npm i rabbit-ear</code></pre>
+
+	<div style="text-align:center">
+  	<div class="button">rabbit-ear.js (130kb)</div>
+	</div>
 
 <h3>
 	Usage
@@ -178,41 +168,21 @@ ear.use(FoldToSvg);
 </h2>
 
 <p>
-	This library is written in ES6 Javascript. <a href="https://github.com/robbykraft/Origami#rabbit-ear">Here</a> is the source code including an overview of it.
+	This library is written in ES6 Javascript. The source code is <a href="https://github.com/robbykraft/Origami#rabbit-ear">on Github</a>.
 </p>
 
 	<div id="canvas-straight-skeleton"></div>
 
+<script type="text/javascript" src="./js/loadExamples.js"></script>
+
 <script type="text/javascript">
-const Callbacks = {};
-
-const loadAndRun = (id, body) => {
-  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\nvar callback = Callbacks["${id}"];\n`;
-  const foot = `\n});\n`;
-  const script = document.createElement("script");
-  script.innerHTML = `${head}${body}${foot}`;
-  document.body.appendChild(script);
-  const node = document.querySelector(`#canvas-${id}`);
-  const scriptLink = document.createElement("div");
-  scriptLink.className = "script-link";
-  scriptLink.onclick = function (e) {
-    e.preventDefault();
-    window.location.href = `/examples/?example=${id}`;
-  }
-  node.appendChild(scriptLink);
-};
-
-[
+loadExamples([
 	"straight-skeleton",
   "origami-flat-fold",
 	"origami-fold-crane",
 	"origami-single-vertex",
 	"origami-twist-fold",
-].forEach(function (id) {
-  fetch(`../examples/${id}.js`)
-    .then(function(body) { return body.text(); })
-    .then(function(text) { return loadAndRun(id, text); });
-});
+]);
 </script>
 
 <!-- START OF FOOTER -->

@@ -7,17 +7,9 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="../Origami/rabbit-ear.js"></script>
-<script type="text/javascript" src="../SVG/svg.js"></script>
-<script type="text/javascript" src="../fold-to-svg/fold-to-svg.js"></script>
-<script>
-SVG.use(FoldToSvg);
-FoldToSvg.use(SVG);
-ear.use(SVG);
-ear.use(FoldToSvg);
-</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500,700">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700">
+<script type="text/javascript" src="/rabbit-ear.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
 <link rel="stylesheet" href="./css/style.css" />
 <link rel="stylesheet" href="./css/code.css" />
@@ -46,9 +38,6 @@ ear.use(FoldToSvg);
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
-          <li class="dropdown">
-            <a href="/docs/appendix.html" class="dropbtn">APPENDIX</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -72,13 +61,13 @@ ear.use(FoldToSvg);
   <div id="canvas-junction-bisect"></div>
 
 <p>
-	An origami math library contains a fair bit of geometry and linear algebra, as it turns out a lot of time is spent calculating the intersection of shapes. A lot of these intersections happen to be what other libraries would call edge-cases (collinear polygons and lines) so it should be important to manage the <b>epsilon</b> too.
+	An origami math library contains a fair bit of geometry and linear algebra, as it turns out a lot of time is spent calculating the intersection of shapes. A lot of these intersections are edge-cases (collinear, parallel) so we should have decent control over the epsilon.
 </p>
 
   <pre class="code"><code>ear.<f>math</f></code></pre>
 
 <p>
-  Every method discussed here is accessible under the "math" key, except for about 10 object-oriented style primitives, these are at the top-level, and make for good place to begin.
+  Every method discussed here is found under the "math" key except for about 10 object-oriented style primitives, these are at the top-level; let's begin with a few of these.
 </p>
 
 <h2 id="vector">
@@ -88,7 +77,7 @@ ear.use(FoldToSvg);
   <pre class="code"><code>ear.<f>vector</f></code></pre>
 
 <p>
-  These two primitives are so similar they use the same type: "vector". They can be any dimension with some methods specifically for 2D and 3D.
+  Vectors can be any dimension with some methods that treat them like vectors, some like points, and some specifically for 2D and 3D.
 </p>
 
 <p class="explain">
@@ -189,7 +178,7 @@ ear.use(FoldToSvg);
   Lines, Rays, Segments
 </h2>
 
-  <div id="canvas-line-ray-edge-intersection"></div>
+  <div id="canvas-intersect-line-ray-segment"></div>
 
 <p>
   <b class="color-yellow">lines</b> extend infinitely in both directions
@@ -218,16 +207,69 @@ ear.use(FoldToSvg);
   <pre class="code"><code>ear.line.<f>fromPoints</f>(<span id="lrs-line"></span>)<br>ear.ray.<f>fromPoints</f>(<span id="lrs-ray"></span>)<br>ear.<f>segment</f>(<span id="lrs-segment"></span>)</code></pre>
 
 <p class="explain">
-  Notice how when parameters call for two points, lists of numbers are separated using arrays.
+  When a method requires more than one point, points are grouped using arrays.
 </p>
 
   <div id="canvas-line-nearest-point"></div>
 
+  <pre class="code"><code><f>var</f> point <key>=</key> segment.<f>nearestPoint</f>(<span id="nearest-point-mouse"></span>)</code></pre>
+
+<h2>
+  Polygons
+</h2>
+
 <p>
-  Methods like <b>nearest point</b> consider differences between line types, in this case, it will not give a point beyond the endpoints of rays and segments.
+  Polygons are created from an ordered set of <b>points</b> which define the boundary. It's possible to create non-convex and self-intersecting polygons. 
 </p>
 
-  <pre class="code"><code><f>var</f> point <key>=</key> segment.<f>nearestPoint</f>(<span id="nearest-point-mouse"></span>)</code></pre>
+  <pre class="code"><code>ear.<f>polygon</f>(<arg>points</arg>)</code></pre>
+
+<p class="explain">
+	Many of the methods in this library are built for convex polygons.
+</p>
+
+<h3>
+	Convex Polygon
+</h3>
+
+  <div id="canvas-polygon-convex-hull"></div>
+
+  <pre class="code"><code>ear.polygon.<f>convexHull</f>(<key>...</key><arg>points</arg>)</code></pre>
+
+<p>
+	<b>Convex hull</b> is a static initializer that will also fix any winding issues in an ordered set of points.
+</p>
+
+  <div id="canvas-polygon-straight-skeleton"></div>
+
+  <pre class="code"><code>polygon.<f>straightSkeleton</f>()</code></pre>
+  <pre class="code"><code>ear.math.<f>straight_skeleton</f>(<arg>points</arg>)</code></pre>
+
+<p>
+  The <b>straight skeleton</b> is an operation on a polygon that creates a flat-foldable crease pattern, and when folded, the boundary becomes collinear.
+</p>
+
+<h3>
+	Rect
+</h3>
+
+  <pre class="code"><code>ear.<f>rect</f>(<arg>width</arg>, <arg>height</arg>)<br>ear.<f>rect</f>(<arg>x</arg>, <arg>y</arg>, <arg>width</arg>, <arg>height</arg>)</code></pre>
+
+<h3>
+  Circle
+</h3>
+
+  <div id="canvas-circle-packing"></div>
+
+  <pre class="code"><code>ear.<f>circle</f>(<arg>radius</arg>)<br>ear.<f>circle</f>(<arg>x</arg>, <arg>y</arg>, <arg>radius</arg>)<br>ear.<f>circle</f>(<arg>origin</arg>, <arg>radius</arg>)</code></pre>
+
+<!-- <p> -->
+<!--   A preliminary step in uniaxial-base origami design is circle-packing. -->
+<!-- </p> -->
+
+<p class="explain">
+  Remember, objects are immutable. If you call a object's method expecting a change, check the return value for a new modified object.
+</p>
 
 <h2>
   Intersections
@@ -238,11 +280,15 @@ ear.use(FoldToSvg);
 </h3>
 
 <p>
-  Because geometric comparisons are made on floating point numbers, an <b>epsilon</b> is always involved. For example, both 0.0000001 and -0.0000001 should be equivalent to 0 so we mark the area around 0 by subtracting and adding a tiny amount.
+	The <b>epsilon</b> is the small number used to decide whether floating point numbers are <em>equal</em>.
+</p>
+
+<p>
+	This library intends to be useful at <em>any</em> scale; the sketches here demonstrate this. The epsilons on this page have been increased so large to the point of being visible.
 </p>
 
 <p class="explain">
-  All intersection methods allow you to specify a custom epsilon; the default value is <b>1e-6</b>.
+  When a method uses an epsilon, the final parameter is the optional epsilon parameter, with a default value of <b>1e-6</b>.
 </p>
 
 <h3>
@@ -251,162 +297,280 @@ ear.use(FoldToSvg);
 
   <div id="canvas-collinear-point"></div>
 
+	<pre class="code"><code>ear.math.<f>point_on_</f>{<str>line/ray/segment</str>}<f>_</f>{<str>inclusive/exclusive</str>}</code></pre>
+
 <p class="quote">
   Is a point collinear to a line (line, ray, segment)?
 </p>
 
 <p>
-  Endpoints can be treated as <b>inclusive</b> or <b>exclusive</b>, which includes or excludes their endpoints, and applies to rays and segments but not lines.
+  Endpoints can be treated as <b>inclusive</b> or <b>exclusive</b>, which includes or excludes the area around their endpoints, valid for rays and segments but not lines.
 </p>
 
   <div id="canvas-point-in-poly"></div>
+
+	<pre class="code"><code>ear.math.<f>point_in_convex_poly_inclusive</f>(<arg>point</arg>, <arg>poly</arg>)<br>ear.math.<f>point_in_convex_poly_exclusive</f>(<arg>point</arg>, <arg>poly</arg>)</code></pre>
 
 <p>
   Inclusive and exclusive methods on polygons treat the boundary outset or inset respectively.
 </p>
 
-<h3>
-  Overlap and Intersections
-</h3>
-
-  <div id="canvas-segment-segment-intersect"></div>
-
-<p>
-  Lines can be tested for overlap, and inclusive or exclusive endpoints effectively extend or shrink the lines by the epsilon.
-</p>
-
-  <div id="canvas-polygon-segment"></div>
-
-  <div id="canvas-circle-segment"></div>
-
-  <pre class="code"><code><span id="clip-line-result"></span>poly.<f>clipline</f>(line)</code></pre>
-  <pre class="code"><code><span id="clip-line-result"></span>circle.<f>clipline</f>(line)</code></pre>
-
-<p>
-  Intersections between lines and convex shapes results in 0, 1, or 2 points.
+<p class="explain">
+	Unlike other geometry-heavy fields, like game development, origami designs are filled with symmetry and collinearity. For example, being able to exclude an edge that lies along a polygon's edge is necessary; handling epsilons with great care is how this library achieves this.
 </p>
 
 <h3>
-  Split
+  Overlap, Intersections, and Clipping
 </h3>
 
-  <div id="canvas-polygon-segment-exclusive"></div>
+<ul>
+	<li><b>overlap</b> returns true or false</li>
+	<li><b>intersect</b> returns points, or undefined if no intersection</li>
+	<li><b>clip</b> returns segments, or undefined if no intersection</li>
+</ul>
+
+<p class="quote">
+	Inclusive and exclusive overlap
+</p>
+
+  <div id="canvas-overlap-segment-segment"></div>
+
+<p>
+	Overlap methods are just intersection methods that return a boolean instead of a point. In some cases this calculation is faster.
+</p>
+
+	<pre class="code"><code>ear.math.<f>overlap_line_ray_inclusive</f>(<arg>vectorA</arg>, <arg>originA</arg>, <arg>vectorB</arg>, <arg>originB</arg>)
+ear.math.<f>overlap_ray_segment_exclusive</f>(<arg>vector</arg>, <arg>origin</arg>, <arg>segA1</arg>, <arg>segA2</arg>)
+ear.math.<f>overlap_segment_segment_exclusive</f>(<arg>a1</arg>, <arg>a2</arg>, <arg>b1</arg>, <arg>b2</arg>)</code></pre>
+
+<p class="quote">
+	Not a complete list
+</p>
+
+<p>
+	Any combination of line/ray/segment followed by either "inclusive" or "exclusive"; there are 12 methods. Each of these is really just a wrapper around the overlap algorithm, which you can call directly:
+</p>
+
+<p class="quote">
+	The overlap algorithm
+</p>
+
+	<pre class="code"><code>ear.math.<f>overlap_lines</f>(<arg>aVector</arg>, <arg>aOrigin</arg>, <arg>bVector</arg>, <arg>bOrigin</arg>, <arg>compA</arg>, <arg>compB</arg>)</code></pre>
+
+<p>
+	To call this method you need to convert segments into vector-origin form, and provide two comparison functions. This gives you the freedom to compare one inclusive against an one exclusive.
+</p>
+
+<div class="grid-2">
+	<div>
+		<pre class="code"><code>ear.math.exclude_l<br>ear.math.exclude_r<br>ear.math.exclude_s</code></pre>
+	</div>
+	<div>
+		<pre class="code"><code>ear.math.include_l<br>ear.math.include_r<br>ear.math.include_s</code></pre>
+	</div>
+</div>
+
+<p class="quote">
+	The inclusive and exclusive comparison functions for lines, rays, or segments.
+</p>
+
+	<div id="canvas-overlap-polygon-polygon"></div>
+
+	<pre class="code"><code>polygon1.<f>overlaps</f>(polygon2)</code></pre>
+
+<h3>
+Intersect
+</h3>
+
+<pre class="code"><code>ear.<f>intersect</f>(<arg>a</arg>, <arg>b</arg>)</code></pre>
+
+<p>
+	The <b>intersect</b> function will accept most combinations of pairs of primitives, like lines, circles, polygons; this is the most accessible interface to intersections.
+</p>
+
+  <div id="canvas-intersect-polygon-segment"></div>
+
+  <div id="canvas-intersect-circle-segment"></div>
+
+  <pre class="code"><code>polygon.<f>intersect</f>(segment)<br>circle.<f>intersect</f>(segment)</code></pre>
+
+<p>
+	The function also exists as a method property on objects. This interface treats intersections as <b>exclusive</b>. For the other options see below.
+</p>
+
+	<div id="canvas-intersect-circle-circle"></div>
+
+	<pre class="code"><code>circle1.<f>intersect</f>(circle2)</code></pre>
+
+<p>
+	Again, this method is calling other methods under the hood. These are available to you as well.
+</p>
+
+<pre class="code"><code><c>// polygon</c>
+convex_poly_line_exclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
+convex_poly_line_inclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
+convex_poly_ray_exclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
+convex_poly_ray_inclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
+convex_poly_segment_exclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
+convex_poly_segment_inclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
+<c>// circle</c>
+circle_circle(<arg>circleA</arg>, <arg>circleB</arg>)
+circle_line(<arg>circle</arg>, <arg>line</arg>)
+circle_ray(<arg>circle</arg>, <arg>ray</arg>)
+circle_segment(<arg>circle</arg>, <arg>segment</arg>)
+<c>// lines</c>
+intersect_line_seg_exclude(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
+intersect_line_seg_include(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
+intersect_ray_seg_exclude(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
+intersect_ray_seg_include(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
+intersect_seg_seg_exclude(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</arg>)
+intersect_seg_seg_include(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</arg>)</code></pre>
+
+<p>
+	Even <em>further</em> under the hood are the actual intersect algorithms. Just like overlap, these require you pass in line/ray/segment comparison functions.
+</p>
+
+<pre class="code"><code>ear.math.<f>intersect_lines</f>(<arg>aVector</arg>, <arg>aOrigin</arg>, <arg>bVector</arg>, <arg>bOrigin</arg>, <arg>compA</arg>, <arg>compB</arg>)</code></pre>
+
+<pre class="code"><code>ear.math.<f>intersect_circle_line</f>(<arg>circleRadius</arg>, <arg>circleOrigin</arg>, <arg>vector</arg>, <arg>origin</arg>, <arg>comparisonFunc</arg>)</code></pre>
+
+<p class="quote">
+	The line-line and circle-line intersect algorithms
+</p>
+
+<p>
+  Intersections involving convex polygons results in 0, 1, or 2 points, they return <b>an array of points</b>.
+</p>
+
+<p>
+	Intersections limited to <em>lines only</em> result in 0 or 1 point, they <b>do not</b> return an array, just a point or undefined.
+</p>
+
+<h3>
+	Clip
+</h3>
+
+  <div id="canvas-clip-polygon-line-ray-segment"></div>
 
 <p>
   Splitting a line by a convex polygon will result in a smaller segment.
 </p>
 
+  <pre class="code"><code><span id="clip-line-result"></span>poly.<f>clipLine</f>(<arg>line</arg>)<br>poly.<f>clipRay</f>(<arg>ray</arg>)<br>poly.<f>clipSegment</f>(<arg>segment</arg>)</code></pre>
+
 <h2>
   Angles and Winding-order
 </h2>
+
+	<div id="canvas-radial-between"></div>
+
+  <pre class="code"><code>ear.math.<f>is_counter_clockwise_between</f>(<arg>circle</arg>, <arg>angle1</arg>, <arg>angle2</arg>)</code></pre>
 
 <p>
   The space between two vectors creates two interior angles. It's important to distinguish between vectors <b>a</b> and <b>b</b> the <b>clockwise</b> or the <b>counter-clockwise</b> interior angle.
 </p>
 
-<p>
-  Kawasaki's theorem, a fundamental measurement of flat-foldability, relies on the measurement of angles.
+<p class="quote">
+	Get the interior angle between two radians/vectors.
 </p>
 
-  <div id="canvas-sector-bisect"></div>
-
-  <pre class="code"><code><f>bisect</f>(<arg>vec1</arg>, <arg>vec2</arg>)</code></pre>
-
-  <pre class="code"><code>ear.math.bisect_</code></pre>
+  <pre class="code"><code>ear.math.<f>clockwise_angle_radians</f>(<arg>angle1</arg>, <arg>angle2</arg>)
+ear.math.<f>counter_clockwise_angle_radians</f>(<arg>angle1</arg>, <arg>angle2</arg>)
+ear.math.<f>clockwise_angle2</f>(<arg>vector1</arg>, <arg>vector2</arg>)
+ear.math.<f>counter_clockwise_angle2</f>(<arg>vector1</arg>, <arg>vector2</arg>)</code></pre>
 
 <p>
-  Bisecting an angle between two vectors results in the obvious bisection of the smaller interior angle, but equally relevant is the bisected larger angle. It becomes important to be able to orient and sort components radially.
+	When operating on angles, these methods seamlessly wrap around from 2π to 0 and include negative radians as similar to their positive counterparts.
 </p>
 
-  <pre class="code"><code>ear.math.<f>is_counter_clockwise_between</f>(angle, angleA, angleB)
-ear.math.<f>clockwise_angle_radians</f>(a, b)
-ear.math.<f>counter_clockwise_angle_radians</f>(a, b)
-ear.math.<f>clockwise_angle2</f>(a, b)
-ear.math.<f>counter_clockwise_angle2</f>(a, b)
-ear.math.<f>clockwise_bisect2</f>(a, b)
-ear.math.<f>counter_clockwise_bisect2</f>(a, b)
-ear.math.<f>counter_clockwise_vector_order</f>(...vectors)
-ear.math.<f>interior_angles2</f>(a, b)
-ear.math.<f>interior_angles</f>(...vecs) => vecs
-ear.math.<f>bisect_vectors</f>(a, b)
-ear.math.<f>bisect_lines2</f>(vectorA, pointA, vectorB, pointB)
-ear.math.<f>subsect_radians</f>(divisions, angleA, angleB)
-ear.math.<f>subsect</f>(divisions, vectorA, vectorB)</code></pre>
+<h3>
+	Sorting
+</h3>
+
+	<div id="canvas-radial-order"></div>
+
+<!-- <p class="quote"> -->
+<!-- 	shortest to longest -->
+<!-- </p> -->
+
+	<pre class="code"><code><span id="radial-order-result"></span></code></pre>
+
+	<pre class="code"><code>ear.math.<f>counter_clockwise_vector_order</f>(<key>...</key><arg>vectors</arg>)<br>ear.math.<f>counter_clockwise_radians_order</f>(<key>...</key><arg>angles_in_radians</arg>)<br></code></pre>
 
 <p>
-  Under this system it should be easy to bisect a line if you consider their intersection the origin of two vectors; and the special case of parallel lines, return a parallel line directly between the two.
-</p>
-
-<h2>
-  Polygons
-</h2>
-
-  <div id="canvas-straight-skeleton"></div>
-
-  <pre class="code"><code>ear.math.<f>straight_skeleton</f>(points)</code></pre>
-
-<p>
-  The <b>straight skeleton</b> is an operation on a polygon that creates a flat-foldable crease pattern, and when folded, the boundary becomes collinear.
+	Sort an array of vectors or angles, but return the result as an array of indices instead of modifying the array.
 </p>
 
 <p class="explain">
-  Right now the straight skeleton only works on convex polygons.
+	The first argument serves as the "origin" angle that other vectors are sorted around". Index 0 will always be 0.
 </p>
-
-  <div id="canvas-convex-hull"></div>
-
-  <pre class="code"><code>ear.<f>polygon</f>(points)</code></pre>
 
 <p>
-  Polygons are created from an ordered set of <b>points</b> which define the boundary. There are many 
+	Sorting is required for such simple things as measuring the interior angles between <em>consecutive</em> vectors.
 </p>
 
-  <pre class="code"><code><f>var</f> polygon <key>=</key> ear.polygon.<f>convexHull</f>(pointA, pointB, ...)</code></pre>
-
-<h2>
-  Circle
-</h2>
-
-  <div id="canvas-circle-packing"></div>
+	<div id="canvas-radial-sectors"></div>
 
 <p>
-  A preliminary step in uniaxial-base origami design is circle-packing.
+	The red line is the first in the vector array; you can tell the algorithm sorts around it as the sector colors shift more when it is moved.
 </p>
 
-  <div class="diptych">
-    <div id="canvas-clip-line"></div>
-    <div id="canvas-clip-segment"></div>
-  </div>
+<h3>
+	Bisect
+</h3>
 
-  <pre class="code"><code>ear.<f>circle</f>(<arg>x</arg>, <arg>y</arg>, <arg>radius</arg>)<br>ear.<f>circle</f>(<arg>origin</arg>, <arg>radius</arg>) <c> // origin is an array</c></code></pre>
+  <div id="canvas-radial-bisect"></div>
 
-<p class="explain">
-  Remember, objects are immutable. If you call a object's method expecting a change but to no effect, check the return value for the modified object.
-</p>
-
-<h2>
-  Methods
-</h2>
+	<pre class="code"><code>ear.math.<f>clockwise_bisect2</f>(<arg>vector1</arg>, <arg>vector2</arg>)
+ear.math.<f>counter_clockwise_bisect2</f>(<arg>vector1</arg>, <arg>vector2</arg>)</code></pre>
 
 <p>
-  Objects like vector do some overhead to make sure arguments are in the correct form. <b>ear.math</b> gives direct access to these methods; these have the fastest execution time, just make sure parameters are in the correct form.
+	A bisection could refer to the smaller or the larger angle; these methods return one solution by clarifying clockwise or counter-clockwise.
 </p>
-
-  <pre class="code"><code>ear.math.<f>magnitude</f>(<arg>vector</arg>)
-ear.math.<f>normalize</f>(<arg>vector</arg>)
-ear.math.<f>scale</f>(<arg>vector</arg>, <arg>scale</arg>)
-ear.math.<f>add</f>(<arg>vec1</arg>, <arg>vec2</arg>)
-ear.math.<f>subtract</f>(<arg>vec1</arg>, <arg>vec2</arg>)
-ear.math.<f>dot</f>(<arg>vec1</arg>, <arg>vec2</arg>)
-ear.math.<f>midpoint</f>(<arg>vec1</arg>, <arg>vec2</arg>)
-ear.math.<f>lerp</f>(<arg>vec1</arg>, <arg>vec2</arg>, <arg>t</arg>)
-ear.math.<f>cross2</f>(<arg>vec1</arg>, <arg>vec2</arg>)
-ear.math.<f>cross3</f>(<arg>vec1</arg>, <arg>vec2</arg>)
-ear.math.<f>distance</f>(<arg>vec1</arg>, <arg>vec2</arg>)</code></pre>
 
 <p>
-  This is an abbreviated list. Check out more in the Appendix.
+	Bisecting two lines is effectively origami axiom #3, and results in two solutions unless the lines are parallel.
 </p>
+
+	<pre class="code"><code>ear.math.<f>bisect_lines2</f>(<arg>vectorA</arg>, <arg>originA</arg>, <arg>vectorB</arg>, <arg>originB</arg>)</code></pre>
+
+	<div id="canvas-radial-bisect-lines"></div>
+
+	<pre class="code"><code><span id="radial-bisect-lines-result"></span></code></pre>
+
+<p>
+	The parallel case maintains the index position of each line. The lines are sorted based on if the parameter lines are running in the same direction or not (dot product &gt; 0).
+</p>
+
+<p>
+	For trisections and beyond, use the general <b>subsect</b> methods.
+</p>
+
+	<pre class="code"><code>ear.math.<f>subsect_radians</f>(divisions, angleA, angleB)<br>ear.math.<f>subsect</f>(divisions, vectorA, vectorB)</code></pre>
+
+<!-- <h2> -->
+<!--   Methods -->
+<!-- </h2> -->
+
+<!-- <p> -->
+<!--   Objects like vector do some overhead to make sure arguments are in the correct form. <b>ear.math</b> gives direct access to these methods; these have the fastest execution time, just make sure parameters are in the correct form. -->
+<!-- </p> -->
+
+<!--   <pre class="code"><code>ear.math.<f>magnitude</f>(<arg>vector</arg>) -->
+<!-- ear.math.<f>normalize</f>(<arg>vector</arg>) -->
+<!-- ear.math.<f>scale</f>(<arg>vector</arg>, <arg>scale</arg>) -->
+<!-- ear.math.<f>add</f>(<arg>vec1</arg>, <arg>vec2</arg>) -->
+<!-- ear.math.<f>subtract</f>(<arg>vec1</arg>, <arg>vec2</arg>) -->
+<!-- ear.math.<f>dot</f>(<arg>vec1</arg>, <arg>vec2</arg>) -->
+<!-- ear.math.<f>midpoint</f>(<arg>vec1</arg>, <arg>vec2</arg>) -->
+<!-- ear.math.<f>lerp</f>(<arg>vec1</arg>, <arg>vec2</arg>, <arg>t</arg>) -->
+<!-- ear.math.<f>cross2</f>(<arg>vec1</arg>, <arg>vec2</arg>) -->
+<!-- ear.math.<f>cross3</f>(<arg>vec1</arg>, <arg>vec2</arg>) -->
+<!-- ear.math.<f>distance</f>(<arg>vec1</arg>, <arg>vec2</arg>)</code></pre> -->
+
+<!-- <p> -->
+<!--   This is an abbreviated list. Check out more in the Appendix. -->
+<!-- </p> -->
 
 <script type="text/javascript">
   katex.render("\\begin{bmatrix} \\hat{\\text{\\i}}_x & \\hat{\\text{\\j}}_x & \\hat{k}_x & t_x \\\\ \\hat{\\text{\\i}}_y & \\hat{\\text{\\j}}_y & \\hat{k}_y & t_y \\\\ \\hat{\\text{\\i}}_z & \\hat{\\text{\\j}}_z & \\hat{k}_z & t_z \\end{bmatrix}", document.querySelector("#matrix-1"));
@@ -415,36 +579,67 @@ ear.math.<f>distance</f>(<arg>vec1</arg>, <arg>vec2</arg>)</code></pre>
 </script>
 
 <script type="text/javascript">
-const Callbacks = {};
-Callbacks["vector"] = (e) => {
-  if (e === undefined) { return; }
-  const vec = `<n>${e.vector.x.toFixed(2)}</n>, <n>${e.vector.y.toFixed(2)}</n>`;
-  const norm = `[${e.normalized.x.toFixed(2)}, ${e.normalized.y.toFixed(2)}]`;
-  document.querySelector("#vec-sketch-vector").innerHTML = vec;
-  document.querySelector("#vec-sketch-vector-normalized").innerHTML = norm;
-}
-Callbacks["vector-lerp"] = (e) => {
-  if (e == undefined || e.t === undefined) { return; }
-  document.querySelector("#lerp-time-1").innerHTML = e.t.toFixed(2);
-  document.querySelector("#lerp-time-2").innerHTML = e.t.toFixed(2);
-  document.querySelector("#lerp-time-3").innerHTML = e.t.toFixed(2);
-};
-Callbacks["line-ray-segment"] = (e) => {
-  if (e == undefined) { return; }
-  const ids = ["#lrs-line", "#lrs-ray", "#lrs-segment"];
-  Array.from(Array(3))
-    .map((_, i) => [i*2, i*2 + 1])
-    .map(el => el.map(i => e.points[i]))
-    .forEach((seg, i) => { document.querySelector(ids[i]).innerHTML = `[<n>${seg[0].x.toFixed(1)}</n>, <n>${seg[0].y.toFixed(1)}</n>], [<n>${seg[1].x.toFixed(1)}</n>, <n>${seg[1].y.toFixed(1)}</n>]`; });
-};
-Callbacks["matrix-reflection"] = (event) => {
-  if (event.matrix == null) { return; }
+const options = {
+	callback: {
+		"vector": (e) => {
+			if (e === undefined) { return; }
+  		const vec = `<n>${e.vector.x.toFixed(2)}</n>, <n>${e.vector.y.toFixed(2)}</n>`;
+  		const norm = `[${e.normalized.x.toFixed(2)}, ${e.normalized.y.toFixed(2)}]`;
+  		document.querySelector("#vec-sketch-vector").innerHTML = vec;
+  		document.querySelector("#vec-sketch-vector-normalized").innerHTML = norm;
+		},
+		"vector-lerp": (e) => {
+  		if (e == undefined || e.t === undefined) { return; }
+  		document.querySelector("#lerp-time-1").innerHTML = e.t.toFixed(2);
+  		document.querySelector("#lerp-time-2").innerHTML = e.t.toFixed(2);
+  		document.querySelector("#lerp-time-3").innerHTML = e.t.toFixed(2);
+		},
+		"line-ray-segment": (e) => {
+  		if (e == undefined) { return; }
+  		const ids = ["#lrs-line", "#lrs-ray", "#lrs-segment"];
+  		Array.from(Array(3))
+    		.map((_, i) => [i*2, i*2 + 1])
+    		.map(el => el.map(i => e.points[i]))
+    		.forEach((seg, i) => {
+					document.querySelector(ids[i]).innerHTML = `[<n>${seg[0].x.toFixed(1)}</n>, <n>${seg[0].y.toFixed(1)}</n>], [<n>${seg[1].x.toFixed(1)}</n>, <n>${seg[1].y.toFixed(1)}</n>]`;
+			});
+		},
+		"matrix-reflection": (event) => {
+  		if (event.matrix == null) { return; }
   // katex.render("\\begin{bmatrix} "+event.matrix[0].toFixed(1)+" & "+event.matrix[2].toFixed(1)+" & "+event.matrix[4].toFixed(1) +" \\\\ "+event.matrix[1].toFixed(1)+" & "+event.matrix[3].toFixed(1)+" & "+event.matrix[5].toFixed(1) +" \\end{bmatrix}", document.querySelector("#matrix-4"));
-  document.querySelector("#reflection-segment-params").innerHTML = "<n>"
-    + parseInt(event.segment[0].x) + "</n>, <n>"
-    + parseInt(event.segment[0].y) + "</n>, <n>"
-    + parseInt(event.segment[1].x) + "</n>, <n>"
-    + parseInt(event.segment[1].y) + "</n>";
+  		document.querySelector("#reflection-segment-params").innerHTML = "<n>"
+    		+ parseInt(event.segment[0].x) + "</n>, <n>"
+    		+ parseInt(event.segment[0].y) + "</n>, <n>"
+    		+ parseInt(event.segment[1].x) + "</n>, <n>"
+    		+ parseInt(event.segment[1].y) + "</n>";
+		},
+		"radial-order": (event) => {
+			if (event.order) {
+				document.querySelector("#radial-order-result")
+					.innerHTML = "[" + event.order
+						.map(n => "<n>" + n + "</n>")
+						.join(", ") + "]";
+			}
+		},
+		"radial-bisect-lines": (event) => {
+			if (event && event.bisect) {
+
+				const printLine = line => "{ vector: [" + 
+					"<n>" + line.vector[0].toFixed(1) + "</n>, " +
+					"<n>" + line.vector[1].toFixed(1) + "</n>], origin: [" +
+					"<n>" + line.origin[0].toFixed(1) + "</n>, " +
+					"<n>" + line.origin[1].toFixed(1) + "</n>] }"
+
+				document.querySelector("#radial-bisect-lines-result")
+					.innerHTML = "[<br>  " + (event.bisect[0] === undefined
+						? "<n>undefined</n>" : printLine(event.bisect[0])) + 
+						"<br>  " +
+						(event.bisect[1] === undefined
+						? "<n>undefined</n>" : printLine(event.bisect[1])) +
+						"<br>]";
+			}
+		},
+	}
 };
 // document.querySelector("#lrs-line").innerHTML = `[<n>${e.line.vector.x.toFixed(1)}</n>, <n>${e.line.vector.y.toFixed(1)}</n>], [<n>${e.line.origin.x.toFixed(1)}</n>, <n>${e.line.origin.y.toFixed(1)}</n>]`;
 // document.querySelector("#lrs-ray").innerHTML = `[<n>${e.ray.vector.x.toFixed(1)}</n>, <n>${e.ray.vector.y.toFixed(1)}</n>], [<n>${e.ray.origin.x.toFixed(1)}</n>, <n>${e.ray.origin.y.toFixed(1)}</n>]`;
@@ -458,54 +653,36 @@ Callbacks["matrix-reflection"] = (event) => {
 // document.querySelector("#lrs-segment").innerHTML = e.t.toFixed(2);
 </script>
 
-<script type="text/javascript">
-const loadAndRun = (id, body) => {
-  const head = `ear.svg(document.querySelector("#canvas-${id}"), (svg) => {\nvar callback = Callbacks["${id}"];\n`;
-  const foot = `\n});\n`;
-  const script = document.createElement("script");
-  script.innerHTML = `${head}${body}${foot}`;
-  document.body.appendChild(script);
-  const node = document.querySelector(`#canvas-${id}`);
-  const scriptLink = document.createElement("div");
-  scriptLink.className = "script-link";
-  scriptLink.onclick = function (e) {
-    e.preventDefault();
-    window.location.href = `/examples/?example=${id}`;
-  }
-  node.appendChild(scriptLink);
-};
+<script type="text/javascript" src="./js/loadExamples.js"></script>
 
-[ "circle-segment",
-  // "circle-packing",
+<script type="text/javascript">
+loadExamples([
+  "vector",
+  "vector-lerp",
   "collinear-point",
   "junction-bisect",
   "line-nearest-point",
   "line-ray-segment",
-  "line-ray-edge-intersection",
   "matrix-reflection",
-  "point-in-poly",
   "polygon-fold",
-  "polygon-segment",
-  "polygon-segment-exclusive",
-  "segment-segment-intersect",
-  "straight-skeleton",
-  "vector",
-  "vector-lerp",
-].forEach(function (id) {
-  fetch(`../examples/${id}.js`)
-    .then(function(body) { return body.text(); })
-    .then(function(text) { return loadAndRun(id, text); });
-});
+  "polygon-straight-skeleton",
+	"polygon-convex-hull",
+  // "circle-packing",
+  "point-in-poly",
+	"overlap-segment-segment",
+	"overlap-polygon-polygon",
+  "intersect-line-ray-segment",
+	"intersect-polygon-segment",
+  "intersect-circle-segment",
+	"intersect-circle-circle",
+  "clip-polygon-line-ray-segment",
+	"radial-between",
+	"radial-order",
+	"radial-sectors",
+	"radial-bisect",
+	"radial-bisect-lines",
+], options);
 </script>
-<!-- <script type="text/javascript" src="../examples/matrix_basis.js"></script>
-<script type="text/javascript" src="../examples/line_bisect.js"></script>
-<script type="text/javascript" src="../examples/circle_packing.js"></script>
-<script type="text/javascript" src="../examples/polygon_clip_line.js"></script>
-<script type="text/javascript" src="../examples/polygon_clip_segment.js"></script>
-<script type="text/javascript" src="../examples/polygon_convex_hull.js"></script>
-<script type="text/javascript" src="../examples/polygon_overlaps.js"></script>
-<script type="text/javascript" src="../examples/sector_bisect.js"></script>
- -->
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
