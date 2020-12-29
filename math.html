@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="/rabbit-ear.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
 <link rel="stylesheet" href="./css/style.css" />
@@ -46,9 +46,6 @@
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
-
-<link rel="stylesheet" href="lib/katex/katex.min.css">
-<script type="text/javascript" src="lib/katex/katex.min.js"></script>
 
 <h3>
   Chapter I.
@@ -571,13 +568,6 @@ ear.math.<f>counter_clockwise_bisect2</f>(<arg>vector1</arg>, <arg>vector2</arg>
 <!-- <p> -->
 <!--   This is an abbreviated list. Check out more in the Appendix. -->
 <!-- </p> -->
-
-<script type="text/javascript">
-  katex.render("\\begin{bmatrix} \\hat{\\text{\\i}}_x & \\hat{\\text{\\j}}_x & \\hat{k}_x & t_x \\\\ \\hat{\\text{\\i}}_y & \\hat{\\text{\\j}}_y & \\hat{k}_y & t_y \\\\ \\hat{\\text{\\i}}_z & \\hat{\\text{\\j}}_z & \\hat{k}_z & t_z \\end{bmatrix}", document.querySelector("#matrix-1"));
-  katex.render("\\begin{bmatrix} \\hat{\\text{\\i}}_x \\\\ \\hat{\\text{\\i}}_y \\\\ \\hat{\\text{\\i}}_z \\end{bmatrix} \\begin{bmatrix} \\hat{\\text{\\j}}_x \\\\ \\hat{\\text{\\j}}_y \\\\ \\hat{\\text{\\j}}_z \\end{bmatrix} \\begin{bmatrix} \\hat{k}_x \\\\ \\hat{k}_y \\\\ \\hat{k}_z \\end{bmatrix} \\begin{bmatrix} t_x \\\\ t_y \\\\ t_z \\end{bmatrix}", document.querySelector("#matrix-2"));
-  katex.render("\\begin{bmatrix} 0 & 3 & 6 & 9 \\\\ 1 & 4 & 7 & 10 \\\\ 2 & 5 & 8 & 11 \\end{bmatrix}", document.querySelector("#matrix-3"));
-</script>
-
 <script type="text/javascript">
 const options = {
 	callback: {
@@ -641,16 +631,6 @@ const options = {
 		},
 	}
 };
-// document.querySelector("#lrs-line").innerHTML = `[<n>${e.line.vector.x.toFixed(1)}</n>, <n>${e.line.vector.y.toFixed(1)}</n>], [<n>${e.line.origin.x.toFixed(1)}</n>, <n>${e.line.origin.y.toFixed(1)}</n>]`;
-// document.querySelector("#lrs-ray").innerHTML = `[<n>${e.ray.vector.x.toFixed(1)}</n>, <n>${e.ray.vector.y.toFixed(1)}</n>], [<n>${e.ray.origin.x.toFixed(1)}</n>, <n>${e.ray.origin.y.toFixed(1)}</n>]`;
-// document.querySelector("#lrs-line-points").innerHTML = `[<n>${e.line.vector.x.toFixed(1)}</n>, <n>${e.line.vector.y.toFixed(1)}</n>], [<n>${e.line.origin.x.toFixed(1)}</n>, <n>${e.line.origin.y.toFixed(1)}</n>]`;
-// document.querySelector("#lrs-ray-points").innerHTML = `[<n>${e.ray.vector.x.toFixed(1)}</n>, <n>${e.ray.vector.y.toFixed(1)}</n>], [<n>${e.ray.origin.x.toFixed(1)}</n>, <n>${e.ray.origin.y.toFixed(1)}</n>]`;
-// document.querySelector("#lrs-segment").innerHTML = `[<n>${e.segment[0].x.toFixed(1)}</n>, <n>${e.segment[0].y.toFixed(1)}</n>], [<n>${e.segment[1].x.toFixed(1)}</n>, <n>${e.segment[1].y.toFixed(1)}</n>]`;
-
-// document.querySelector("#lrs-line-points").innerHTML = e.t.toFixed(2);
-// document.querySelector("#lrs-ray").innerHTML = e.t.toFixed(2);
-// document.querySelector("#lrs-ray-points").innerHTML = e.t.toFixed(2);
-// document.querySelector("#lrs-segment").innerHTML = e.t.toFixed(2);
 </script>
 
 <script type="text/javascript" src="./js/loadExamples.js"></script>
@@ -683,6 +663,27 @@ loadExamples([
 	"radial-bisect-lines",
 ], options);
 </script>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+	integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X"
+	crossorigin="anonymous">
+
+<script 
+	src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+	integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+	crossorigin="anonymous"
+></script>
+
+<script type="text/javascript">
+katex.render("\\begin{bmatrix} \\hat{\\text{\\i}}_x & \\hat{\\text{\\j}}_x & \\hat{k}_x & t_x \\\\ \\hat{\\text{\\i}}_y & \\hat{\\text{\\j}}_y & \\hat{k}_y & t_y \\\\ \\hat{\\text{\\i}}_z & \\hat{\\text{\\j}}_z & \\hat{k}_z & t_z \\end{bmatrix}", document.querySelector("#matrix-1"));
+
+katex.render("\\begin{bmatrix} \\hat{\\text{\\i}}_x \\\\ \\hat{\\text{\\i}}_y \\\\ \\hat{\\text{\\i}}_z \\end{bmatrix} \\begin{bmatrix} \\hat{\\text{\\j}}_x \\\\ \\hat{\\text{\\j}}_y \\\\ \\hat{\\text{\\j}}_z \\end{bmatrix} \\begin{bmatrix} \\hat{k}_x \\\\ \\hat{k}_y \\\\ \\hat{k}_z \\end{bmatrix} \\begin{bmatrix} t_x \\\\ t_y \\\\ t_z \\end{bmatrix}", document.querySelector("#matrix-2"));
+
+katex.render("\\begin{bmatrix} 0 & 3 & 6 & 9 \\\\ 1 & 4 & 7 & 10 \\\\ 2 & 5 & 8 & 11 \\end{bmatrix}", document.querySelector("#matrix-3"));
+</script>
+
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->

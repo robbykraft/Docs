@@ -47,10 +47,6 @@
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 
-
-<link rel="stylesheet" href="lib/katex/katex.min.css">
-<script type="text/javascript" src="lib/katex/katex.min.js"></script>
-
 <h3>
   Chapter III.
 </h3>
@@ -207,7 +203,7 @@
   The first two parameters define the top left corner; followed by the width and height.
 </p>
 
-  <div class="full" id="canvas-svg-math"></div>
+  <div id="canvas-svg-math"></div>
 
   <pre class="code"><code><f>svg</f>.<v>onMove</v> <key>=</key> <f>function</f> (<arg>mouse</arg>) { }<br> ↳ <span id="span-svg-math-coordinate">{ x: , y: }</span></code></pre>
 
@@ -229,7 +225,7 @@
   Because of a computer standard, the SVG y-axis increases downwards.
 </p>
 
-  <div class="full" id="canvas-svg-math-inverted"></div>
+  <div id="canvas-svg-math-inverted"></div>
 
 <p>
   It's very easy to invert the y-axis if you want.
@@ -313,7 +309,7 @@
 </p>
 
   <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)
-  .<f>onChange</f>((<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) <f>=></f> {
+  .<f>onChange</f>((<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) <f>=&gt;</f> {
     <f>console</f>.<f>log</f>(point) <c>// a coordinate, like [23, 102]</c>
   })</code></pre>
 
@@ -348,7 +344,7 @@
   If you come from a background using Processing or openFrameworks, the following code might look fine, but it contains a serious issue in the case of this SVG library.
 </p>
 
-  <pre class="code"><code><c>// bad code!</c><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=></f> {<br>  svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>10</n>)<br>  <c>// after a few seconds, your svg</c><br>  <c>// will contain hundreds of circles</c><br>  <c>// slowing down the renderer</c><br>}</code></pre>
+  <pre class="code"><code><c>// bad code!</c><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=&gt;</f> {<br>  svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>10</n>)<br>  <c>// after a few seconds, your svg</c><br>  <c>// will contain hundreds of circles</c><br>  <c>// slowing down the renderer</c><br>}</code></pre>
 
 <p>
   the SVG primitives are actual objects that get appended to the SVG. There are no pixels, and there is no automatic screen clearing. At the very least, call <b>removeChildren</b> somewhere in your animation loop.
@@ -365,7 +361,7 @@
   <ol><b>update</b> the shape's attributes inside the animation loop</ol>
 </ul>
 
-  <pre class="code"><code><f>var</f> circle <key>=</key> svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>1</n>)<br><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=></f> {<br>  circle.<f>setRadius</f>(e.time)<br>}</code></pre>
+  <pre class="code"><code><f>var</f> circle <key>=</key> svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>1</n>)<br><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=&gt;</f> {<br>  circle.<f>setRadius</f>(e.time)<br>}</code></pre>
 
 <p>
   And at any time, you can stop the animation loop.
@@ -400,10 +396,6 @@
   <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>)<br>  .<f>svg</f>()<br>  .<f>appendTo</f>(svg)</code></pre>
 
   <div id="canvas-svg-spiral"></div>
-
-<script type="text/javascript">
-katex.render("y = x, \\sqrt{x}, x^2, x^3", document.getElementById("math-coordinate-equations"));
-</script>
 
 <script type="text/javascript" src="./js/loadExamples.js"></script>
 
@@ -451,6 +443,23 @@ loadExamples([
   "svg-hanoi",
 ], options);
 </script>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+	integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X"
+	crossorigin="anonymous">
+
+<script 
+	src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+	integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+	crossorigin="anonymous"
+></script>
+
+<script type="text/javascript">
+katex.render("y = x, \\sqrt{x}, x^2, x^3", document.getElementById("math-coordinate-equations"));
+</script>
+
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->

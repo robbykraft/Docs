@@ -47,7 +47,6 @@
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 
-
 <h3></h3>
 
 <h1>
@@ -63,33 +62,47 @@
 	<pre class="code"><code><f>var</f> myOrigami <key>=</key> ear.<f>origami</f>()</code></pre>
 
 <p>
-  This is a Javascript library for modeling origami.
-</p>
-
-	<div id="canvas-origami-single-vertex"></div>
-
-<p>
-	It can fold a crease pattern.
-</p>
-
-	<div id="canvas-origami-fold-crane"></div>
-
-<p>
-	Design based on rules of origami.
-</p>
-
-	<div id="canvas-origami-twist-fold"></div>
-
-<p>
-	Make Diagrams.
+  This is a Javascript library for modeling, designing, and diagramming origami.
 </p>
 
 <h2>
-	Try it
+	Download
+</h2>
+
+<p class="explain">
+	This library is in <b>pre-release</b>.
+</p>
+
+<p>
+	The online editor is the fastest way to start coding:
+</p>
+
+<div class="button-row">
+	<a href="//svg.rabbitear.org/">
+		<div id="button-code-editor" class="button">svg.rabbitear.org</div>
+	</a>
+</div>
+
+<p>
+	The library is one Javascript file, available from Github CDN, NPM, or for download.
+</p>
+
+  <pre class="code"><code><str>https://robbykraft.github.io/Origami/rabbit-ear.js</str></code></pre>
+
+  <pre class="code"><code><f>npm</f> install rabbit-ear</code></pre>
+
+<div class="button-row">
+	<a href="//robbykraft.github.io/Origami/rabbit-ear.js">
+		<div class="button">rabbit-ear.js (~180kb)</div>
+	</a>
+</div>
+
+<h2>
+	Learn
 </h2>
 
 <p>
-	A great way to learn is to look for this button located next to all the sketches in these docs, click on it to reveal the source code.
+	Look for this button next to all the sketches in these docs, this will open the editor with the sketch's code.
 </p>
  
 	<div style="text-align:center">
@@ -102,66 +115,27 @@
 </svg>
 	</div>
 
-<p>
-	The code opens in the Rabbit Ear editor, start the editor directly:
-</p>
-
-	<div style="text-align:center">
-		<a href="//svg.rabbitear.org/">
-			<div id="button-code-editor" class="button">svg.rabbitear.org</div>
-		</a>
-	</div>
+	<div id="canvas-origami-single-vertex"></div>
+	
+	<div id="canvas-origami-fold-crane"></div>
+	
+	<div id="canvas-origami-twist-fold"></div>
 
 <h3>
-	Example Apps
+	Examples
 </h3>
 
 <p>
-	Examples of full web apps build with Rabbit Ear.
+	Full web apps build with Rabbit Ear.
 </p>
 
 <ul>
   <li><a href="//finder.origami.tools/">Reference Finder</a></li>
-  <li><a href="//convert.rabbitear.org/">FOLD File Converter</a></li>
+  <!-- <li><a href="//convert.rabbitear.org/">FOLD File Converter</a></li> -->
   <li><a href="//beta.rabbitear.org/diagram/">Fold and Diagram</a></li>
 </ul>
 
-<h2>
-  Download
-</h2>
-
-<p class="explain">
-	This library is in <b>pre-release</b>.
-</p>
-
-<p>
-	The library is one file; link the CDN, grab it from NPM if you are in Node, or download the latest release.
-</p>
-
-  <pre class="code"><code>https://robbykraft.github.io/Origami/rabbit-ear.js</code></pre>
-
-  <pre class="code"><code>npm i rabbit-ear</code></pre>
-
-	<div style="text-align:center">
-  	<div class="button">rabbit-ear.js (130kb)</div>
-	</div>
-
-<h3>
-	Usage
-</h3>
-
-<pre class="code"><code><c>&lt;!-- BROWSER --&gt;</c>
-&lt;!<key>DOCTYPE</key> html&gt;
-&lt;<key>script</key> <v>src</v>=<str>"./rabbit-ear.js"</str>&gt;&lt;/<key>script</key>&gt;
-&lt;<key>script</key>&gt;
-<f>var</f> origami <key>=</key> ear.<f>origami</f>();
-&lt;/<key>script</key>&gt;
-</code></pre>
-
-<pre class="code"><code><c>// NODE JS</c>
-<f>const</f> ear <key>=</key> <f>require</f>(<str>"rabbit-ear"</str>);
-<f>var</f> origami <key>=</key> ear.<f>origami</f>();
-</code></pre>
+	<div id="canvas-origami-miura"></div>
 
 <h2>
 	Developers
@@ -171,17 +145,18 @@
 	This library is written in ES6 Javascript. The source code is <a href="https://github.com/robbykraft/Origami#rabbit-ear">on Github</a>.
 </p>
 
-	<div id="canvas-straight-skeleton"></div>
+	<div id="canvas-polygon-straight-skeleton"></div>
 
 <script type="text/javascript" src="./js/loadExamples.js"></script>
 
 <script type="text/javascript">
 loadExamples([
-	"straight-skeleton",
   "origami-flat-fold",
 	"origami-fold-crane",
 	"origami-single-vertex",
 	"origami-twist-fold",
+	"origami-miura",
+	"polygon-straight-skeleton",
 ]);
 </script>
 

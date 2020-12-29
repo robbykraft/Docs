@@ -1,10 +1,10 @@
 /* font */
 body {
-	font-family: "Lora", serif;
+	font-family: Lora, serif;
 	font-weight: 400;
 }
 h1, h2, h3, h4, h5, nav {
-	font-family: "Cormorant", Georgia, "Times New Roman", Times, serif;
+	font-family: Cormorant, Georgia, "Times New Roman", Times, serif;
 	font-weight: 300;
 	text-transform: uppercase;
 }
@@ -12,6 +12,21 @@ h3 { font-weight: 500; }
 pre, code {
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 }
+
+/* font-style */
+em { font-style: italic; }
+b { font-weight: bold; }
+h1 { text-align: center; }
+h2 {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: black;
+}
+h3 { text-align: center; }
+ol { list-style: upper-roman; }
+ul { list-style: square; }
+
+/* font size */
 h1 { font-size: 3.4rem; }
 h2 { font-size: 2.4rem; }
 h3 { font-size: 2.0rem; }
@@ -29,83 +44,91 @@ nav, nav ul {
 	font-size: 1rem;
 }
 
-/* font-style */
-em { font-style: italic; }
-b { font-weight: bold; }
-h1 { text-align: center; }
-h2 {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: black;
-}
-h3 { text-align: center; }
-ol {
-	list-style: upper-roman;
-	padding-left: 2rem;
-}
-ul {
-	list-style: square;
-	padding-left: 2rem;
-}
-
 /* hyperlinks */
 a { color: #e53; }
 a:visited { color: #000; }
 a:hover, a:active { color: #ea3; }
 
 /* margins */
-body { margin: 0 200px 5rem 200px; }
+body { margin: 0 200px 3rem 200px; }
 h1 { margin: 1.5rem 0; }
 h2 { margin: 2rem 0 1rem 0; }
-h3 { margin: 4rem 0 1rem 0; }
+h3 { margin: 3rem 0 1rem 0; }
 h2+h3 { margin-top: 1.5rem; }
+ol, ul { padding-left: 2rem; }
 /* prevent text under the menu */
 nav + * { margin-top: 4rem; }
 p + p,
 p + ol,
 ol + p,
 p + ul,
-ul + p {
-	margin-top: 1rem;
-}
-/* all pages begin with a H3 H1 title that says "chapter 2: ..title.." */
-h1:first-of-type { margin: 1rem 0 3rem 0; }
-h3:first-of-type { margin: 6rem 0 1rem 0; }
-.color-yellow { color: #ea3; }
-.color-blue { color: #379; }
-.color-red { color: #e53; }
-yellow { color: #fb4; }
-blue { color: #58c; }
-red { color: #f75; }
-
-p.quote {
-	text-align: center;
-	font-style: italic;
-}
+ul + p { margin-top: 1rem; }
 pre, code {
 	overflow: auto;
 	max-width: calc(100% - 2rem);
+}
+
+/* all pages begin with a H3 H1 combo of "chapter" "title" */
+h1:first-of-type { margin: 1rem 0 3rem 0; }
+h3:first-of-type { margin: 6rem 0 1rem 0; }
+
+/* page layout */
+/* side by side containers, except on mobile */
+.grid-2 {
+	display: grid;
+	grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
+	grid-column-gap: 1rem;
+}
+.grid-2 > * {
+	flex: 1;
+}
+
+/* paragraph styles */
+.quote {
+	text-align: center;
+	font-style: italic;
+}
+.explain {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	padding: 1rem;
+	background-color: #ffa;
+	box-shadow: 5px 5px 5px #ccc;
+	line-height: 2rem;
+}
+.equation {
+	text-align: center;
+	margin: 2rem auto;
+}
+.katex {
+	font-size: 2em !important;
 }
 .code {
 	margin: 2rem auto;
 	width: 550px;
 	padding: 1rem;
 }
-p.quote + .code {
-	margin: 1rem auto 2rem auto;
-}
-.code + .code {
-	margin-top: -1.5rem;
-}
+.color-yellow { color: #ea3; /* #fb4 */ }
+.color-blue { color: #379; /* #58c */ }
+.color-red { color: #e53; /* #f75 */ }
+
 /* svg canvases */
 div[id^=canvas-] {
 	margin: 1rem 0;
-	position: relative;
+	position: relative; /* for the small code editor button */
 }
+svg {
+	width: 100%;
+	height: initial;
+	max-height: 16rem;
+}
+
 /* webgl canvases */
 div[id^=webgl-] {
-  height: 500px;
+  height: 16rem;
 }
+
+/* small code editor button */
 .script-link {
 	width: 1.5rem;
 	height: 1.5rem;
@@ -119,32 +142,18 @@ div[id^=webgl-] {
 	background-repeat: no-repeat;
 	cursor: pointer;
 }
-.equation {
-	text-align: center;
+
+.button-row {
 	margin: 2rem auto;
+	text-align: center;
+}
+.button {
+	font-size: 1.333rem;
+	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+	box-shadow: 5px 5px 0px #ddd;
 }
 
-.katex {
-	font-size: 2em !important;
-}
-
-svg {
-	width: 100%;
-	height: initial;
-	max-height: 16rem;
-}
-.full svg {
-	width: 100vw;
-	margin-left: -200px;
-	margin-right: -200px;
-}
-.d3-force-graph { text-align: center; }
-.d3-force-graph svg {
-	margin: auto;
-	width: 16rem;
-	max-width: 100%;
-	height: 16rem;
-} 
+.d3-force-graph svg { height: 16rem; }
 .d3-force-graph line,
 .d3-force-graph circle {
 	stroke: #000;
@@ -153,83 +162,24 @@ svg {
 	cursor: pointer;
 }
 
-.explain{
-	margin-top: 2rem;
-	margin-bottom: 2rem;
-	padding: 1rem;
-	background-color: #ffa;
-	box-shadow: 5px 5px 5px #CCC;
-	line-height: 2rem;
-}
 
-.grid-2 {
-	display: grid;
-	grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
-	grid-column-gap: 1rem;
-}
 
-.grid-2 > * {
-	flex: 1;
-}
-
-.toolbar {
-	flex: 1;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	margin: 1rem 0;
-}
-.button {
-	margin: 0.2rem;
-	font-size: 1.333rem;
-}
-.no-select {
-	-webkit-user-select: none; /* Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+/Edge */
-	user-select: none; /* Standard */
-}
-div[class^="sketch"] {
-	/*height: 100%;*/
-	height: 12rem;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	margin-left: 0rem;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-	/*background-color: #272822;*/
-}
-div.section div[class^="sketch"] {
-	margin-left: 0rem;
-}
 /* large computers */
 @media (min-width: 2000px) {
 	body{
-		margin: 0 600px 7rem 600px;
-	}
-	.full svg {
-		margin: 0 -600px;
+		margin: 0 600px 5rem 600px;
 	}
 }
 /* large computers */
 @media (min-width: 1600px) {
 	body{
-		margin: 0 400px 5rem 400px;
-	}
-	.full svg {
-		margin: 0 -400px;
+		margin: 0 400px 3rem 400px;
 	}
 }
 /* medium computers */
 @media (max-width: 1000px) {
 	body{
-		margin: 0 100px 4rem 100px;
-	}
-	.full svg {
-		margin: 0 -100px;
+		margin: 0 100px 3rem 100px;
 	}
 	.code {
 		width: 450px;
@@ -251,10 +201,7 @@ div.section div[class^="sketch"] {
 		max-width: calc(100% - 2rem);
 	}
 	body{
-		margin: 0 1rem 3rem 1rem;
-	}
-	.full svg {
-		margin: 0 -1rem;
+		margin: 0 1rem 2rem 1rem;
 	}
 	/*.code {
 		width: calc(100% - 2rem);
@@ -262,20 +209,16 @@ div.section div[class^="sketch"] {
 	.katex {
 		font-size: 1.6rem !important;
 	}
-
 	.grid-2 {
 		display: grid;
 		grid-template-columns: 100%;
 		grid-template-rows: 1fr 1fr;
 	}
-
 	.grid-2 > * {
 		flex: 1;
 	}
-
 }
 
-/* phones */
-@media not all and (hover) {
-	/*p, ol, ul, pre, code { font-size: 1.333rem; }*/
-}
+/* phones and tablets */
+@media not all and (hover) { }
+

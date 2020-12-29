@@ -47,28 +47,6 @@
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 
-<link rel="stylesheet" href="lib/katex/katex.min.css">
-<script type="text/javascript" src="lib/katex/katex.min.js"></script>
-
-<style>
-@media (min-width: 2000px) {
-	div[id^=webgl-] { height: 500px; }
-}
-/* large computers */
-@media (min-width: 1600px) {
-	div[id^=webgl-] { height: 500px; }
-}
-/* medium computers */
-@media (max-width: 1000px) {
-  div[id^=webgl-] { height: 500px; }
-}
-/* small computers. basically mobile */
-@media (max-width: 700px) {
-  div[id^=webgl-] { height: 400px; }
-}
-</style>
-
-
 <h3>
   Chapter IV.
 </h3>
@@ -87,8 +65,12 @@
 	Graphs
 </h2>
 
+<p class="quote">
+	An origami model is a graph.
+</p>
+
 <p>
-	This example demonstrates folding an origami using <em>only low-level methods</em>. The graph is simply a Javascript object; see <a href="./graph.html">Chapter II: Graphs</a>.
+	This sketch demonstrates folding using <em>only low-level methods</em>.
 </p>
 
 	<div id="canvas-origami-flat-fold-cp"></div>
@@ -112,6 +94,25 @@
 </p>
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()</code></pre>
+
+<p>
+	This sketch is the same as above but written with much simpler high-level methods.
+</p>
+
+	<div id="canvas-origami-flat-fold-cp-simple"></div>
+
+	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>();
+origami.flatFold(<arg>vector</arg>, <arg>origin</arg>)</code></pre>
+
+<h2>
+	Crease Pattern
+</h2>
+
+<p class="explain">
+	todo
+</p>
+
+  <div id="canvas-origami-miura"></div>
 
 <h2>
   Single Vertex
@@ -224,10 +225,6 @@
 </p>
  -->
 
-<h3>
-  Summary
-</h3>
-
 <p>
   This sketch demonstrates all operations at once.
 </p>
@@ -303,22 +300,9 @@
   Strip Grafting
 </h2>
 
-
-  <div id="canvas-origami-miura"></div>
-
-<!-- <script src="./js/three-origami.js"></script> -->
-<script type="module" src="./js/three-single-vertex.js"></script>
-
-<script type="text/javascript">
-katex.render(
-	"\\mathbf{m} - \\mathbf{v} = \\pm2",
-	document.querySelector("#maekawa-equation")
-);
-katex.render(
-	"N_{results} \\leq N_{input}",
-	document.querySelector("#equation-input-result")
-);
-</script>
+<p class="explain">
+	todo
+</p>
 
 <script type="text/javascript" src="./js/loadExamples.js"></script>
 
@@ -384,6 +368,32 @@ loadExamples([
 //  "line-bisect",
 ], options);
 </script>
+
+<script type="module" src="./js/three-single-vertex.js"></script>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+	integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X"
+	crossorigin="anonymous">
+
+<script 
+	src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+	integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+	crossorigin="anonymous"
+></script>
+
+<script type="text/javascript">
+katex.render(
+	"\\mathbf{m} - \\mathbf{v} = \\pm2",
+	document.querySelector("#maekawa-equation")
+);
+katex.render(
+	"N_{results} \\leq N_{input}",
+	document.querySelector("#equation-input-result")
+);
+</script>
+
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
