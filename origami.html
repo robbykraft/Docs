@@ -73,7 +73,7 @@
 	This sketch demonstrates folding using <em>only low-level methods</em>.
 </p>
 
-	<div id="canvas-origami-flat-fold-cp"></div>
+	<div id="canvas-origami-flat-fold-cp-basic"></div>
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> {}</code></pre>
 
@@ -99,10 +99,10 @@
 	This sketch is the same as above but written with much simpler high-level methods.
 </p>
 
-	<div id="canvas-origami-flat-fold-cp-simple"></div>
+	<div id="canvas-origami-flat-fold-cp"></div>
 
-	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>();
-origami.flatFold(<arg>vector</arg>, <arg>origin</arg>)</code></pre>
+	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()
+origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 
 <h2>
 	Crease Pattern
@@ -291,11 +291,6 @@ origami.flatFold(<arg>vector</arg>, <arg>origin</arg>)</code></pre>
   ],
 }</code></pre>
 
-<!--<p>
-  Axiom 3
-</p>
-  <div id="canvas-line-bisect"></div> -->
-
 <h2>
   Strip Grafting
 </h2>
@@ -355,6 +350,7 @@ document.querySelectorAll("[id^=button-axiom]").forEach(el => {
 loadExamples([
   "origami-two-coloring",
 	"origami-flat-fold-cp",
+	"origami-flat-fold-cp-basic",
   "origami-axioms",
   "origami-kawasaki",
   "origami-kawasaki-solver",
@@ -365,7 +361,6 @@ loadExamples([
   "origami-single-vertex",
   "origami-single-vertex-layers-topview",
   "origami-miura",
-//  "line-bisect",
 ], options);
 </script>
 

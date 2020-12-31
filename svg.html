@@ -279,21 +279,23 @@
 </ul>
 
 <p>
-  The typical event handler includes position in on-screen pixels, this object is overloaded to include x,y coordinates scaled to the viewBox instead.
+	These are basically wrappers around the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">Web API MouseEvent</a> but <em>with viewBox coordinates included</em>.
 </p>
 
   <div id="canvas-svg-touch"></div>
 
-<pre class="code"><code><span id="svg-draw-touch">event <key>=</key> {
-  position: {x: <n>0.000</n>, y: <n>0.000</n>}
-  previous: {x: <n>0.000</n>, y: <n>0.000</n>}
-  isPressed: <n>false</n>
-  pressed: {x: <n>0.000</n>, y: <n>0.000</n>}
-  drag: {x: <n>0.000</n>, y: <n>0.000</n>}
+<pre class="code"><code><span id="svg-draw-touch">{
+  x: <n>0.000</n>,
+  y: <n>0.000</n>,
+  position: {x: <n>0.000</n>, y: <n>0.000</n>},
+  pressX: <n>undefined</n>,
+  pressY: <n>undefined</n>,
+  press: {x: <n>undefined</n>, y: <n>undefined</n>},
+  buttons: <n>0</n>,
 }</span></code></pre>
 
-<p class="explain">
-  While you design, keep in mind that mice and trackpads can move without being pressed but touchscreens are always pressed when moved.
+<p>
+	The event object is the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">MouseEvent</a> object with additional properties. The <b>buttons</b> key is one of the many standard properties already included.
 </p>
 
 <h2>
@@ -305,7 +307,7 @@
   <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)</code></pre>
 
 <p>
-  A <b>control point</b> is a persistant interactive touch point that responds to your touches and remains in the place where you left it.
+  A <b>control point</b> is like a touch event that remains in the place where you left it.
 </p>
 
   <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)
@@ -370,17 +372,17 @@
   <pre class="code"><code>svg.<f>stop</f>()</code></pre>
 
 <h2>
-  Graph Integration
+  Rabbit Ear Integration
 </h2>
 
 <p>
-  Because of FoldToSvg, you can pass in a fold object to render as an SVG.
+  You can pass in a FOLD object and <a href="https://github.com/robbykraft/fold-to-svg">fold-to-svg</a> will render it as an SVG.
 </p>
 
   <pre class="code"><code>ear.<f>svg</f>(<arg>foldGraph</arg>, <arg>options</arg>)</code></pre>
 
 <p>
-  size and scale are handled for you. an SVG inside a unit square and a square 800pts wide appear the same.
+  Size and scale are automatically adjusted, FOLD graphs 1 unit wide and 800 units wide appear the same.
 </p>
 
 <p>
@@ -389,8 +391,12 @@
 
   <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>).<f>svg</f>()</code></pre>
 
+<p class="quote">
+	This returns an SVG path object.
+</p>
+
 <p>
-  For consistency, all the math primitives convert into <b>path</b> objects. Remember to add it to the svg, or group. It's easy with the <b>appendTo</b> method.
+ Remember to add it to the svg or a group. It's easy with the <b>appendTo</b> method.
 </p>
 
   <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>)<br>  .<f>svg</f>()<br>  .<f>appendTo</f>(svg)</code></pre>
@@ -403,19 +409,20 @@
 var options = {
 	callback: {
 		"svg-touch": (e) => {
-		  // console.log(e);
-		  var string = "event <key>=</key> {<br>  "
-		    + "position: {x: <n>" + e.x.toFixed(3)
-		      + "</n>, y: <n>" + e.y.toFixed(3) + "</n>}<br>  "
-		    // + "previous: {x: <n>" + e.previous.x.toFixed(3)
-		    //   + "</n>, y: <n>" + e.previous.y.toFixed(3) + "</n>}<br>  "
-		    + "isPressed: <n>" + (e.isPressed ? "true" : "false") + "</n><br>"
-		    // + "pressed: {x: <n>" + e.pressed.x.toFixed(3)
-		    //   + "</n>, y: <n>" + e.pressed.y.toFixed(3) + "</n>}<br>  "
-		    // + "pressed: {x: <n>" + e.startX.toFixed(3)
-		    //   + "</n>, y: <n>" + e.startY.toFixed(3) + "</n>}<br>  "
-		    // + "drag: {x: <n>" + e.drag.x.toFixed(3)
-		    //   + "</n>, y: <n>" + e.drag.y.toFixed(3) + "</n>}<br>"
+			var printNum = function (num) {
+				return num === undefined ? "undefined" : num.toFixed(3);
+			};
+
+		  var string = "{<br>"
+		    + "  x: <n>" + printNum(e.x) + "</n>,<br>"
+		    + "  y: <n>" + printNum(e.y) + "</n>,<br>"
+		    + "  position: {x: <n>" + printNum(e.position.x)
+		    + "</n>, y: <n>" + printNum(e.position.y) + "</n>},<br>"
+		    + "  pressX: <n>" + printNum(e.pressX) + "</n>,<br>"
+		    + "  pressY: <n>" + printNum(e.pressY) + "</n>,<br>"
+		    + "  press: {x: <n>" + printNum(e.press === undefined ? undefined : e.press.x)
+		    + "</n>, y: <n>" + printNum(e.press === undefined ? undefined : e.press.y) + "</n>},<br>"
+		    + "  buttons: <n>" + e.buttons + "</n><br>"
 		    + "}";
 		  document.querySelector("#svg-draw-touch").innerHTML = string;
 		},
