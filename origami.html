@@ -249,47 +249,88 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   Axioms
 </h2>
 
-  <div id="canvas-origami-axioms"></div>
-
-<div style="text-align: center;">
-  <div class="button nopress">Axiom #</div>
-  <div id="button-axiom-1" class="button">1</div>
-  <div id="button-axiom-2" class="button red">2</div>
-  <div id="button-axiom-3" class="button">3</div>
-  <div id="button-axiom-4" class="button">4</div>
-  <div id="button-axiom-5" class="button">5</div>
-  <div id="button-axiom-6" class="button">6</div>
-  <div id="button-axiom-7" class="button">7</div>
-</div>
-
-<p class="quote" id="axiom-description">
+ <p class="quote" id="axiom-math-description">
   fold two points together
 </p>
 
-  <pre class="code"><code>ear.<f>axiom</f>(<n id="axiom-number">2</n>, <arg>params</arg>)</code></pre>
+ <div id="canvas-origami-axioms"></div>
+
+<div style="text-align: center;">
+  <div class="button nopress">Axiom #</div>
+  <div id="button-axiom-math-1" class="button">1</div>
+  <div id="button-axiom-math-2" class="button red">2</div>
+  <div id="button-axiom-math-3" class="button">3</div>
+  <div id="button-axiom-math-4" class="button">4</div>
+  <div id="button-axiom-math-5" class="button">5</div>
+  <div id="button-axiom-math-6" class="button">6</div>
+  <div id="button-axiom-math-7" class="button">7</div>
+</div>
+
+  <pre class="code"><code>ear.<f>axiom</f>(<n id="axiom-math-number">2</n>, <span id="origami-axioms-params">params</span>)</code></pre>
 
 <p>
-  Each axiom takes a certain combination of <b>points</b> and <b>lines</b>. The second method parameter is a javascript object.
+  Each axiom takes a certain combination of <b>points</b> and <b>lines</b>.
+</p>
+
+  <pre class="code"><code>{ <str>points</str>: [], <str>lines</str>: [] }</code></pre>
+
+<p>
+  Where points can be arrays or x,y objects, and lines are objects with a <b>vector</b> and <b>origin</b>.
 </p>
 
   <pre class="code"><code>{
-  points: [],
-  lines: [],
-}</code></pre>
-
-<p>
-  Where points can be arrays or objects, and lines are objects with a <b>vector</b> and <b>origin</b>:
-</p>
-
-  <pre class="code"><code>{
-  points: [
+  <str>points</str>: [
     [<n>0.8</n>, <n>0.75</n>],
     { x: <n>0.5</n>, y: <n>0.22</n> }
   ],
-  lines: [
-    { vector: [<n>0.75</n>, <n>0.25</n>], origin: [<n>0.5</n>, <n>0.5</n>] }
+  <str>lines</str>: [
+    { <str>vector</str>: [<n>0.75</n>, <n>0.25</n>], <str>origin</str>: [<n>0.5</n>, <n>0.5</n>] }
   ],
 }</code></pre>
+
+<p>
+	Or use Rabbit Ear's <b>vector</b> and <b>line</b> types.
+</p>
+
+<p>
+	The axiom method returns <b>undefined</b> or a <b>line</b> or an <b>array of lines</b> based on the axiom.
+</p>
+
+<ul>
+	<li>1: one line</li>
+	<li>2: one line</li>
+	<li>3: array of lines</li>
+	<li>4: one line</li>
+	<li>5: array of lines</li>
+	<li>6: array of lines</li>
+	<li>7: one line</li>
+</ul>
+
+<h3>
+	Folding with Axioms
+</h3>
+
+<p>
+	Some axioms are not constructible if parameters or geometry lies outside of the square; an additional test is required.
+</p>
+
+
+ <p class="quote" id="axiom-fold-description">
+  fold two points together
+</p>
+
+	<div id="canvas-origami-axioms-fold"></div>
+
+<div style="text-align: center;">
+  <div class="button nopress">Axiom #</div>
+  <div id="button-axiom-fold-1" class="button">1</div>
+  <div id="button-axiom-fold-2" class="button red">2</div>
+  <div id="button-axiom-fold-3" class="button">3</div>
+  <div id="button-axiom-fold-4" class="button">4</div>
+  <div id="button-axiom-fold-5" class="button">5</div>
+  <div id="button-axiom-fold-6" class="button">6</div>
+  <div id="button-axiom-fold-7" class="button">7</div>
+</div>
 
 <h2>
   Strip Grafting
@@ -318,6 +359,20 @@ var options = {
   		if (e.slider === undefined) {
   		  e.slider = document.querySelector("#kawasaki-solver-slider");
   		}
+		},
+		"origami-axioms": (e) => {
+			if (e === undefined) { return; }
+			const points = e.params.points === undefined
+				? undefined
+				: e.params.points.map(pt => "    [<n>" + pt[0].toFixed(2) + "</n>, <n>" + pt[1].toFixed(2) + "</n>],").join("<br>");
+			const lines = e.params.lines === undefined
+				? undefined
+				// : e.params.lines.map(line => "    {<br>      <str>vector</str>: [<n>" + line.vector[0].toFixed(2) + "</n>, <n>" + line.vector[1].toFixed(2) + "</n>],<br>      <str>origin</str>: [<n>" + line.origin[0].toFixed(2) + "</n>, <n>" + line.origin[1].toFixed(2) + "</n>]<br>    },").join("<br>");
+				: e.params.lines.map(line => "    { <str>vector</str>: [<n>" + line.vector[0].toFixed(2) + "</n>, <n>" + line.vector[1].toFixed(2) + "</n>], <str>origin</str>: [<n>" + line.origin[0].toFixed(2) + "</n>, <n>" + line.origin[1].toFixed(2) + "</n>] },").join("<br>");
+			const pointsStr = points ? "  <str>points</str>: [<br>" + points + "<br>  ]" : "";
+			const linesStr = lines ? "  <str>lines</str>: [<br>" + lines + "<br>  ]" : "";
+			document.querySelector("#origami-axioms-params").innerHTML = "{<br>" + [pointsStr, linesStr].filter(a => a !== "").join("<br>") + "<br>}";
+			
 		}
 	},
 	header: {
@@ -326,24 +381,44 @@ slider = document.querySelector("#kawasaki-solver-slider");
 countLabel = document.querySelector("#kawasaki-solver-label");
 `,
 		"origami-axioms": `
-document.querySelectorAll("[id^=button-axiom]").forEach(el => {
+document.querySelectorAll("[id^=button-axiom-math]").forEach(el => {
   el.onclick = (e) => {
-    document.querySelectorAll("[id^=button-axiom]")
+    document.querySelectorAll("[id^=button-axiom-math]")
       .forEach(btns => btns.setAttribute("class", "button"))
     e.target.setAttribute("class", "button red");
     const axiom = e.target.innerHTML;
     setAxiom(axiom);
-    const desc = document.querySelector("#axiom-description");
+    const desc = document.querySelector("#axiom-math-description");
     if (desc) {
       desc.innerHTML = ear.text.axioms.en[axiom];
     }
-    const numElem = document.querySelector("#axiom-number");
+    const numElem = document.querySelector("#axiom-math-number");
     if (numElem) {
       numElem.innerHTML = axiom;
     }
   }
 });
 `,
+		"origami-axioms-fold": `
+document.querySelectorAll("[id^=button-axiom-fold]").forEach(el => {
+  el.onclick = (e) => {
+    document.querySelectorAll("[id^=button-axiom-fold]")
+      .forEach(btns => btns.setAttribute("class", "button"))
+    e.target.setAttribute("class", "button red");
+    const axiom = e.target.innerHTML;
+    setAxiom(axiom);
+    const desc = document.querySelector("#axiom-fold-description");
+    if (desc) {
+      desc.innerHTML = ear.text.axioms.en[axiom];
+    }
+    const numElem = document.querySelector("#axiom-fold-number");
+    if (numElem) {
+      numElem.innerHTML = axiom;
+    }
+  }
+});
+`,
+
 	}
 };
 
@@ -352,6 +427,7 @@ loadExamples([
 	"origami-flat-fold-cp",
 	"origami-flat-fold-cp-basic",
   "origami-axioms",
+	"origami-axioms-fold",
   "origami-kawasaki",
   "origami-kawasaki-solver",
   "origami-layer-solver",

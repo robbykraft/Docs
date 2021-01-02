@@ -207,9 +207,23 @@
   When a method requires more than one point, points are grouped using arrays.
 </p>
 
+<p>
+	Lines, rays, and segments all share a common prototype, thus share some properties and methods, like the method <b>nearestPoint</b>. 
+</p>
+
   <div id="canvas-line-nearest-point"></div>
 
   <pre class="code"><code><f>var</f> point <key>=</key> segment.<f>nearestPoint</f>(<span id="nearest-point-mouse"></span>)</code></pre>
+
+<p>
+	All three have an <b>origin</b> and <b>vector</b> property, which is what a line requires for initialization.
+</p>
+
+	<pre class="code"><code><f>var</f> segment <key>=</key> ear.<f>segment</f>(<n>1</n>, <n>0</n>, <n>2</n>, <n>-1</n>)<br><f>var</f> line <key>=</key> ear.<f>line</f>(segment)</code></pre>
+
+<p class="quote">
+	A segment being converted into a line (infinite length).
+</p>
 
 <h2>
   Polygons

@@ -169,11 +169,17 @@ div[id^=webgl-] {
 	body{
 		margin: 0 600px 5rem 600px;
 	}
+	.code {
+		width: 700px;
+	}
 }
 /* large computers */
 @media (min-width: 1600px) {
 	body{
 		margin: 0 400px 3rem 400px;
+	}
+	.code {
+		width: 550px;
 	}
 }
 /* medium computers */
@@ -195,7 +201,13 @@ div[id^=webgl-] {
 	/* no longer need to prevent text under the menu */
 	nav + * {
 		/*margin-top: initial;*/
-		margin-top: 2rem;
+		margin-top: 1.5rem;
+	}
+	h1:first-of-type {
+		margin-bottom: 0;
+	}
+	h3:first-of-type {
+		margin-top: 0;
 	}
 	pre, code {
 		max-width: calc(100% - 2rem);
@@ -216,6 +228,9 @@ div[id^=webgl-] {
 	}
 	.grid-2 > * {
 		flex: 1;
+	}
+	.code {
+		width: 100%;
 	}
 }
 
