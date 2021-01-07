@@ -5,7 +5,7 @@ import { TrackballControls } from "../lib/threejs/three-trackballcontrols-no-scr
 // console.log(THREE);
 // import { TrackballControls } from "https://cdn.jsdelivr.net/npm/three-trackballcontrols-es6@0.0.11/index.js";
 
-window.THREE = THREE;
+// window.THREE = THREE;
 
 window.addEventListener('load', () => {
 	let sceneMeshes = [];
@@ -123,7 +123,7 @@ window.addEventListener('load', () => {
 	// kawasaki solver will give anywhere between 1-3 solutions
 	// paired with sectors, so we need to filter undefineds.
 	// get one. any will work. just get the first one.
-	angles.push(ear.math.kawasaki_solutions_radians(angles)
+	angles.push(ear.single.kawasaki_solutions_radians(angles)
 	  .filter(a => a !== undefined)
 	  .shift());
 	// crease 4 rays. currently they have no assignment
@@ -135,14 +135,14 @@ window.addEventListener('load', () => {
 	// get the 4 sector angles
 	const sectors = cp.vertices_sectors[vert];
 	// this solves the crease assignment and layer over
-	const solution = ear.graph.assignment_solver(sectors).shift();
+	const solution = ear.single.layer_solver(sectors).shift();
 	cp.vertices_edges[vert].forEach((e, i) => {
 	  cp.edges_assignment[e] = solution.assignment[i];
 	});
 	const assignments = cp.vertices_edges[vert].map(e => cp.edges_assignment[e]);
 	const foldOrigami = (t) => {
 		const copied = JSON.parse(JSON.stringify(cp));
-		const res = ear.graph.single_vertex_fold_angles(sectors, assignments, t);
+		const res = ear.single.fold_angles4(sectors, assignments, t);
 		cp.vertices_edges[vert].forEach((e, i) => {
 	 	  copied.edges_foldAngle[e] = res[i] * 180 / Math.PI;
 		});

@@ -1,7 +1,8 @@
-<!-- START OF HEADER -->
-<!-- START OF HEADER -->
-<!-- START OF HEADER -->
 <!DOCTYPE html>
+
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
 <html>
 <head>
 <title>Rabbit Ear</title>
@@ -469,7 +470,7 @@ intersect_seg_seg_include(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</
 
   <pre class="code"><code><span id="clip-line-result"></span>poly.<f>clipLine</f>(<arg>line</arg>)<br>poly.<f>clipRay</f>(<arg>ray</arg>)<br>poly.<f>clipSegment</f>(<arg>segment</arg>)</code></pre>
 
-<h2>
+<h2 id="angles-and-winding-order">
   Angles and Winding-order
 </h2>
 
@@ -494,7 +495,7 @@ ear.math.<f>counter_clockwise_angle2</f>(<arg>vector1</arg>, <arg>vector2</arg>)
 	When operating on angles, these methods seamlessly wrap around from 2π to 0 and include negative radians as similar to their positive counterparts.
 </p>
 
-<h3>
+<h3 id="sorting">
 	Sorting
 </h3>
 
@@ -557,7 +558,8 @@ ear.math.<f>counter_clockwise_bisect2</f>(<arg>vector1</arg>, <arg>vector2</arg>
 	For trisections and beyond, use the general <b>subsect</b> methods.
 </p>
 
-	<pre class="code"><code>ear.math.<f>subsect_radians</f>(divisions, angleA, angleB)<br>ear.math.<f>subsect</f>(divisions, vectorA, vectorB)</code></pre>
+	<pre class="code"><code>ear.math.<f>counter_clockwise_subsect2</f>(<arg>divisions</arg>, <arg>vectorA</arg>, <arg>vectorB</arg>)
+ear.math.<f>counter_clockwise_subsect_radians</f>(<arg>divisions</arg>, <arg>angleA</arg>, <arg>angleB</arg>)</code></pre>
 
 <!-- <h2> -->
 <!--   Methods -->

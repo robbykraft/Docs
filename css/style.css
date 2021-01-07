@@ -46,8 +46,8 @@ nav, nav ul {
 
 /* hyperlinks */
 a { color: #e53; }
-a:visited { color: #000; }
-a:hover, a:active { color: #ea3; }
+a:visited { color: #932; }
+a:hover, a:active { color: #fb4; }
 
 /* margins */
 body { margin: 0 200px 3rem 200px; }

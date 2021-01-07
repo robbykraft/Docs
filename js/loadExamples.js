@@ -36,20 +36,25 @@ var appendScript = (id, code, options = {}) => {
   document.body.appendChild(script);
   // create floating source code hyperlink next to the sketch
   var node = window.document.querySelector(canvasID);
-	var scriptLink = window.document.createElement("div");
-  scriptLink.className = "script-link";
-  scriptLink.onclick = function (e) {
-    e.preventDefault();
-    window.location.href = EarCodeEditorURL + "?example=" + id;
-  }
-  node.appendChild(scriptLink);
+  if (node) {
+    var scriptLink = window.document.createElement("div");
+    scriptLink.className = "script-link";
+    scriptLink.onclick = function (e) {
+      e.preventDefault();
+      window.location.href = EarCodeEditorURL + "?example=" + id;
+    }
+    node.appendChild(scriptLink);
+  } else {
+		console.log(id + " could not locate div to append");
+	}
 };
 
 var loadExamples = function (filenames, options) {
 	filenames.forEach(function (id) {
   	fetch(EarExampleURL + id + ".js")
     	.then(function(body) { return body.text(); })
-    	.then(function(text) { return appendScript(id, text, options); });
+    	.then(function(text) { return appendScript(id, text, options); })
+			.catch(function(err) { console.log("problem loading " + id, err); });
 	});
 };
 

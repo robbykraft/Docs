@@ -1,14 +1,15 @@
-<!-- START OF HEADER -->
-<!-- START OF HEADER -->
-<!-- START OF HEADER -->
 <!DOCTYPE html>
+
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
+<!-- START OF HEADER -->
 <html>
 <head>
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="/rabbit-ear.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
 <link rel="stylesheet" href="./css/style.css" />
@@ -47,6 +48,17 @@
 <!-- END OF HEADER -->
 <!-- END OF HEADER -->
 
+<style>
+#canvas-cp-simulator {
+	width: 275px;
+	height: 275px;
+}
+canvas {
+	width: 100%;
+	height: 100%;
+}
+</style>
+
 <h3>
   Chapter IV.
 </h3>
@@ -66,25 +78,17 @@
 </h2>
 
 <p class="quote">
-	An origami model is a graph.
+	An origami model is a <a href="./graph.html">graph</a>.
 </p>
 
 <p>
-	This sketch demonstrates folding using <em>only low-level methods</em>.
-</p>
-
-	<div id="canvas-origami-flat-fold-cp-basic"></div>
-
-	<pre class="code"><code><f>var</f> origami <key>=</key> {}</code></pre>
-
-<p>
-	These object-oriented style objects are each tailored to a specific use. The <b>graph</b> is the most general, simply binding graph functions as object methods.
+	These object-oriented style objects are each tailored to a specific use; the <b>graph</b> is the most general. It simply binds graph functions as object methods.
 </p>
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>graph</f>()</code></pre>
 
 <p>
-	The <b>crease pattern</b> includes additional line/ray/shape drawing methods and maintains the graph is always planar.
+	The <b>crease pattern</b> has 2D line and shape drawing methods and maintains the graph is planar.
 </p>
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>cp</f>()</code></pre>
@@ -95,161 +99,64 @@
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()</code></pre>
 
-<p>
-	This sketch is the same as above but written with much simpler high-level methods.
-</p>
-
 	<div id="canvas-origami-flat-fold-cp"></div>
 
 	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()
 origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 
+<p>
+	Both <b>origami</b> and <b>crease pattern</b>'s prototype is <b>graph</b>; and <b>graph</b>'s prototype is the default Javascript object prototype.
+</p>
+
 <h2>
 	Crease Pattern
 </h2>
 
-<p class="explain">
-	todo
+<p>
+	Crease patterns are like 2D canvases to draw on. A few drawing primitives are provided.
 </p>
 
   <div id="canvas-origami-miura"></div>
 
-<h2>
-  Single Vertex
-</h2>
+<p>
+	The graph maintains planarity, so a few things are taken care of for you:
+</p>
 
-  <div id="webgl-origami-single-vertex"></div>
+<ul>
+	<li>automatically split overlapping lines at any crossings</li>
+	<li>convert curves into series of straight segments</li>
+	<li>clip shapes within the bounds of the paper</li>
+</ul>
 
-  <div style="margin:auto; width: 50%">
-    <input type="range" id="single-vertex-3d-slider" min="0" max="1023" value="0"/>
-  </div>
+<div class="grid-2">
+	<div id="canvas-cp-draw"></div>
+	<div id="canvas-cp-simulator"></div>
+</div>
 
-<h3>
-  Kawasaki's Theorem
-</h3>
-
-  <div id="canvas-origami-kawasaki"></div>
-
-  <p class="quote" id="origami-kawasaki-result"></p>
-
-  <pre class="code"><code>junction.<f>alternateAngleSum</f>()</code></pre>
+	<pre class="code"><code><f>var</f> cp <key>=</key> ear.<f>cp</f>()<br><span id="cp-draw-code"></span></code></pre>
 
 <p>
-  For a vertex to be flat-foldable, the sum of alternating sector angles must be 180&deg;.
-</p>
-
-<p>
-  This implies an even number of creases. Given an odd number, we can compute creases that can satisfy a solution.
-</p>
-
-  <div id="canvas-origami-kawasaki-solver"></div>
-
-  <p class="quote" id="kawasaki-solver-label"></p>
-
-  <div style="margin:auto; width: 50%">
-    <input type="range" id="kawasaki-solver-slider" min="1" max="7" value="2"/>
-  </div>
-
-  <div class="equation" id="equation-input-result"></div>
-
-<p class="quote">
-  The number of results will be less than or equal to the number of input creases.
-</p>
-
-<p>
-  Only one result is required for a solution; however, we can add any number of these results to our single-vertex (as long as it totals even in number) and Kawasaki's theorem will still be satisfied.
-</p>
-
-<p>
-  However we can't yet determine flat-foldability; we need to look at mountain/valley assignment.
-</p>
-
-<h3>
-  Maekawa's theorem
-</h3>
-
-  <div class="equation" id="maekawa-equation"></div>
-
-<p>
-  For a vertex to be flat-foldable, the number of mountain and valley creases should differ by 2.
-</p>
-
-<p>
-  Maekawa's Theorem makes it easy to check if a vertex <b>fails</b>, but to determine success, we still need to see if layers intersect.
-</p>
-
-<h3>
-  Layer solver
-</h3>
-
-<p>
-  Given a single-vertex crease pattern with mountain/valley assignments, this recursive layer solver will uncover all possible layer ordering when collapsed, or will determine if no solution is possible.
-</p>
-
-  <div id="canvas-origami-layer-solver"></div>
-
-<p class="quote">
-  The smallest top-right sector must be surrounded by a mountain and a valley.
+	Each shape method returns the indices of the edges in the graph. This allows you to alter things afterwards, like <b>assignment</b> or <b>foldAngle</b>.
 </p>
 
 <p class="explain">
-  Notice how satisfying Kawasaki's and Maekawa's theorem does not always result in a solution. This is when layer self-intersection occurs.
-</p>
+	The sketch above is running an implementation of <a href="https://origamisimulator.org/">Origami Simulator</a>.
 
 <p>
-  If a solution is possible, the layer solver will assign each face a z-index. Positive values are closer to the viewer.
+	Creases are not generally decided by random placements of lines, more often creases are uncovered in the geometry in the origami.
 </p>
-
-  <div id="canvas-origami-single-vertex-layers-topview"></div>
-
-  <pre class="code"><code>[<n>4</n>, <n>0</n>, <n>2</n>, <n>7</n>, <n>6</n>, <n>1</n>, <n>5</n>, <n>3</n>]</code></pre>
-
-<p class="quote">
-  The index is the face # and the value is the z-layer (face 0 is on the 4th z-layer)
-</p>
-
-<p>
-  Because one single-vertex can have multiple valid layer arrangements, the layer solver returns an array of solutions.
-</p>
-
-  <div id="canvas-origami-assignment-solver"></div>
-
-<p>
-  This is using the layer solver to check for self intersection.
-</p>
-
-<!--   <div id="canvas-origami-kawasaki-solver-layers"></div>
-
-<p class="explain">
-  If the solver finds N number of solutions (same # as input creases), choose <b>any</b> N-2 solutions and the M/V assignment is trivial: the inputs are all one assignment and the solutions are the opposite.
-</p>
- -->
-
-<p>
-  This sketch demonstrates all operations at once.
-</p>
-
-  <div id="canvas-origami-single-vertex"></div>
-
-<p>
-  The angle of the fourth crease (bottom-left) is calculated by Kawasaki, the assignments are determined by Maekawa and by checking for self-intersection, which also solves the layer order for the folded state.
-</p>
-
-  <pre class="code"><code>ear.math.<f>kawasaki_solutions</f>()<br>ear.graph.<f>layer_solver</f>()<br>ear.graph.<f>assignment_solver</f>()</code></pre>
-
-<p>
-  Using Kawasaki alone, we can generalize the origami square twist.
-</p>
-
-  <div id="canvas-origami-twist"></div>
-
-  <pre class="code"><code>ear.math.<f>kawasaki_solutions</f>()</code></pre>
 
 <h2>
   Axioms
 </h2>
 
- <p class="quote" id="axiom-math-description">
+  <pre class="code"><code>ear.<f>axiom</f>(<arg>number</arg>, <arg>params</arg>)</code></pre>
+
+<p>
+	The seven origami axioms are the different ways to make a crease <b>exactly</b> in place.
+</p>
+
+<p class="quote" id="axiom-math-description">
   fold two points together
 </p>
 
@@ -274,6 +181,16 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 
   <pre class="code"><code>{ <str>points</str>: [], <str>lines</str>: [] }</code></pre>
 
+<ul>
+	<li><b>axiom 1</b>: 2 points</li>
+	<li><b>axiom 2</b>: 2 points</li>
+	<li><b>axiom 3</b>: 2 lines</li>
+	<li><b>axiom 4</b>: 1 point, 1 line</li>
+	<li><b>axiom 5</b>: 2 points, 1 line</li>
+	<li><b>axiom 6</b>: 2 points, 2 lines</li>
+	<li><b>axiom 7</b>: 1 point, 2 lines</li>
+</ul>
+
 <p>
   Where points can be arrays or x,y objects, and lines are objects with a <b>vector</b> and <b>origin</b>.
 </p>
@@ -293,29 +210,18 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 </p>
 
 <p>
-	The axiom method returns <b>undefined</b> or a <b>line</b> or an <b>array of lines</b> based on the axiom.
+	Some axioms have <em>multiple solutions</em>; the axiom method returns an array containing anywhere between <b>0 to 3 lines</b>.
 </p>
-
-<ul>
-	<li>1: one line</li>
-	<li>2: one line</li>
-	<li>3: array of lines</li>
-	<li>4: one line</li>
-	<li>5: array of lines</li>
-	<li>6: array of lines</li>
-	<li>7: one line</li>
-</ul>
 
 <h3>
 	Folding with Axioms
 </h3>
 
 <p>
-	Some axioms are not constructible if parameters or geometry lies outside of the square; an additional test is required.
+	In practice, axioms should only be constructible if all necessary geometry lies <b>on the paper</b>.
 </p>
 
-
- <p class="quote" id="axiom-fold-description">
+<p class="quote" id="axiom-fold-description">
   fold two points together
 </p>
 
@@ -332,19 +238,280 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   <div id="button-axiom-fold-7" class="button">7</div>
 </div>
 
-<h2>
-  Strip Grafting
-</h2>
+	<pre class="code"><code>ear.axiom.<f>test</f>(<arg>number</arg>, <arg>params</arg>, <arg>boundary</arg>)</code></pre>
+
+<p class="quote">
+	<b>boundary</b> can be either a polygon or an origami graph.
+</p>
+
+<p>
+	The <b>test</b> method returns an array of true or false which aligns with the array of lines the axiom method returns.
+</p>
 
 <p class="explain">
-	todo
+	Axioms can fail in two ways: they can fail the boundary test, or they can be non-constructible due to their input parameters. Not all can fail the latter, but Axiom 5 can be a good example of it.
 </p>
+
+<h2>
+  Single Vertex
+</h2>
+
+	<pre class="code"><code>ear.<f>single</f></code></pre>
+
+<h3>
+  Kawasaki's Theorem
+</h3>
+
+  <div id="canvas-origami-kawasaki"></div>
+
+  <p class="quote" id="origami-kawasaki-result"></p>
+
+  <pre class="code"><code>ear.single.<f>alternating_sum</f>(<arg>array</arg>)</code></pre>
+
+<p>
+  For a vertex to be flat-foldable, the sum of alternating sector angles must be 180&deg;. This implies an <em>even number of creases</em>.
+</p>
+
+<p>
+	Given an odd number of creases, we can ask the computer to find creases that can satisfy a solution.
+</p>
+
+	<div id="canvas-origami-kawasaki-solver"></div>
+
+  <p class="quote" id="kawasaki-solver-label"></p>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="kawasaki-solver-slider" min="1" max="7" value="2"/>
+  </div>
+
+  <div class="equation" id="equation-input-result"></div>
+
+<p class="quote">
+  The number of results will be less than or equal to the number of input creases.
+</p>
+
+	<pre class="code"><code>ear.single.<f>kawasaki_solutions</f>(<arg>vectors</arg>)<br>ear.single.<f>kawasaki_solutions_radians</f>(<arg>radians</arg>)</code></pre>
+
+<p>
+  Only one result is required to be added to the set of input creases, and <b>Kawasaki's theorem will be satisfied</b>.
+</p>
+
+<p>
+	However, this set of results also has the property that <em>any number of them</em> can be added to the input set and Kawasaki's theorem will be satisfied (as long the total number of creases is even).
+</p>
+
+	<div id="canvas-origami-kawasaki-solver-options"></div>
+
+<p class="explain">
+	Vectors or radians parameters <em>must be <a href="/docs/math.html#sorting">sorted</a></em> before calling these methods.
+</p>
+
+	<pre class="code"><code>ear.math.<f>counter_clockwise_order2</f>(vectors)
+  .map(<arg>i</arg> <f>=&gt;</f> vectors[i])</code></pre>
+
+	<pre class="code"><code>ear.math.<f>counter_clockwise_order_radians</f>(angles)
+  .map(<arg>i</arg> <f>=&gt;</f> angles[i])</code></pre>
+
+<p class="quote">
+	Sort radially 2D vectors or vectors as radians.
+</p>
+
+<p>
+	Given a crease pattern template like this origami twist, if we maintain the graph structure, we can use Kawasaki alone to create variation in form.
+</p>
+
+  <div id="canvas-origami-twist-fold"></div>
+
+  <pre class="code"><code>ear.single.<f>kawasaki_solutions</f>()</code></pre>
+
+<p>
+  Kawasaki's theorem alone cannot determine flat-foldability; we must also at least consider mountain/valley assignment.
+</p>
+
+<h3>
+  Maekawa's theorem
+</h3>
+
+  <div class="equation" id="maekawa-equation"></div>
+
+<p>
+  For a vertex to be flat-foldable, the number of mountain and valley creases should differ by 2.
+</p>
+
+<p>
+	This method will replace all unassigned creases "U" with mountain or valley, returning all permutations that satisfy Maekawa's Theorem.
+</p>
+
+	<pre class="code"><code>ear.single.<f>maekawa_assignments</f>([<str>"M"</str>, <str>"U"</str>, <str>"U"</str>, <str>"U"</str>])</code></pre>
+
+	<pre class="code"><code>[
+  [<str>"M"</str>, <str>"V"</str>, <str>"V"</str>, <str>"V"</str>],
+  [<str>"M"</str>, <str>"V"</str>, <str>"M"</str>, <str>"M"</str>],
+  [<str>"M"</str>, <str>"M"</str>, <str>"V"</str>, <str>"M"</str>],
+  [<str>"M"</str>, <str>"M"</str>, <str>"M"</str>, <str>"V"</str>],
+]</code></pre>
+
+<p>
+	Kawasaki and Maekawa's Theorems make it easy to check if a vertex <b>fails</b> flat-foldability.
+</p>
+
+<p>
+	To determine success we need to study how the paper looks when folded; we need a layer arrangement where layers don't intersect each other.
+</p>
+
+<h3>
+  Layer order
+</h3>
+
+<p>
+  Given a single-vertex crease pattern with mountain/valley assignments, this recursive layer solver will uncover all possible layer ordering when collapsed, or will determine if a solution or no solution is possible.
+</p>
+
+  <div id="canvas-origami-layer-solver"></div>
+
+<p class="quote">
+	Toggle the sectors, but make sure mountain and valley differ by 2.
+</p>
+
+<p class="quote">
+  The smallest sector (top-right) must be surrounded by a mountain and a valley.
+</p>
+
+	<pre class="code"><code>ear.single.<f>sectors_layer</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
+
+
+<p>
+  If a solution is possible, the layer solver will assign each sector a z-index. Positive values are closer to the viewer.
+</p>
+
+  <div id="canvas-origami-single-vertex-layers-topview"></div>
+
+  <pre class="code"><code>[<n>4</n>, <n>0</n>, <n>2</n>, <n>7</n>, <n>6</n>, <n>1</n>, <n>5</n>, <n>3</n>]</code></pre>
+
+<p class="quote">
+  The indices match your input sectors, each value is the z-layer. (face 0 is on the 4th z-layer)
+</p>
+
+<p>
+  Because one single-vertex can have multiple valid layer arrangements, the layer solver returns an array of solutions.
+</p>
+
+<h3>
+	All together
+</h3>
+
+	<pre class="code"><code>ear.single.<f>layer_solver</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
+
+<p>
+	Finally, the <b>layer solver</b> goes one step beyond <b>sectors layer</b>, where sectors_layer requires a valid assignments argument, layer_solver allows the inclusion of unassigned "U" creases and the layer solver will fill in the blanks.
+</p>
+
+  <div id="canvas-origami-single-vertex"></div>
+
+	<pre class="code"><code><f>var</f> fourth <key>=</key> ear.single.<f>kawasaki_solutions</f>(<arg>three_vectors</arg>)</code></pre>
+
+	<pre class="code"><code><f>var</f> sectors <key>=</key> []
+ear.single.<f>layer_solver</f>(sectors, [<str>"U"</str>, <str>"U"</str>, <str>"U"</str>, <str>"U"</str>])</code></pre>
+
+<p>
+	First, the fourth crease (bottom-left) is added dynamically to satisfy Kawasaki's theorem. Then, the layer solver determines all four mountain valley assignments and the layer order.
+</p>
+
+<h3>
+	4-vertex fold angles
+</h3>
+
+  <div id="webgl-origami-single-vertex"></div>
+
+  <div style="margin:auto; width: 50%">
+    <input type="range" id="single-vertex-3d-slider" min="0" max="1023" value="0"/>
+  </div>
+
+	<pre class="code"><code>ear.single.<f>fold_angles4</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
+
+<p>
+	Degree 4 vertices are special cases where the continuous folding motion can be calculated.
+</p>
+
+<h2>
+	Not the end
+</h2>
+
+<p>
+	...more to come! The library is constantly growing. Check the <a href="https://github.com/robbykraft/Origami">Github</a> for up to date development progress.
+</p>
+
+<script type="module" src="./js/three-single-vertex.js"></script>
+
+<!-- <script type="text/javascript" src="https://robbykraft.github.io/OrigamiSimulator/origami-simulator.min.js"></script> -->
+
+<!-- <script type="text/javascript" src="https://threejs.org/build/three.js"></script> -->
+<!-- <script type="text/javascript" src="./js/origami-sim/three.min.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+<script type="text/javascript" src="./js/origami-sim/trackballcontrols-no-scroll.js"></script>
+<script type="text/javascript" src="./js/origami-sim/fold.js"></script>
+<script type="text/javascript" src="./js/origami-sim/earcut.min.js"></script>
+<script type="text/javascript" src="./js/origami-sim/SVGLoader.js"></script>
+<script type="text/javascript" src="./js/origami-simulator.js"></script>
+
+<script>
+var cpSimulator;
+setTimeout(function() {
+	cpSimulator = OrigamiSimulator({
+		parent: document.querySelector("#canvas-cp-simulator"),
+		color1: "ffbb44",
+		color2: "115588",
+	});
+	cpSimulator.foldPercent = 0.5;
+	cpSimulator.loadFOLD(ear.cp());
+	cpSimulator.simulationRunning = false;
+}, 1000);
+</script>
 
 <script type="text/javascript" src="./js/loadExamples.js"></script>
 
 <script type="text/javascript">
+var cpSimulatorTimeout;
+
 var options = {
 	callback: {
+		"cp-draw": (e) => {
+			const onePoint = function (pt) {
+				return "[" + [pt[0], pt[1]]
+					.map(n => "<n>" + n.toFixed(2) + "</n>")
+					.join(", ") + "]";
+			};
+			const twoPoints = function (params) {
+				return "[" + params.map(pt => onePoint(pt)).join(", ") + "]";
+			};
+			const makeParams = function (shape, params) {
+				switch (shape) {
+					case "segment": return twoPoints(params);
+					case "ray":
+					case "line": return onePoint(params[0]) + ", " + onePoint(ear.math.subtract(params[1], params[0]));
+					case "rect": return "<n>" + params[0][0].toFixed(2) + "</n>, "
+						+ "<n>" + params[0][1].toFixed(2) + "</n>, "
+						+ "<n>" + (params[1][0] - params[0][0]).toFixed(2) + "</n>, "
+						+ "<n>" + (params[1][1] - params[0][1]).toFixed(2) + "</n>";
+					case "circle": return "<n>" + params[0][0].toFixed(2)
+					 + "</n>, <n>" + params[0][1].toFixed(2) + "</n>, <n>"
+					 + ear.math.distance(params[0], params[1]).toFixed(2) + "</n>";
+				}
+			};
+			if (e === undefined || !cpSimulator) { return; }
+			if (e.cp) {
+				cpSimulator.loadFOLD(e.cp);
+				cpSimulator.simulationRunning = true;
+				if (cpSimulatorTimeout) { clearTimeout(cpSimulatorTimeout); }
+				cpSimulatorTimeout = setTimeout(function() {
+					cpSimulator.simulationRunning = false;
+				}, 5000);
+			}
+			if (e.shape && e.params) {
+				const str = "cp.<f>" + e.shape + "</f>(" + makeParams(e.shape, e.params) + ")";
+				document.querySelector("#cp-draw-code").innerHTML = str;
+			}
+		},
 		"origami-kawasaki": (e) => {
   		if (e == undefined) { return; }
   		const colors = e.isFlatFoldable
@@ -425,22 +592,22 @@ document.querySelectorAll("[id^=button-axiom-fold]").forEach(el => {
 loadExamples([
   "origami-two-coloring",
 	"origami-flat-fold-cp",
-	"origami-flat-fold-cp-basic",
+  "origami-miura",
+	"cp-draw",
   "origami-axioms",
 	"origami-axioms-fold",
   "origami-kawasaki",
   "origami-kawasaki-solver",
+	"origami-kawasaki-solver-options",
   "origami-layer-solver",
-  "origami-assignment-solver",
-//  "origami-kawasaki-solver-layers",
-  "origami-twist",
+////  "origami-assignment-solver",
+////  "origami-kawasaki-solver-layers",
+  "origami-twist-fold",
   "origami-single-vertex",
   "origami-single-vertex-layers-topview",
-  "origami-miura",
 ], options);
 </script>
 
-<script type="module" src="./js/three-single-vertex.js"></script>
 
 <link
 	rel="stylesheet"
