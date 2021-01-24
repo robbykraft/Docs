@@ -49,9 +49,17 @@ var appendScript = (id, code, options = {}) => {
 	}
 };
 
+var headers = new Headers();
+headers.append("pragma", "no-cache");
+headers.append("cache-control", "no-cache");
+var fetch_options = {
+	method: "GET",
+	headers: headers,
+};
+
 var loadExamples = function (filenames, options) {
 	filenames.forEach(function (id) {
-  	fetch(EarExampleURL + id + ".js")
+  	fetch(EarExampleURL + id + ".js", fetch_options)
     	.then(function(body) { return body.text(); })
     	.then(function(text) { return appendScript(id, text, options); })
 			.catch(function(err) { console.log("problem loading " + id, err); });

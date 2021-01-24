@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -58,7 +58,7 @@
 
   <div id="canvas-svg-parabola"></div>
 
-  <pre class="code"><code><f>ear</f>.svg</code></pre>
+  <pre class="code"><code>ear.<f>svg</f></code></pre>
 
 <p>
   SVGs are vector-based, look great at any resolution, and have fantastic interoperability with plotters, cutters, and web browsers.
@@ -313,7 +313,8 @@
 
   <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)
   .<f>onChange</f>((<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) <f>=&gt;</f> {
-    <f>console</f>.<f>log</f>(point) <c>// a coordinate, like [23, 102]</c>
+    <c>// point will be an x,y coordinate</c>
+    <f>console</f>.<f>log</f>(point)
   })</code></pre>
 
 <p>
@@ -321,13 +322,14 @@
 </p>
 
 <pre class="code"><code>svg.<f>controls</f>(<n>4</n>)
-  .<f>svg</f>(<f>function</f> () { <key>return</key> ear.svg.<f>circle</f>(svg.<f>getWidth</f>() <key>*</key> <n>0.05</n>).fill(<str>"#e53"</str>); })
-  .<f>position</f>(<f>function</f> () { <key>return</key> [random(svg.getWidth()), random(svg.getHeight())]; })
-  .<f>parent</f>(back)
-  .<f>onChange</f>(<f>function</f> (<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) {
-    l1.setPoints(points[0], points[1]);
-    l2.setPoints(points[3], points[2]);
-    curve.clear().moveTo(points[0]).curveTo(points[1], points[2], points[3]);
+  .<f>svg</f>(() <f>=&gt;</f> svg.<f>circle</f>(svg.<f>getWidth</f>() <key>/</key> <n>20</n>).<f>fill</f>(<str>"#e53"</str>))
+  .<f>position</f>(() <f>=&gt;</f> [random(svg.<f>getWidth</f>()), random(svg.<f>getHeight</f>())])
+  .<f>onChange</f>((<arg>point</arg>, <arg>i</arg>, <arg>points</arg>) <f>=&gt;</f> {
+    l1.<f>setPoints</f>(points[<n>0</n>], points[<n>1</n>]);
+    l2.<f>setPoints</f>(points[<n>3</n>], points[<n>2</n>]);
+    curve.<f>clear</f>()
+      .<f>moveTo</f>(points[<n>0</n>])
+      .<f>curveTo</f>(points[<n>1</n>], points[<n>2</n>], points[<n>3</n>]);
   }, <n>true</n>);
 </code></pre>
 
@@ -377,34 +379,79 @@
 </h2>
 
 <p>
-  You can pass in a FOLD object and <a href="https://github.com/robbykraft/fold-to-svg">fold-to-svg</a> will render it as an SVG.
+	This SVG library was written to be fully independent and work alone if needed. (~35kb)
 </p>
 
-  <pre class="code"><code>ear.<f>svg</f>(<arg>foldGraph</arg>, <arg>options</arg>)</code></pre>
+	<pre class="code"><code><str>https://robbykraft.github.io/SVG/svg.js</str></code></pre>
 
 <p>
-  Size and scale are automatically adjusted, FOLD graphs 1 unit wide and 800 units wide appear the same.
+	But when integrated with Rabbit Ear additional features become unlocked.
 </p>
+
+<h3>
+	Graph
+</h3>
 
 <p>
-  Any of the math primitives can easily convert to SVG components; excluding non-visual primitives like vector, matrix.
+	The SVG library can create renderings of FOLD graphs.
 </p>
 
-  <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>).<f>svg</f>()</code></pre>
+  <div id="canvas-svg-graph"></div>
+
+	<pre class="code"><code>svg.<f>graph</f>(<arg>fold</arg>)<br>g.<f>graph</f>(<arg>fold</arg>)</code></pre>
+
+<p>
+  The element itself is a nesting of <b>g</b> elements.
+</p>
+
+	<pre class="code"><code><f>var</f> drawing <key>=</key> svg.<f>graph</f>(<arg>fold</arg>)
+<c>// quick component access</c>
+drawing.vertices.childNodes.<f>forEach</f>(v <f>=&gt;</f> v.<f>fill</f>(<str>"yellow"</str>))
+drawing.edges.mountain.<f>stroke</f>(<str>"blue"</str>)
+drawing.faces.<f>fill</f>(<str>"white"</str>)
+drawing.boundaries.<f>fill</f>(<str>"linen"</str>)</code></pre>
+
+<p>
+  The element contains keys to access the geometry. These return the <b>g</b> element in question, and the geometry elements are found under the <b>childNodes</b> key.
+</p>
+
+  <pre class="code"><code>svg.<f>graph</f>(<arg>graph</arg>)
+ear.graph.<f>svg</f>(<arg>graph</arg>).<f>appendTo</f>(<arg>svg</arg>)</code></pre>
+
+<p>
+  Graphs can be drawn two ways: from the SVG or from the graph key and appended later.
+
+<p>
+  See more: <a href="https://github.com/robbykraft/fold-to-svg">fold-to-svg</a>.
+</p>
+
+<h3>
+	Math Primitives
+</h3>
+
+<p>
+  Rabbit Ear's math primitives gain an <b>svg</b> method that converts them into path elements.
+</p>
+
+  <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>).<f>svg</f>()<br>  .<f>appendTo</f>(svg)</code></pre>
 
 <p class="quote">
 	This returns an SVG path object.
 </p>
 
+  <pre class="code"><code>.<f>appendTo</f>(svg)</code></pre>
+
 <p>
- Remember to add it to the svg or a group. It's easy with the <b>appendTo</b> method.
+	These elements aren't created as children of any parent. You'll need to append it.
 </p>
 
-  <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>)<br>  .<f>svg</f>()<br>  .<f>appendTo</f>(svg)</code></pre>
+<p>
+	Finally, there are small features here and there, like event handlers return mouse location data as <b>vector</b> objects, making calculations a lot easier.
+</p>
 
   <div id="canvas-svg-spiral"></div>
 
-<script type="text/javascript" src="./js/loadExamples.js"></script>
+<script type="text/javascript" src="./js/loadExamples.js?version=2"></script>
 
 <script type="text/javascript">
 var options = {
@@ -449,6 +496,7 @@ loadExamples([
   "svg-controls",
   "svg-spiral",
   "svg-hanoi",
+  "svg-graph",
 ], options);
 </script>
 

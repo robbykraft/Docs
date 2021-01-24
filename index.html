@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -139,6 +139,44 @@
 	<div id="canvas-origami-miura"></div>
 
 <h2>
+	Let's Begin
+</h2>
+
+<p>
+	Ready? Head over to <a href="./math.html">Chapter 1: Math</a>. Before you go here is a quick introduction to what you're about to see.
+</p>
+
+<pre class="code"><code><f>ear</f></code></pre>
+
+<p>
+  Open the Javascript console and type <b>ear</b> and poke around. The top-level contains constructors, methods, and categories
+</p>
+
+<pre class="code"><code><c>// constructors</c>
+ear.<f>vector</f>()
+ear.<f>svg</f>()
+ear.<f>cp</f>()</code></pre>
+<pre class="code"><code> <c>// methods</c>
+ear.<f>axiom</f>()
+ear.<f>intersect</f>()</code></pre>
+<pre class="code"><code> <c>// categories</c>
+ear.<f>math</f>
+ear.<f>graph</f>
+ear.<f>svg</f>
+ear.<f>diagram</f></code></pre>
+
+<p class="quote">Notice how some constructors double as categories.</p>
+
+<p>
+  You can expand the categories too and poke around. These contain <em>pretty much every</em> function in this library is made available to you. You can tell you're venturing into the back end when you begin seeing <b>snake_case</b>.
+</p>
+
+
+<p>
+  These back-end methods are meant to execute as fast as possible, they tend to be verbose and picky about arguments. The top-level primitives are much nicer, stay there if you can.
+</p>
+
+<h2>
 	Developers
 </h2>
 
@@ -148,7 +186,7 @@
 
 	<div id="canvas-polygon-straight-skeleton"></div>
 
-<script type="text/javascript" src="./js/loadExamples.js"></script>
+<script type="text/javascript" src="./js/loadExamples.js?version=2"></script>
 
 <script type="text/javascript">
 loadExamples([

@@ -131,7 +131,7 @@ window.addEventListener('load', () => {
 	  .map(vec => ear.ray(vec))
 	  .forEach(vec => cp.ray(vec));
 	// what is the index of the vertex at the center?
-	const vert = cp.nearest(0, 0).vertex.index;
+	const vert = cp.nearest(0, 0).vertex;
 	// get the 4 sector angles
 	const sectors = cp.vertices_sectors[vert];
 	// this solves the crease assignment and layer over

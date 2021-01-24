@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -114,7 +114,18 @@
 
   <div id="canvas-graph-nearest-components"></div>
 
-  <pre class="code"><code>ear.graph.<f>nearest_vertex</f>(<arg>graph</arg>)<br>ear.graph.<f>nearest_edge</f>(<arg>graph</arg>)<br>ear.graph.<f>nearest_face</f>(<arg>graph</arg>)</code></pre>
+  <pre class="code"><code><f>var</f> nearest <key>=</key> graph.<f>nearest</f>(<span id="graph-nearest-components-point"><arg>point</arg></span>)</code></pre>
+
+  <pre class="code"><code><span id="graph-nearest-components-result">{ vertex: <n>undefined</n>
+  edge: <n>undefined</n>
+  face: <n>undefined</n>
+  vertices_coords: <n>undefined</n>
+  edges_assignment: <n>undefined</n>
+  <key>...</key> }</span></code></pre>
+
+<p class="quote">
+  ...including all FOLD arrays in the graph, more about these below.
+</p>
 
 <h2>
   FOLD
@@ -192,12 +203,8 @@
 </p>
 
 <div class="grid-2">
-  <div>
-    <pre class="code"><code><f>var</f> myGraph <key>=</key> {}<br>ear.graph.<f>populate</f>(myGraph)<br>ear.graph.<f>translate</f>(myGraph, <n>2</n>, <n>1</n>)</code></pre>
-  </div>
-  <div>
-    <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.<f>graph</f>()<br>myGraph.<f>populate</f>()<br>myGraph.<f>translate</f>(<n>2</n>, <n>1</n>)</code></pre>
-  </div>
+  <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.<f>graph</f>()<br>myGraph.<f>populate</f>()<br>myGraph.<f>translate</f>(<n>2</n>, <n>1</n>)</code></pre>
+  <pre class="code"><code><f>var</f> myGraph <key>=</key> {}<br>ear.graph.<f>populate</f>(myGraph)<br>ear.graph.<f>translate</f>(myGraph, <n>2</n>, <n>1</n>)</code></pre>
 </div>
 
 <h3>
@@ -208,7 +215,7 @@
   When modeling origami you tend to start with a boundary. All of the regular polygons have named static initializers.
 </p>
 
-  <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.graph.<f>square</f>()</code></pre>
+  <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.graph.<f>hexagon</f>()</code></pre>
 
 <h2>
   Adding Components
@@ -219,12 +226,12 @@
 </h3>
 
 <p>
-  <b>add_vertices</b> makes sure that no two vertices exist in the same space, within an adjustable <b>epsilon</b>.
+  <b>addVertices</b> makes sure that no two vertices exist in the same space, within an adjustable <b>epsilon</b>.
 </p>
 
   <div id="canvas-graph-add-vertices"></div>
 
-  <pre class="code"><code>ear.graph.<f>add_vertices</f>(<arg>graph</arg>, [[<n>x</n>, <n>y</n>], [<n>x</n>, <n>y</n>], <key>...</key>])</code></pre>
+  <pre class="code"><code>graph.<f>addVertices</f>([[<n>x</n>, <n>y</n>], [<n>x</n>, <n>y</n>], <key>...</key>])</code></pre>
 
 <p class="explain">
   If you import a FOLD file with already existing vertices, you can call <b>remove_duplicate_vertices</b> at any time to clean up vertices.
@@ -235,12 +242,12 @@
 </h3>
 
 <p>
-  <b>split_edge</b> adds one new vertex and carefully rebuilds the graph around it, adding new edges and updating any adjacent faces.
+  <b>splitEdge</b> adds one new vertex and carefully rebuilds the graph around it, adding new edges and updating any adjacent faces.
 </p>
 
   <div id="canvas-graph-split-edge"></div>
 
-  <pre class="code"><code>ear.graph.<f>split_edge</f>(<arg>graph</arg>, <arg>edge</arg>, <arg>coords</arg>)</code></pre>
+  <pre class="code"><code>graph.<f>splitEdge</f>(<arg>edge</arg>, <arg>coords</arg>)</code></pre>
 
 <p>
   Give an <b>edge index</b> and <b>coordinates for a new vertex</b>. If no coordinates are given, it will be split at the midpoint.
@@ -256,7 +263,8 @@
 
   <div id="canvas-graph-split-face"></div>
 
-  <pre class="code"><code>ear.graph.<f>split_face</f>(<arg>graph</arg>, <arg>face</arg>, <arg>vector</arg>, <arg>origin</arg>)</code></pre>
+  <pre class="code"><code>graph.<f>splitFace</f>(<arg>face</arg>, <arg>line</arg>)
+graph.<f>splitFace</f>(<arg>face</arg>, <arg>vector</arg>, <arg>origin</arg>)</code></pre>
 
 <p>
   Give a <b>face index</b> and a line by specifying the line's <b>vector</b> and <b>origin</b>.
@@ -270,7 +278,7 @@
   Without modifying the geometry of a graph we can construct more arrays that express relationships between components.
 </p>
 
-<pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)</code></pre>
+<pre class="code"><code>graph.<f>populate</f>()</code></pre>
 
   <svg viewBox="-0.05 -0.05 1.1 1.1" stroke-width="0.02" fill="none">
     <path stroke="black" stroke-dasharray="0.0001 0.05 0.0333 0.05" stroke-linecap="round" d="M0,0L1,1" />
@@ -358,7 +366,7 @@ ear.graph.<f>make_faces_coloring</f>()
 
   <div id="canvas-graph-faces-tree"></div>
 
-  <pre class="code"><code>ear.graph.<f>make_face_spanning_tree</f>(<arg>graph</arg>, <n>5</n>)</code></pre>
+  <pre class="code"><code>graph.<f>faceSpanningTree</f>(<n><span id="graph-faces-tree-number">5</span></n>)</code></pre>
 
 <p>
   A minimum face spanning tree finds edge-adjacent faces; any face can be the starting face.
@@ -378,7 +386,12 @@ ear.graph.<f>make_faces_coloring</f>()
 
   <div id="canvas-graph-get-boundary"></div>
 
+<div class="grid-2">
+
+  <pre class="code"><code>graph.<f>boundary</f>()</code></pre>
   <pre class="code"><code>ear.graph.<f>get_boundary</f>(<arg>graph</arg>)</code></pre>
+
+</div>
 
 <p>
   Both edges and vertices are included, sorted clockwise / counter-clockwise.
@@ -403,7 +416,14 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 
   <div id="canvas-graph-faces-reflect"></div>
 
+<div class="grid-2">
+  <div>
+  <pre class="code"><code>graph.<f>folded</f>()</code></pre>
+  </div>
+  <div>
   <pre class="code"><code>ear.graph.<f>make_faces_matrix</f>(<arg>graph</arg>)<br>ear.graph.<f>make_vertices_coords_folded</f>(<arg>graph</arg>)</code></pre>
+  </div>
+</div>
 
 <h3>
   Explode Faces
@@ -411,7 +431,7 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 
   <div id="canvas-graph-explode-faces"></div>
 
-  <pre class="code"><code>ear.graph.<f>explode_faces</f>(<arg>graph</arg>)</code></pre>
+  <pre class="code"><code>graph.<f>explodeFaces</f>()</code></pre>
 
 <p>
   Because neighboring faces share vertices, separating faces requires cloning vertices, one unique occurence for every face.
@@ -920,11 +940,12 @@ ear.graph.<f>add_edges</f>(<arg>graph</arg>, <key>...</key>)</code></pre>
   Interactive graphs at the top of this page are <a href="https://observablehq.com/@d3/force-directed-graph">force direct graphs</a> from <a href="https://d3js.org/">d3.js</a>.
 </p>
 
-<script type="text/javascript" src="./js/loadExamples.js"></script>
+<script type="text/javascript" src="./js/loadExamples.js?version=2"></script>
 
 <script type="text/javascript">
-const options = {
-	header: {}
+var options = {
+	header: {},
+  callback: {},
 };
 
 ["graph-fragment-edges",
@@ -934,6 +955,29 @@ const options = {
 ].forEach(function(key) {
 	options.header[key] = 'slider = document.querySelector("#' + key + '-slider");\ncountLabel = document.querySelector("#' + key + '-label");\n';
 });
+
+options.callback["graph-nearest-components"] = (event) => {
+  const p = event.point;
+  const pointStr = "<n>" + p[0].toFixed(3) + "</n>, <n>" + p[1].toFixed(3)  + "</n>";
+  document.querySelector("#graph-nearest-components-point") .innerHTML = pointStr;
+
+  const e = event.nearest;
+  var str = "{" +
+  " vertex: <n>" + e.vertex + "</n>,\n" +
+  "  edge: <n>" + e.edge + "</n>,\n" +
+  "  face: <n>" + e.face + "</n>,\n" +
+  "  vertices_coords: [" + e.vertices_coords
+    .map(n => "<n>" + ear.math.clean_number(n) + "</n>")
+    .join(", ") + "],\n" +
+  "  edges_assignment: <str>\"" + e.edges_assignment + "\"</str>,\n" +
+  "  <key>...</key> " + "}";
+  document.querySelector("#graph-nearest-components-result").innerHTML = str;
+};
+
+options.callback["graph-faces-tree"] = (event) => {
+  if (!event || event.face === undefined) { return; }
+  document.querySelector("#graph-faces-tree-number").innerHTML = event.face;
+};
 
 loadExamples([
   "graph-nearest-components",

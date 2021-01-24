@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -50,12 +50,12 @@
 
 <style>
 #canvas-cp-simulator {
-	width: 275px;
-	height: 275px;
+  width: 275px;
+  height: 275px;
 }
 canvas {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 </style>
 
@@ -73,87 +73,87 @@ canvas {
   Flat-foldable origami crease patterns are two-colorable.
 </p>
 
-<h2>
-	Graphs
+<h2 id="graphs">
+  Graphs
 </h2>
 
 <p class="quote">
-	An origami model is a <a href="./graph.html">graph</a>.
+  An origami model is a <a href="./graph.html">graph</a>.
 </p>
 
 <p>
-	These object-oriented style objects are each tailored to a specific use; the <b>graph</b> is the most general. It simply binds graph functions as object methods.
+  These object-oriented style objects are each tailored to a specific use; the <b>graph</b> is the most general. It simply binds graph functions as object methods.
 </p>
 
-	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>graph</f>()</code></pre>
+  <pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>graph</f>()</code></pre>
 
 <p>
-	The <b>crease pattern</b> has 2D line and shape drawing methods and maintains the graph is planar.
+  The <b>crease pattern</b> has 2D line and shape drawing methods and maintains the graph is planar.
 </p>
 
-	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>cp</f>()</code></pre>
+  <pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>cp</f>()</code></pre>
 
 <p>
-	The <b>origami</b> object is basically a foldable sheet of paper, it starts with a square boundary.
+  The <b>origami</b> object is basically a foldable sheet of paper, it starts with a square boundary.
 </p>
 
-	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()</code></pre>
+  <pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()</code></pre>
 
-	<div id="canvas-origami-flat-fold-cp"></div>
+  <div id="canvas-origami-flat-fold-cp"></div>
 
-	<pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()
+  <pre class="code"><code><f>var</f> origami <key>=</key> ear.<f>origami</f>()
 origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 
 <p>
-	Both <b>origami</b> and <b>crease pattern</b>'s prototype is <b>graph</b>; and <b>graph</b>'s prototype is the default Javascript object prototype.
+  Both <b>origami</b> and <b>crease pattern</b>'s prototype is <b>graph</b>; and <b>graph</b>'s prototype is the default Javascript object prototype.
 </p>
 
-<h2>
-	Crease Pattern
+<h2 id="crease-pattern">
+  Crease Pattern
 </h2>
 
 <p>
-	Crease patterns are like 2D canvases to draw on. A few drawing primitives are provided.
+  Crease patterns are like 2D canvases to draw on. A few drawing primitives are provided.
 </p>
 
   <div id="canvas-origami-miura"></div>
 
 <p>
-	The graph maintains planarity, so a few things are taken care of for you:
+  The graph maintains planarity, so a few things are taken care of for you:
 </p>
 
 <ul>
-	<li>automatically split overlapping lines at any crossings</li>
-	<li>convert curves into series of straight segments</li>
-	<li>clip shapes within the bounds of the paper</li>
+  <li>automatically split overlapping lines at any crossings</li>
+  <li>convert curves into series of straight segments</li>
+  <li>clip shapes within the bounds of the paper</li>
 </ul>
 
 <div class="grid-2">
-	<div id="canvas-cp-draw"></div>
-	<div id="canvas-cp-simulator"></div>
+  <div id="canvas-cp-draw"></div>
+  <div id="canvas-cp-simulator"></div>
 </div>
 
-	<pre class="code"><code><f>var</f> cp <key>=</key> ear.<f>cp</f>()<br><span id="cp-draw-code"></span></code></pre>
+  <pre class="code"><code><f>var</f> cp <key>=</key> ear.<f>cp</f>()<br><span id="cp-draw-code"></span></code></pre>
 
 <p>
-	Each shape method returns the indices of the edges in the graph. This allows you to alter things afterwards, like <b>assignment</b> or <b>foldAngle</b>.
+  Each shape method returns the indices of the edges in the graph. This allows you to alter things afterwards, like <b>assignment</b> or <b>foldAngle</b>.
 </p>
 
 <p class="explain">
-	The sketch above is running an implementation of <a href="https://origamisimulator.org/">Origami Simulator</a>.
+  The 3D visualization above is <a href="https://origamisimulator.org/">Origami Simulator</a>.
 
 <p>
-	Creases are not generally decided by random placements of lines, more often creases are uncovered in the geometry in the origami.
+  Creases are not generally decided by random placements of lines, more often creases are uncovered in the geometry in the origami.
 </p>
 
-<h2>
+<h2 id="axioms">
   Axioms
 </h2>
 
   <pre class="code"><code>ear.<f>axiom</f>(<arg>number</arg>, <arg>params</arg>)</code></pre>
 
 <p>
-	The seven origami axioms are the different ways to make a crease <b>exactly</b> in place.
+  The seven origami axioms are the different ways to make a crease <b>exactly</b> in place.
 </p>
 
 <p class="quote" id="axiom-math-description">
@@ -182,13 +182,13 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   <pre class="code"><code>{ <str>points</str>: [], <str>lines</str>: [] }</code></pre>
 
 <ul>
-	<li><b>axiom 1</b>: 2 points</li>
-	<li><b>axiom 2</b>: 2 points</li>
-	<li><b>axiom 3</b>: 2 lines</li>
-	<li><b>axiom 4</b>: 1 point, 1 line</li>
-	<li><b>axiom 5</b>: 2 points, 1 line</li>
-	<li><b>axiom 6</b>: 2 points, 2 lines</li>
-	<li><b>axiom 7</b>: 1 point, 2 lines</li>
+  <li><b>axiom 1</b>: 2 points</li>
+  <li><b>axiom 2</b>: 2 points</li>
+  <li><b>axiom 3</b>: 2 lines</li>
+  <li><b>axiom 4</b>: 1 point, 1 line</li>
+  <li><b>axiom 5</b>: 2 points, 1 line</li>
+  <li><b>axiom 6</b>: 2 points, 2 lines</li>
+  <li><b>axiom 7</b>: 1 point, 2 lines</li>
 </ul>
 
 <p>
@@ -206,26 +206,32 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 }</code></pre>
 
 <p>
-	Or use Rabbit Ear's <b>vector</b> and <b>line</b> types.
+  Or use Rabbit Ear's <b>vector</b> and <b>line</b> types.
+</p>
+
+  <div id="canvas-origami-axiom-5"></div>
+
+<p class="quote">
+  origami axiom 5
 </p>
 
 <p>
-	Some axioms have <em>multiple solutions</em>; the axiom method returns an array containing anywhere between <b>0 to 3 lines</b>.
+  Some axioms have <em>multiple solutions</em>; the axiom method returns an array containing anywhere between <b>0 to 3 lines</b>.
 </p>
 
-<h3>
-	Folding with Axioms
+<h3 id="folding-with-axioms">
+  Folding with Axioms
 </h3>
 
 <p>
-	In practice, axioms should only be constructible if all necessary geometry lies <b>on the paper</b>.
+  In practice, axioms should only be constructible if all necessary geometry lies <b>on the paper</b>.
 </p>
 
 <p class="quote" id="axiom-fold-description">
   fold two points together
 </p>
 
-	<div id="canvas-origami-axioms-fold"></div>
+  <div id="canvas-origami-axioms-fold"></div>
 
 <div style="text-align: center;">
   <div class="button nopress">Axiom #</div>
@@ -238,27 +244,27 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   <div id="button-axiom-fold-7" class="button">7</div>
 </div>
 
-	<pre class="code"><code>ear.axiom.<f>test</f>(<arg>number</arg>, <arg>params</arg>, <arg>boundary</arg>)</code></pre>
+  <pre class="code"><code>ear.axiom.<f>test</f>(<arg>number</arg>, <arg>params</arg>, <arg>boundary</arg>)</code></pre>
 
 <p class="quote">
-	<b>boundary</b> can be either a polygon or an origami graph.
+  <b>boundary</b> can be either a polygon or a FOLD graph.
 </p>
 
 <p>
-	The <b>test</b> method returns an array of true or false which aligns with the array of lines the axiom method returns.
+  The <b>test</b> method returns an array of true or false which aligns with the array of lines the axiom method returns.
 </p>
 
 <p class="explain">
-	Axioms can fail in two ways: they can fail the boundary test, or they can be non-constructible due to their input parameters. Not all can fail the latter, but Axiom 5 can be a good example of it.
+  Axioms can fail in two ways: they can fail the boundary test, or they can be non-constructible due to their input parameters. Not all can fail the latter, but Axiom 5 can be a good example of it.
 </p>
 
-<h2>
+<h2 id="single-vertex">
   Single Vertex
 </h2>
 
-	<pre class="code"><code>ear.<f>single</f></code></pre>
+  <pre class="code"><code>ear.<f>single</f></code></pre>
 
-<h3>
+<h3 id="kawasaki">
   Kawasaki's Theorem
 </h3>
 
@@ -273,10 +279,10 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 </p>
 
 <p>
-	Given an odd number of creases, we can ask the computer to find creases that can satisfy a solution.
+  Given an odd number of creases, we can ask the computer to find creases that can satisfy a solution.
 </p>
 
-	<div id="canvas-origami-kawasaki-solver"></div>
+  <div id="canvas-origami-kawasaki-solver"></div>
 
   <p class="quote" id="kawasaki-solver-label"></p>
 
@@ -290,45 +296,45 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   The number of results will be less than or equal to the number of input creases.
 </p>
 
-	<pre class="code"><code>ear.single.<f>kawasaki_solutions</f>(<arg>vectors</arg>)<br>ear.single.<f>kawasaki_solutions_radians</f>(<arg>radians</arg>)</code></pre>
+  <pre class="code"><code>ear.single.<f>kawasaki_solutions</f>(<arg>vectors</arg>)<br>ear.single.<f>kawasaki_solutions_radians</f>(<arg>radians</arg>)</code></pre>
 
 <p>
   Only one result is required to be added to the set of input creases, and <b>Kawasaki's theorem will be satisfied</b>.
 </p>
 
 <p>
-	However, this set of results also has the property that <em>any number of them</em> can be added to the input set and Kawasaki's theorem will be satisfied (as long the total number of creases is even).
+  However, this set of results also has the property that <em>any number of them</em> can be added to the input set and Kawasaki's theorem will be satisfied (as long the total number of creases is even).
 </p>
 
-	<div id="canvas-origami-kawasaki-solver-options"></div>
+  <div id="canvas-origami-kawasaki-solver-options"></div>
 
 <p class="explain">
-	Vectors or radians parameters <em>must be <a href="/docs/math.html#sorting">sorted</a></em> before calling these methods.
+  Vectors or radians parameters <em>must be <a href="/docs/math.html#sorting">sorted</a></em> before calling these methods.
 </p>
 
-	<pre class="code"><code>ear.math.<f>counter_clockwise_order2</f>(vectors)
+  <pre class="code"><code>ear.math.<f>counter_clockwise_order2</f>(vectors)
   .map(<arg>i</arg> <f>=&gt;</f> vectors[i])</code></pre>
 
-	<pre class="code"><code>ear.math.<f>counter_clockwise_order_radians</f>(angles)
+  <pre class="code"><code>ear.math.<f>counter_clockwise_order_radians</f>(angles)
   .map(<arg>i</arg> <f>=&gt;</f> angles[i])</code></pre>
 
 <p class="quote">
-	Sort radially 2D vectors or vectors as radians.
+  Sort radially 2D vectors or vectors as radians.
 </p>
 
 <p>
-	Given a crease pattern template like this origami twist, if we maintain the graph structure, we can use Kawasaki alone to create variation in form.
+  Given a crease pattern template like this origami twist, if we maintain the graph structure, we can use Kawasaki alone to create variation in form.
 </p>
 
   <div id="canvas-origami-twist-fold"></div>
 
-  <pre class="code"><code>ear.single.<f>kawasaki_solutions</f>()</code></pre>
+  <pre class="code"><code><f>var</f> valleys <key>=</key> ear.single.<f>kawasaki_solutions</f>(<arg>mountains</arg>)</code></pre>
 
 <p>
   Kawasaki's theorem alone cannot determine flat-foldability; we must also at least consider mountain/valley assignment.
 </p>
 
-<h3>
+<h3 id="maekawa">
   Maekawa's theorem
 </h3>
 
@@ -339,12 +345,12 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 </p>
 
 <p>
-	This method will replace all unassigned creases "U" with mountain or valley, returning all permutations that satisfy Maekawa's Theorem.
+  This method will replace all unassigned creases "U" with mountain or valley, returning all permutations that satisfy Maekawa's Theorem.
 </p>
 
-	<pre class="code"><code>ear.single.<f>maekawa_assignments</f>([<str>"M"</str>, <str>"U"</str>, <str>"U"</str>, <str>"U"</str>])</code></pre>
+  <pre class="code"><code>ear.single.<f>maekawa_assignments</f>([<str>"M"</str>, <str>"U"</str>, <str>"U"</str>, <str>"U"</str>])</code></pre>
 
-	<pre class="code"><code>[
+  <pre class="code"><code>[
   [<str>"M"</str>, <str>"V"</str>, <str>"V"</str>, <str>"V"</str>],
   [<str>"M"</str>, <str>"V"</str>, <str>"M"</str>, <str>"M"</str>],
   [<str>"M"</str>, <str>"M"</str>, <str>"V"</str>, <str>"M"</str>],
@@ -352,14 +358,14 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 ]</code></pre>
 
 <p>
-	Kawasaki and Maekawa's Theorems make it easy to check if a vertex <b>fails</b> flat-foldability.
+  Kawasaki and Maekawa's Theorems make it easy to check if a vertex <b>fails</b> flat-foldability.
 </p>
 
 <p>
-	To determine success we need to study how the paper looks when folded; we need a layer arrangement where layers don't intersect each other.
+  To determine success we need to study how the paper looks when folded; we need a layer arrangement where layers don't intersect each other.
 </p>
 
-<h3>
+<h3 id="layer-order">
   Layer order
 </h3>
 
@@ -370,14 +376,14 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   <div id="canvas-origami-layer-solver"></div>
 
 <p class="quote">
-	Toggle the sectors, but make sure mountain and valley differ by 2.
+  Toggle the sectors, but make sure mountain and valley differ by 2.
 </p>
 
 <p class="quote">
   The smallest sector (top-right) must be surrounded by a mountain and a valley.
 </p>
 
-	<pre class="code"><code>ear.single.<f>sectors_layer</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
+  <pre class="code"><code>ear.single.<f>sectors_layer</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
 
 
 <p>
@@ -389,7 +395,7 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
   <pre class="code"><code>[<n>4</n>, <n>0</n>, <n>2</n>, <n>7</n>, <n>6</n>, <n>1</n>, <n>5</n>, <n>3</n>]</code></pre>
 
 <p class="quote">
-  The indices match your input sectors, each value is the z-layer. (face 0 is on the 4th z-layer)
+  The indices match your input sectors, each value is the z-layer. (the first sector is on the 4th z-layer)
 </p>
 
 <p>
@@ -397,28 +403,28 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 </p>
 
 <h3>
-	All together
+  All together
 </h3>
 
-	<pre class="code"><code>ear.single.<f>layer_solver</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
+  <pre class="code"><code>ear.single.<f>layer_solver</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
 
 <p>
-	Finally, the <b>layer solver</b> goes one step beyond <b>sectors layer</b>, where sectors_layer requires a valid assignments argument, layer_solver allows the inclusion of unassigned "U" creases and the layer solver will fill in the blanks.
+  Finally, the <b>layer solver</b> goes one step beyond <b>sectors layer</b>, where sectors_layer requires a valid assignments argument, layer_solver allows the inclusion of unassigned "U" creases and the layer solver will fill in the blanks.
 </p>
 
   <div id="canvas-origami-single-vertex"></div>
 
-	<pre class="code"><code><f>var</f> fourth <key>=</key> ear.single.<f>kawasaki_solutions</f>(<arg>three_vectors</arg>)</code></pre>
+  <pre class="code"><code><f>var</f> fourth <key>=</key> ear.single.<f>kawasaki_solutions</f>(<arg>three_vectors</arg>)</code></pre>
 
-	<pre class="code"><code><f>var</f> sectors <key>=</key> []
+  <pre class="code"><code><f>var</f> sectors <key>=</key> [<span id="origami-single-vertex-sectors-info"></span>]
 ear.single.<f>layer_solver</f>(sectors, [<str>"U"</str>, <str>"U"</str>, <str>"U"</str>, <str>"U"</str>])</code></pre>
 
 <p>
-	First, the fourth crease (bottom-left) is added dynamically to satisfy Kawasaki's theorem. Then, the layer solver determines all four mountain valley assignments and the layer order.
+  First, the fourth crease (bottom-left) is added dynamically to satisfy Kawasaki's theorem. Then, the layer solver determines all four mountain valley assignments and the layer order.
 </p>
 
 <h3>
-	4-vertex fold angles
+  4-vertex fold angles
 </h3>
 
   <div id="webgl-origami-single-vertex"></div>
@@ -427,21 +433,21 @@ ear.single.<f>layer_solver</f>(sectors, [<str>"U"</str>, <str>"U"</str>, <str>"U
     <input type="range" id="single-vertex-3d-slider" min="0" max="1023" value="0"/>
   </div>
 
-	<pre class="code"><code>ear.single.<f>fold_angles4</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
+  <pre class="code"><code>ear.single.<f>fold_angles4</f>(<arg>sectors</arg>, <arg>assignments</arg>)</code></pre>
 
 <p>
-	Degree 4 vertices are special cases where the continuous folding motion can be calculated.
+  Degree 4 vertices are special cases where the continuous folding motion can be calculated.
 </p>
 
 <h2>
-	Not the end
+  Not the end
 </h2>
 
 <p>
-	...more to come! The library is constantly growing. Check the <a href="https://github.com/robbykraft/Origami">Github</a> for up to date development progress.
+  ...and more to come! The library is growing. Follow the <a href="https://github.com/robbykraft/Origami">Github</a> for up to date development progress.
 </p>
 
-<script type="module" src="./js/three-single-vertex.js"></script>
+<script type="module" src="./js/three-single-vertex.js?version=1"></script>
 
 <!-- <script type="text/javascript" src="https://robbykraft.github.io/OrigamiSimulator/origami-simulator.min.js"></script> -->
 
@@ -457,97 +463,104 @@ ear.single.<f>layer_solver</f>(sectors, [<str>"U"</str>, <str>"U"</str>, <str>"U
 <script>
 var cpSimulator;
 setTimeout(function() {
-	cpSimulator = OrigamiSimulator({
-		parent: document.querySelector("#canvas-cp-simulator"),
-		color1: "ffbb44",
-		color2: "115588",
-	});
-	cpSimulator.foldPercent = 0.5;
-	cpSimulator.loadFOLD(ear.cp());
-	cpSimulator.simulationRunning = false;
+  cpSimulator = OrigamiSimulator({
+    parent: document.querySelector("#canvas-cp-simulator"),
+    color1: "ffbb44",
+    color2: "115588",
+  });
+  cpSimulator.foldPercent = 0.5;
+  cpSimulator.loadFOLD(ear.cp());
+  cpSimulator.simulationRunning = false;
 }, 1000);
 </script>
 
-<script type="text/javascript" src="./js/loadExamples.js"></script>
+<script type="text/javascript" src="./js/loadExamples.js?version=2"></script>
 
 <script type="text/javascript">
 var cpSimulatorTimeout;
 
 var options = {
-	callback: {
-		"cp-draw": (e) => {
-			const onePoint = function (pt) {
-				return "[" + [pt[0], pt[1]]
-					.map(n => "<n>" + n.toFixed(2) + "</n>")
-					.join(", ") + "]";
-			};
-			const twoPoints = function (params) {
-				return "[" + params.map(pt => onePoint(pt)).join(", ") + "]";
-			};
-			const makeParams = function (shape, params) {
-				switch (shape) {
-					case "segment": return twoPoints(params);
-					case "ray":
-					case "line": return onePoint(params[0]) + ", " + onePoint(ear.math.subtract(params[1], params[0]));
-					case "rect": return "<n>" + params[0][0].toFixed(2) + "</n>, "
-						+ "<n>" + params[0][1].toFixed(2) + "</n>, "
-						+ "<n>" + (params[1][0] - params[0][0]).toFixed(2) + "</n>, "
-						+ "<n>" + (params[1][1] - params[0][1]).toFixed(2) + "</n>";
-					case "circle": return "<n>" + params[0][0].toFixed(2)
-					 + "</n>, <n>" + params[0][1].toFixed(2) + "</n>, <n>"
-					 + ear.math.distance(params[0], params[1]).toFixed(2) + "</n>";
-				}
-			};
-			if (e === undefined || !cpSimulator) { return; }
-			if (e.cp) {
-				cpSimulator.loadFOLD(e.cp);
-				cpSimulator.simulationRunning = true;
-				if (cpSimulatorTimeout) { clearTimeout(cpSimulatorTimeout); }
-				cpSimulatorTimeout = setTimeout(function() {
-					cpSimulator.simulationRunning = false;
-				}, 5000);
-			}
-			if (e.shape && e.params) {
-				const str = "cp.<f>" + e.shape + "</f>(" + makeParams(e.shape, e.params) + ")";
-				document.querySelector("#cp-draw-code").innerHTML = str;
-			}
-		},
-		"origami-kawasaki": (e) => {
-  		if (e == undefined) { return; }
-  		const colors = e.isFlatFoldable
-  		  ? ["yellow", "yellow"]
-  		  : ["red", "blue"];
-  		const func = e.kawasaki[0] < e.kawasaki[1]
-  		  ? [Math.ceil, Math.floor]
-  		  : [Math.floor, Math.ceil];
-  		document.querySelector("#origami-kawasaki-result").innerHTML = `<b><${colors[0]}>${func[0](e.kawasaki[0] * 360)}&deg;</${colors[0]}> & <${colors[1]}>${func[1](e.kawasaki[1] * 360)}&deg;</${colors[1]}></b>`;
-		},
-		"origami-kawasaki-solver": (e) => {
-  		if (e.slider === undefined) {
-  		  e.slider = document.querySelector("#kawasaki-solver-slider");
-  		}
-		},
-		"origami-axioms": (e) => {
-			if (e === undefined) { return; }
-			const points = e.params.points === undefined
-				? undefined
-				: e.params.points.map(pt => "    [<n>" + pt[0].toFixed(2) + "</n>, <n>" + pt[1].toFixed(2) + "</n>],").join("<br>");
-			const lines = e.params.lines === undefined
-				? undefined
-				// : e.params.lines.map(line => "    {<br>      <str>vector</str>: [<n>" + line.vector[0].toFixed(2) + "</n>, <n>" + line.vector[1].toFixed(2) + "</n>],<br>      <str>origin</str>: [<n>" + line.origin[0].toFixed(2) + "</n>, <n>" + line.origin[1].toFixed(2) + "</n>]<br>    },").join("<br>");
-				: e.params.lines.map(line => "    { <str>vector</str>: [<n>" + line.vector[0].toFixed(2) + "</n>, <n>" + line.vector[1].toFixed(2) + "</n>], <str>origin</str>: [<n>" + line.origin[0].toFixed(2) + "</n>, <n>" + line.origin[1].toFixed(2) + "</n>] },").join("<br>");
-			const pointsStr = points ? "  <str>points</str>: [<br>" + points + "<br>  ]" : "";
-			const linesStr = lines ? "  <str>lines</str>: [<br>" + lines + "<br>  ]" : "";
-			document.querySelector("#origami-axioms-params").innerHTML = "{<br>" + [pointsStr, linesStr].filter(a => a !== "").join("<br>") + "<br>}";
-			
-		}
-	},
-	header: {
-		"origami-kawasaki-solver": `
+  callback: {
+    "cp-draw": (e) => {
+      const onePoint = function (pt) {
+        return "[" + [pt[0], pt[1]]
+          .map(n => "<n>" + n.toFixed(2) + "</n>")
+          .join(", ") + "]";
+      };
+      const twoPoints = function (params) {
+        return "[" + params.map(pt => onePoint(pt)).join(", ") + "]";
+      };
+      const makeParams = function (shape, params) {
+        switch (shape) {
+          case "segment": return twoPoints(params);
+          case "ray":
+          case "line": return onePoint(params[0]) + ", " + onePoint(ear.math.subtract(params[1], params[0]));
+          case "rect": return "<n>" + params[0][0].toFixed(2) + "</n>, "
+            + "<n>" + params[0][1].toFixed(2) + "</n>, "
+            + "<n>" + (params[1][0] - params[0][0]).toFixed(2) + "</n>, "
+            + "<n>" + (params[1][1] - params[0][1]).toFixed(2) + "</n>";
+          case "circle": return "<n>" + params[0][0].toFixed(2)
+           + "</n>, <n>" + params[0][1].toFixed(2) + "</n>, <n>"
+           + ear.math.distance(params[0], params[1]).toFixed(2) + "</n>";
+        }
+      };
+      if (e === undefined || !cpSimulator) { return; }
+      if (e.cp) {
+        cpSimulator.loadFOLD(e.cp);
+        cpSimulator.simulationRunning = true;
+        if (cpSimulatorTimeout) { clearTimeout(cpSimulatorTimeout); }
+        cpSimulatorTimeout = setTimeout(function() {
+          cpSimulator.simulationRunning = false;
+        }, 5000);
+      }
+      if (e.shape && e.params) {
+        const str = "cp.<f>" + e.shape + "</f>(" + makeParams(e.shape, e.params) + ")";
+        document.querySelector("#cp-draw-code").innerHTML = str;
+      }
+    },
+    "origami-kawasaki": (e) => {
+      if (e == undefined) { return; }
+      const colors = e.isFlatFoldable
+        ? ["yellow", "yellow"]
+        : ["red", "blue"];
+      const func = e.kawasaki[0] < e.kawasaki[1]
+        ? [Math.ceil, Math.floor]
+        : [Math.floor, Math.ceil];
+      document.querySelector("#origami-kawasaki-result").innerHTML = `<b><${colors[0]}>${func[0](e.kawasaki[0] * 360)}&deg;</${colors[0]}> & <${colors[1]}>${func[1](e.kawasaki[1] * 360)}&deg;</${colors[1]}></b>`;
+    },
+    "origami-kawasaki-solver": (e) => {
+      if (e.slider === undefined) {
+        e.slider = document.querySelector("#kawasaki-solver-slider");
+      }
+    },
+    "origami-axioms": (e) => {
+      if (e === undefined) { return; }
+      const points = e.params.points === undefined
+        ? undefined
+        : e.params.points.map(pt => "    [<n>" + pt[0].toFixed(2) + "</n>, <n>" + pt[1].toFixed(2) + "</n>],").join("<br>");
+      const lines = e.params.lines === undefined
+        ? undefined
+        // : e.params.lines.map(line => "    {<br>      <str>vector</str>: [<n>" + line.vector[0].toFixed(2) + "</n>, <n>" + line.vector[1].toFixed(2) + "</n>],<br>      <str>origin</str>: [<n>" + line.origin[0].toFixed(2) + "</n>, <n>" + line.origin[1].toFixed(2) + "</n>]<br>    },").join("<br>");
+        : e.params.lines.map(line => "    { <str>vector</str>: [<n>" + line.vector[0].toFixed(2) + "</n>, <n>" + line.vector[1].toFixed(2) + "</n>], <str>origin</str>: [<n>" + line.origin[0].toFixed(2) + "</n>, <n>" + line.origin[1].toFixed(2) + "</n>] },").join("<br>");
+      const pointsStr = points ? "  <str>points</str>: [<br>" + points + "<br>  ]" : "";
+      const linesStr = lines ? "  <str>lines</str>: [<br>" + lines + "<br>  ]" : "";
+      document.querySelector("#origami-axioms-params").innerHTML = "{<br>" + [pointsStr, linesStr].filter(a => a !== "").join(",<br>") + "<br>}";
+      
+    },
+    "origami-single-vertex": (e) => {
+      if (e === undefined) { return; }
+      document.querySelector("#origami-single-vertex-sectors-info")
+        .innerHTML = e.sectors
+          .map(n => "<n>" + n.toFixed(2) + "</n>")
+          .join(", ");
+    }
+  },
+  header: {
+    "origami-kawasaki-solver": `
 slider = document.querySelector("#kawasaki-solver-slider");
 countLabel = document.querySelector("#kawasaki-solver-label");
 `,
-		"origami-axioms": `
+    "origami-axioms": `
 document.querySelectorAll("[id^=button-axiom-math]").forEach(el => {
   el.onclick = (e) => {
     document.querySelectorAll("[id^=button-axiom-math]")
@@ -566,7 +579,7 @@ document.querySelectorAll("[id^=button-axiom-math]").forEach(el => {
   }
 });
 `,
-		"origami-axioms-fold": `
+    "origami-axioms-fold": `
 document.querySelectorAll("[id^=button-axiom-fold]").forEach(el => {
   el.onclick = (e) => {
     document.querySelectorAll("[id^=button-axiom-fold]")
@@ -586,19 +599,20 @@ document.querySelectorAll("[id^=button-axiom-fold]").forEach(el => {
 });
 `,
 
-	}
+  }
 };
 
 loadExamples([
   "origami-two-coloring",
-	"origami-flat-fold-cp",
+  "origami-flat-fold-cp",
   "origami-miura",
-	"cp-draw",
+  "cp-draw",
   "origami-axioms",
-	"origami-axioms-fold",
+  "origami-axiom-5",
+  "origami-axioms-fold",
   "origami-kawasaki",
   "origami-kawasaki-solver",
-	"origami-kawasaki-solver-options",
+  "origami-kawasaki-solver-options",
   "origami-layer-solver",
 ////  "origami-assignment-solver",
 ////  "origami-kawasaki-solver-layers",
@@ -610,25 +624,25 @@ loadExamples([
 
 
 <link
-	rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
-	integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X"
-	crossorigin="anonymous">
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+  integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X"
+  crossorigin="anonymous">
 
 <script 
-	src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
-	integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
-	crossorigin="anonymous"
+  src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+  integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+  crossorigin="anonymous"
 ></script>
 
 <script type="text/javascript">
 katex.render(
-	"\\mathbf{m} - \\mathbf{v} = \\pm2",
-	document.querySelector("#maekawa-equation")
+  "\\mathbf{m} - \\mathbf{v} = \\pm2",
+  document.querySelector("#maekawa-equation")
 );
 katex.render(
-	"N_{results} \\leq N_{input}",
-	document.querySelector("#equation-input-result")
+  "N_{results} \\leq N_{input}",
+  document.querySelector("#equation-input-result")
 );
 </script>
 

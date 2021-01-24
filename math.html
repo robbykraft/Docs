@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -58,15 +58,12 @@
 
   <div id="canvas-junction-bisect"></div>
 
-<p>
-	An origami math library contains a fair bit of geometry and linear algebra, as it turns out a lot of time is spent calculating the intersection of shapes. A lot of these intersections are edge-cases (collinear, parallel) so we should have decent control over the epsilon.
-</p>
-
   <pre class="code"><code>ear.<f>math</f></code></pre>
 
 <p>
-  Every method discussed here is found under the "math" key except for about 10 object-oriented style primitives, these are at the top-level; let's begin with a few of these.
+	An origami math library wil contain a fair bit of geometry and linear algebra; as it turns out a lot of time is spent calculating the intersection of shapes. The core of the math engine is accessible through ~10 math primitives.
 </p>
+
 
 <h2 id="vector">
   Vector / Point
@@ -78,13 +75,13 @@
   Vectors can be any dimension with some methods that treat them like vectors, some like points, and some specifically for 2D and 3D.
 </p>
 
-<p class="explain">
-  2D and 3D specific methods often end in numbers like cross2 and cross3.
-</p>
-
   <div id="canvas-vector"></div>
 
   <pre class="code"><code><f>var</f> vec <key>=</key> ear.<f>vector</f>(<span id="vec-sketch-vector"><n>0.5</n>, <n>0.666</n></span>)<br>vec.<f>normalize</f>()<br> ↳ <span id="vec-sketch-vector-normalized"></span></code></pre>
+
+<p class="explain">
+  2D and 3D specific methods often end in numbers like cross2 and cross3.
+</p>
 
   <div id="canvas-vector-lerp"></div>
 
@@ -160,7 +157,7 @@
   <div class="equation" id="matrix-4"></div>
 
 <p class="explain">
-  Unlike vectors, and most objects, matrices are <b>mutable</b>; each method modifies the matrix.
+  Unlike vectors and most objects, matrices are <b>mutable</b>; each method modifies the matrix.
 </p>
 
 <pre class="code"><code><f>multiply</f>(<arg>matrix</arg>)
@@ -255,7 +252,6 @@
   <div id="canvas-polygon-straight-skeleton"></div>
 
   <pre class="code"><code>polygon.<f>straightSkeleton</f>()</code></pre>
-  <pre class="code"><code>ear.math.<f>straight_skeleton</f>(<arg>points</arg>)</code></pre>
 
 <p>
   The <b>straight skeleton</b> is an operation on a polygon that creates a flat-foldable crease pattern, and when folded, the boundary becomes collinear.
@@ -267,6 +263,25 @@
 
   <pre class="code"><code>ear.<f>rect</f>(<arg>width</arg>, <arg>height</arg>)<br>ear.<f>rect</f>(<arg>x</arg>, <arg>y</arg>, <arg>width</arg>, <arg>height</arg>)</code></pre>
 
+<p>
+	The rect also inherits the polygon prototype. All polygon types have these methods:
+</p>
+
+<pre class="code"><code>polygon.<f>area</f>()
+polygon.<f>centroid</f>()
+polygon.<f>enclosingRectangle</f>()
+polygon.<f>straightSkeleton</f>()
+polygon.<f>nearest</f>(<arg>point</arg>)
+polygon.<f>scale</f>(<arg>magnitude</arg>, <arg>centerPoint</arg>)
+polygon.<f>rotate</f>(<arg>angle</arg>, <arg>centerPoint</arg>)
+polygon.<f>translate</f>(<arg>vector</arg>)
+polygon.<f>transform</f>(<arg>matrix</arg>)
+polygon.<f>intersect</f>(<arg>anyShape</arg>)
+polygon.<f>overlap</f>(<arg>anyShape</arg>)
+polygon.<f>split</f>(<arg>line</arg>)
+polygon.<f>clip</f>(<arg>anyLine</arg>)
+polygon.<f>svgPath</f>()</code></pre>
+
 <h3>
   Circle
 </h3>
@@ -275,6 +290,16 @@
 
   <pre class="code"><code>ear.<f>circle</f>(<arg>radius</arg>)<br>ear.<f>circle</f>(<arg>x</arg>, <arg>y</arg>, <arg>radius</arg>)<br>ear.<f>circle</f>(<arg>origin</arg>, <arg>radius</arg>)</code></pre>
 
+<p>
+	Circle does not inherit the polygon methods, it has its own methods.
+</p>
+
+<pre class="code"><code>circle.<f>nearestPoint</f>(<arg>point</arg>)
+circle.<f>intersect</f>(<arg>any_shape</arg>)
+circle.<f>points</f>(<arg>count</arg> <key>=</key> <n>128</n>)
+circle.<f>polygon</f>()
+circle.<f>segments</f>()
+circle.<f>svgPath</f>()</code></pre>
 <!-- <p> -->
 <!--   A preliminary step in uniaxial-base origami design is circle-packing. -->
 <!-- </p> -->
@@ -309,26 +334,41 @@
 
   <div id="canvas-collinear-point"></div>
 
-	<pre class="code"><code>ear.math.<f>point_on_</f>{<str>line/ray/segment</str>}<f>_</f>{<str>inclusive/exclusive</str>}</code></pre>
-
 <p class="quote">
   Is a point collinear to a line (line, ray, segment)?
 </p>
 
+	<pre class="code"><code><f>var</f> point <key>=</key> ear.<f>vector</f>()
+<f>var</f> line <key>=</key> ear.<f>line</f>()
+point.<f>overlap</f>(line)
+line.<f>overlap</f>(point)</code></pre>
+
 <p>
-  Endpoints can be treated as <b>inclusive</b> or <b>exclusive</b>, which includes or excludes the area around their endpoints, valid for rays and segments but not lines.
+  Endpoints can be treated as <b>inclusive</b> or <b>exclusive</b>, which includes or excludes the area around their endpoints.
 </p>
 
-  <div id="canvas-point-in-poly"></div>
+  <pre class="code"><code><f>var</f> segment <key>=</key> ear.<f>segment</f>()<br>segment.<f>inclusive</f>()<br><c>// or</c><br>segment.<f>exclusive</f>()</code></pre>
 
-	<pre class="code"><code>ear.math.<f>point_in_convex_poly_inclusive</f>(<arg>point</arg>, <arg>poly</arg>)<br>ear.math.<f>point_in_convex_poly_exclusive</f>(<arg>point</arg>, <arg>poly</arg>)</code></pre>
+<p class="quote">
+  Vectors, rays, segments, and polygons (rect, circle) can be made inclusive and exclusive.
+</p>
 
 <p>
-  Inclusive and exclusive methods on polygons treat the boundary outset or inset respectively.
+  Inclusivity for polygons includes or excludes the boundary. This is useful when asking if points are inside or outside, and it's important to <em>include or ignore points on the boundary</em>.
+</p>
+  
+  <div id="canvas-point-in-poly"></div>
+
+	<pre class="code"><code><f>var</f> poly <key>=</key> ear.<f>polygon</f>()
+polygon.<f>inclusive</f>()
+polygon.<f>overlap</f>(<arg>point</arg>)</code></pre>
+
+<p>
+  Polygons boundaries in black, including and excluding the area around them.
 </p>
 
 <p class="explain">
-	Unlike other geometry-heavy fields, like game development, origami designs are filled with symmetry and collinearity. For example, being able to exclude an edge that lies along a polygon's edge is necessary; handling epsilons with great care is how this library achieves this.
+  Remember the epsilon in these sketches have been <em>heavily magnified</em>. These calculations are typically happening at an imperceptable scale.
 </p>
 
 <h3>
@@ -341,54 +381,62 @@
 	<li><b>clip</b> returns segments, or undefined if no intersection</li>
 </ul>
 
-<p class="quote">
-	Inclusive and exclusive overlap
+<h3>
+	Overlap
+</h3>
+
+	<pre class="code"><code>ear.<f>overlap</f>(<arg>a</arg>, <arg>b</arg>)</code></pre>
+
+<p>
+  The overlap method is accessible from the top level, or as a member function on primitives.
 </p>
 
   <div id="canvas-overlap-segment-segment"></div>
+
+	<pre class="code"><code><f>var</f> segment1 <key>=</key> math.<f>segment</f>().<f>inclusive</f>()
+<f>var</f> segment2 <key>=</key> math.<f>segment</f>().<f>exclusive</f>()
+segment1.<f>overlap</f>(segment2)</code></pre>
+
+<p class="quote">
+	Inclusive and exclusive overlap
+</p>
 
 <p>
 	Overlap methods are just intersection methods that return a boolean instead of a point. In some cases this calculation is faster.
 </p>
 
-	<pre class="code"><code>ear.math.<f>overlap_line_ray_inclusive</f>(<arg>vectorA</arg>, <arg>originA</arg>, <arg>vectorB</arg>, <arg>originB</arg>)
-ear.math.<f>overlap_ray_segment_exclusive</f>(<arg>vector</arg>, <arg>origin</arg>, <arg>segA1</arg>, <arg>segA2</arg>)
-ear.math.<f>overlap_segment_segment_exclusive</f>(<arg>a1</arg>, <arg>a2</arg>, <arg>b1</arg>, <arg>b2</arg>)</code></pre>
+	<div id="canvas-overlap-polygon-polygon"></div>
+
+	<pre class="code"><code>polygon1.<f>overlap</f>(polygon2)</code></pre>
+
+<p>
+	These are the algorithms that get called behind the curtain. They are available to be called directly, and require more parameters than the other interface.</p>
+
+	<pre class="code"><code>ear.math.<f>overlap_convex_polygon_point</f>(<arg>poly</arg>, <arg>point</arg>, <arg>func</arg>, <arg>epsilon</arg>)
+ear.math.<f>overlap_convex_polygons</f>(<arg>poly1</arg>, <arg>poly2</arg>, <arg>fn_line</arg>, <arg>fn_point</arg>, <arg>epsilon</arg>)
+ear.math.<f>overlap_line_line</f>(<arg>aVector</arg>, <arg>aOrigin</arg>, <arg>bVector</arg>, <arg>bOrigin</arg>, <arg>aFunction</arg>, <arg>bFunction</arg>, <arg>epsilon</arg>)
+ear.math.<f>overlap_line_point</f>(<arg>vector</arg>, <arg>origin</arg>, <arg>point</arg>, <arg>func</arg>, <arg>epsilon</arg>)</code></pre>
 
 <p class="quote">
-	Not a complete list
+	The overlap algorithms
 </p>
 
 <p>
-	Any combination of line/ray/segment followed by either "inclusive" or "exclusive"; there are 12 methods. Each of these is really just a wrapper around the overlap algorithm, which you can call directly:
-</p>
+  Some of these parameters are domain functions. These functions mark the span of an acceptable result against the vector of the primitive, including determining inclusivity. These functions are also available:
 
-<p class="quote">
-	The overlap algorithm
-</p>
-
-	<pre class="code"><code>ear.math.<f>overlap_lines</f>(<arg>aVector</arg>, <arg>aOrigin</arg>, <arg>bVector</arg>, <arg>bOrigin</arg>, <arg>compA</arg>, <arg>compB</arg>)</code></pre>
-
-<p>
-	To call this method you need to convert segments into vector-origin form, and provide two comparison functions. This gives you the freedom to compare one inclusive against an one exclusive.
-</p>
 
 <div class="grid-2">
 	<div>
-		<pre class="code"><code>ear.math.exclude_l<br>ear.math.exclude_r<br>ear.math.exclude_s</code></pre>
+		<pre class="code"><code>ear.math.<f>exclude</f><br>ear.math.<f>exclude_l</f><br>ear.math.<f>exclude_r</f><br>ear.math.<f>exclude_s</f></code></pre>
 	</div>
 	<div>
-		<pre class="code"><code>ear.math.include_l<br>ear.math.include_r<br>ear.math.include_s</code></pre>
+		<pre class="code"><code>ear.math.<f>include</f><br>ear.math.<f>include_l</f><br>ear.math.<f>include_r</f><br>ear.math.<f>include_s</f></code></pre>
 	</div>
 </div>
 
 <p class="quote">
-	The inclusive and exclusive comparison functions for lines, rays, or segments.
+	The inclusive and exclusive domain functions for general case, lines, rays, or segments.
 </p>
-
-	<div id="canvas-overlap-polygon-polygon"></div>
-
-	<pre class="code"><code>polygon1.<f>overlaps</f>(polygon2)</code></pre>
 
 <h3>
 Intersect
@@ -397,7 +445,7 @@ Intersect
 <pre class="code"><code>ear.<f>intersect</f>(<arg>a</arg>, <arg>b</arg>)</code></pre>
 
 <p>
-	The <b>intersect</b> function will accept most combinations of pairs of primitives, like lines, circles, polygons; this is the most accessible interface to intersections.
+	The <b>intersect</b> function will accept most combinations of pairs of primitives, like lines, circles, polygons, also available at the top level or as methods on objects.
 </p>
 
   <div id="canvas-intersect-polygon-segment"></div>
@@ -406,50 +454,9 @@ Intersect
 
   <pre class="code"><code>polygon.<f>intersect</f>(segment)<br>circle.<f>intersect</f>(segment)</code></pre>
 
-<p>
-	The function also exists as a method property on objects. This interface treats intersections as <b>exclusive</b>. For the other options see below.
-</p>
-
 	<div id="canvas-intersect-circle-circle"></div>
 
 	<pre class="code"><code>circle1.<f>intersect</f>(circle2)</code></pre>
-
-<p>
-	Again, this method is calling other methods under the hood. These are available to you as well.
-</p>
-
-<pre class="code"><code><c>// polygon</c>
-convex_poly_line_exclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
-convex_poly_line_inclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
-convex_poly_ray_exclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
-convex_poly_ray_inclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
-convex_poly_segment_exclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
-convex_poly_segment_inclusive(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>)
-<c>// circle</c>
-circle_circle(<arg>circleA</arg>, <arg>circleB</arg>)
-circle_line(<arg>circle</arg>, <arg>line</arg>)
-circle_ray(<arg>circle</arg>, <arg>ray</arg>)
-circle_segment(<arg>circle</arg>, <arg>segment</arg>)
-<c>// lines</c>
-intersect_line_seg_exclude(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
-intersect_line_seg_include(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
-intersect_ray_seg_exclude(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
-intersect_ray_seg_include(<arg>vector</arg>, <arg>origin</arg>, <arg>pt0</arg>, <arg>pt1</arg>)
-intersect_seg_seg_exclude(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</arg>)
-intersect_seg_seg_include(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</arg>)</code></pre>
-
-<p>
-	Even <em>further</em> under the hood are the actual intersect algorithms. Just like overlap, these require you pass in line/ray/segment comparison functions.
-</p>
-
-<pre class="code"><code>ear.math.<f>intersect_lines</f>(<arg>aVector</arg>, <arg>aOrigin</arg>, <arg>bVector</arg>, <arg>bOrigin</arg>, <arg>compA</arg>, <arg>compB</arg>)</code></pre>
-
-<pre class="code"><code>ear.math.<f>intersect_circle_line</f>(<arg>circleRadius</arg>, <arg>circleOrigin</arg>, <arg>vector</arg>, <arg>origin</arg>, <arg>comparisonFunc</arg>)</code></pre>
-
-<p class="quote">
-	The line-line and circle-line intersect algorithms
-</p>
-
 <p>
   Intersections involving convex polygons results in 0, 1, or 2 points, they return <b>an array of points</b>.
 </p>
@@ -458,9 +465,22 @@ intersect_seg_seg_include(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</
 	Intersections limited to <em>lines only</em> result in 0 or 1 point, they <b>do not</b> return an array, just a point or undefined.
 </p>
 
+<p>
+	Again, this method is calling other methods under the hood. These are available to you as well.
+</p>
+
+<pre class="code"><code>ear.math.<f>intersect_convex_polygon_line</f>(<arg>poly</arg>, <arg>vector</arg>, <arg>origin</arg>, <arg>fn_poly</arg>, <arg>fn_line</arg>, <arg>epsilon</arg>)
+ear.math.<f>intersect_circle_circle</f>(<arg>c1_radius</arg>, <arg>c1_origin</arg>, <arg>c2_radius</arg>, <arg>c2_origin</arg>, <arg>epsilon</arg>)
+ear.math.<f>intersect_circle_line</f>(<arg>circle_radius</arg>, <arg>circle_origin</arg>, <arg>line_vector</arg>, <arg>line_origin</arg>, <arg>line_func</arg>, <arg>epsilon</arg>)
+ear.math.<f>intersect_line_line</f>(<arg>aVector</arg>, <arg>aOrigin</arg>, <arg>bVector</arg>, <arg>bOrigin</arg>, <arg>aFunction</arg>, <arg>bFunction</arg>, <arg>epsilon</arg>)</code></pre>
+
 <h3>
 	Clip
 </h3>
+
+<p>
+  Clip is only available on polygons right now, and it only operates on lines, rays, and segments.
+</p>
 
   <div id="canvas-clip-polygon-line-ray-segment"></div>
 
@@ -468,7 +488,18 @@ intersect_seg_seg_include(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</
   Splitting a line by a convex polygon will result in a smaller segment.
 </p>
 
-  <pre class="code"><code><span id="clip-line-result"></span>poly.<f>clipLine</f>(<arg>line</arg>)<br>poly.<f>clipRay</f>(<arg>ray</arg>)<br>poly.<f>clipSegment</f>(<arg>segment</arg>)</code></pre>
+  <pre class="code"><code><span id="clip-line-result"></span>poly.<f>clip</f>(<arg>line</arg>)<br>poly.<f>clip</f>(<arg>ray</arg>)<br>poly.<f>clip</f>(<arg>segment</arg>)</code></pre>
+
+<p>
+  Increasing the epsilon on the clip method demonstrates the priorities. In both inclusive cases the resulting segment must not be shorter than <b>2 * epsilon</b>.
+</p>
+
+  <div id="canvas-clip-polygon-epsilon"></div>
+
+<p>
+  The inclusive result can extend beyond the polygon within one epsilon unit, and the exclusive cases removes parallel edges by testing exclusive polygon-point overlap with the segment's midpoint.
+</p>
+
 
 <h2 id="angles-and-winding-order">
   Angles and Winding-order
@@ -480,6 +511,10 @@ intersect_seg_seg_include(<arg>a0</arg>, <arg>a1</arg>, <arg>b0</arg>, <arg>b1</
 
 <p>
   The space between two vectors creates two interior angles. It's important to distinguish between vectors <b>a</b> and <b>b</b> the <b>clockwise</b> or the <b>counter-clockwise</b> interior angle.
+</p>
+
+<p class="explain">
+  Currently there is no object-style interface to angle calculations, for now you need to call back end math functions directly.
 </p>
 
 <p class="quote">
@@ -544,7 +579,7 @@ ear.math.<f>counter_clockwise_bisect2</f>(<arg>vector1</arg>, <arg>vector2</arg>
 	Bisecting two lines is effectively origami axiom #3, and results in two solutions unless the lines are parallel.
 </p>
 
-	<pre class="code"><code>ear.math.<f>bisect_lines2</f>(<arg>vectorA</arg>, <arg>originA</arg>, <arg>vectorB</arg>, <arg>originB</arg>)</code></pre>
+	<pre class="code"><code>lineA.<f>bisect</f>(<arg>lineB</arg>)</code></pre>
 
 	<div id="canvas-radial-bisect-lines"></div>
 
@@ -649,7 +684,7 @@ const options = {
 };
 </script>
 
-<script type="text/javascript" src="./js/loadExamples.js"></script>
+<script type="text/javascript" src="./js/loadExamples.js?version=2"></script>
 
 <script type="text/javascript">
 loadExamples([
@@ -672,6 +707,7 @@ loadExamples([
   "intersect-circle-segment",
 	"intersect-circle-circle",
   "clip-polygon-line-ray-segment",
+  "clip-polygon-epsilon",
 	"radial-between",
 	"radial-order",
 	"radial-sectors",
