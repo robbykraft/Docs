@@ -123,7 +123,7 @@ window.addEventListener('load', () => {
 	// kawasaki solver will give anywhere between 1-3 solutions
 	// paired with sectors, so we need to filter undefineds.
 	// get one. any will work. just get the first one.
-	angles.push(ear.single.kawasaki_solutions_radians(angles)
+	angles.push(ear.vertex.kawasaki_solutions_radians(angles)
 	  .filter(a => a !== undefined)
 	  .shift());
 	// crease 4 rays. currently they have no assignment
@@ -133,16 +133,18 @@ window.addEventListener('load', () => {
 	// what is the index of the vertex at the center?
 	const vert = cp.nearest(0, 0).vertex;
 	// get the 4 sector angles
-	const sectors = cp.vertices_sectors[vert];
+	const vertices_sectors = ear.graph.make_vertices_sectors(cp);
+	const sectors = vertices_sectors[vert];
 	// this solves the crease assignment and layer over
-	const solution = ear.single.layer_solver(sectors).shift();
+	const solution = ear.layer.assignment_solver(sectors).shift();
 	cp.vertices_edges[vert].forEach((e, i) => {
 	  cp.edges_assignment[e] = solution.assignment[i];
 	});
 	const assignments = cp.vertices_edges[vert].map(e => cp.edges_assignment[e]);
+	
 	const foldOrigami = (t) => {
 		const copied = JSON.parse(JSON.stringify(cp));
-		const res = ear.single.fold_angles4(sectors, assignments, t);
+		const res = ear.vertex.fold_angles4(sectors, assignments, t);
 		cp.vertices_edges[vert].forEach((e, i) => {
 	 	  copied.edges_foldAngle[e] = res[i] * 180 / Math.PI;
 		});
@@ -152,7 +154,7 @@ window.addEventListener('load', () => {
 		draw(copied);
 	};
 	
-	foldOrigami(0.0);
+	foldOrigami(0.5);
 	
 	const slider = document.querySelector("#single-vertex-3d-slider");
 	if (slider) {
@@ -162,4 +164,3 @@ window.addEventListener('load', () => {
 		};
 	}
 });
-

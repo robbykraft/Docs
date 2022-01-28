@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=4"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -39,6 +39,9 @@
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
+<!--           <li class="dropdown">
+            <a href="/docs/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -93,14 +96,17 @@
   </div>
 </div>
 
-<!-- <p class="quote">
-  Adjacencies can be used to calculate faces.
+<p>
+  We will embed our graphs in 2D (crease pattern) or 3D space (folded forms) to model origami.
 </p>
- -->
 
 <h3>
   Components
 </h3>
+
+<p>
+  Typical vector software draws lines with endpoints. Instead, by using <b>graphs</b>, lines with shared endpoints will be automatically related with a shared vertex.
+</p>
 
   <pre class="code"><code>graph.<f>vertices</f><br>graph.<f>edges</f><br>graph.<f>faces</f></code></pre>
 
@@ -123,11 +129,11 @@
   edges_assignment: <n>undefined</n>
   <key>...</key> }</span></code></pre>
 
-<p class="quote">
-  ...including all FOLD arrays in the graph, more about these below.
+<p>
+  <b>Adjacency</b> still refers to edge-adjacency, <b>nearest</b> means nearest in Euclidean space.
 </p>
 
-<h2>
+<h2 id="fold-format">
   FOLD
 </h2>
 
@@ -154,7 +160,7 @@
 </code></pre>
 
 <p>
-  FOLD is JSON-based, it's not impossible to peek inside and modify the contents manually.
+  FOLD is JSON-based, relatively human-readable and possible to peek inside and modify the contents manually.
 </p>
 
   <div>
@@ -352,7 +358,7 @@ ear.graph.<f>make_faces_faces</f>()
 ear.graph.<f>make_face_spanning_tree</f>()
 ear.graph.<f>make_faces_matrix</f>()
 ear.graph.<f>make_faces_center</f>()
-ear.graph.<f>make_faces_coloring_from_matrix</f>()
+ear.graph.<f>make_faces_winding_from_matrix</f>()
 ear.graph.<f>make_faces_coloring</f>()
 </code></pre>
 
@@ -411,7 +417,11 @@ ear.graph.<f>rotateZ</f>(<arg>graph</arg>, <arg>radians</arg>)
 ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 
 <p>
-  We can transform graphs with matrices to rotate, scale, translate the entire graph. But things get more interesting if we apply transformation matrices to <b>subsets</b> of the graph.
+  We can transform graphs with matrices. These affine transforms include rotate, scale, translate and operate on the vertices of the graph.
+</p>
+
+<p>
+  The <b>folding</b> method extends the same idea, but applies transforms to <b>subsets</b> of the graph.
 </p>
 
   <div id="canvas-graph-faces-reflect"></div>
@@ -440,6 +450,8 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 <h2>
   Counting Components
 </h2>
+
+  <pre class="code"><code>ear.graph.<f>count</f>(<arg>graph</arg>, <str>"key"</str>)</code></pre>
 
 <p>
   Because the geometry is stored in flat, separate arrays, it's possible that the faces are defined in <b>faces_edges</b> but not <b>faces_vertices</b>; and querying the number of faces by checking <b>faces_vertices</b> will break. <b>Count</b> will search all the keys that begin with "faces_" and return the longest one.
@@ -570,7 +582,7 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   If we are modeling a crease pattern, we want to be able to add lines <b>inside the boundary</b>. Boundaries can clip lines.
 </p>
 
-  <pre class="code"><code>ear.graph.<f>clip_line</f>(<arg>graph</arg>, <arg>line</arg>)</code></pre>
+  <pre class="code"><code>ear.graph.<f>clip</f>(<arg>graph</arg>, <arg>line</arg>)</code></pre>
  -->
 
 <h3>
@@ -590,7 +602,7 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   </div>
 
 <p class="explain">
-  This library can build faces in 2D; it's not good with higher dimensions. Notice how faces can be built even if edges are crossing.
+  This library can build faces in 2D only. Notice how faces can be built even if edges are crossing.
 </p>
 
 <h3>
@@ -753,7 +765,7 @@ teamLeader <key>=</key> changeMap[teamLeader];
 	All methods in this library, by default, use <b>nextmap</b>.
 </p>
 
-<h3>
+<h3 id="invert">
 	Invert
 </h3>
 

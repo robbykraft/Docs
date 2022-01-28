@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=4"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -39,6 +39,9 @@
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
+<!--           <li class="dropdown">
+            <a href="/docs/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -73,7 +76,7 @@
   <pre class="code"><code><f>var</f> svg <key>=</key> ear.<f>svg</f>()</code></pre>
 
 <p>
-  This SVG initializes with a 300x150 blank canvas, but doesn't exist on screen. Everything adheres to the HTML DOM standard with methods like appendChild and setAttribute.
+  This SVG initializes with a 300x150 blank canvas, but isn't mounted yet to the document. Everything adheres to the HTML DOM standard with methods like appendChild and setAttribute.
 </p>
 
 <p>
@@ -173,7 +176,7 @@
   .<f>curveTo</f>(<n>200</n>, <n>200</n>, <n>300</n>, <n>0</n>)</code></pre>
 
 <p class="explain">
-  Path command names follow <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#Path_commands">the spec</a>, including capitalization for absolute/relative.
+  Path command names follow <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#Path_commands">the spec</a>, including capitalization for absolute/relative.<br />("lineTo" takes relative coordinates, "LineTo" absolute).
 </p>
 
 <h3>
@@ -181,13 +184,13 @@
 </h3>
 
 <p>
-  So far we have only drawn shapes onto the SVG, the base layer. If you create a group, you can draw shapes into it instead and manage layer order of shapes.
+  So far, we have only drawn shapes onto the SVG, or the base layer. If you create a group, you can draw shapes into it instead and manage the layer order of shapes.
 </p>
 
   <pre class="code"><code><f>var</f> group <key>=</key> svg.<f>g</f>()<br>svg.<f>rect</f>(<n>0</n>, <n>0</n>, <n>20</n>, <n>20</n>)<br>group.<f>circle</f>(<n>10</n>, <n>10</n>, <n>20</n>)</code></pre>
 
 <p>
-  In this example, this circle is below the rectangle.
+  In this code example, this circle will appear underneath the rectangle.
 </p>
 
 <h2>
@@ -198,7 +201,7 @@
   The actual size on screen is managed by the DOM. The viewbox is our tool to set the size and scale of our drawing canvas.
 </p>
 
-  <pre class="code"><code>svg.<f>size</f>(<n>-1</n>, <n>-1</n>, <n>2</n>, <n>2</n>) <c> // x, y, width, height</code></pre>
+  <pre class="code"><code>svg.<f>size</f>(<n>-1</n>, <n>-1</n>, <n>2</n>, <n>2</n>) <c> // x, y, width, height</c></code></pre>
 
 <p>
   The first two parameters define the top left corner; followed by the width and height.
@@ -280,13 +283,13 @@
 </ul>
 
 <p>
-	These are basically wrappers around the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">Web API MouseEvent</a> but <em>with viewBox coordinates included</em>.
+	These are basically wrappers around the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">Web API MouseEvent</a> but <em>with viewBox coordinates instead of pixels</em>.
 </p>
 
   <div id="canvas-svg-touch"></div>
 
 <pre class="code"><code><span id="svg-draw-touch">{
-  x: <n>0.000</n>,
+  x: <n>0.000</n>, <c>// viewBox coordinate space</c>
   y: <n>0.000</n>,
   position: {x: <n>0.000</n>, y: <n>0.000</n>},
   pressX: <n>undefined</n>,
@@ -296,7 +299,7 @@
 }</span></code></pre>
 
 <p>
-	The event object is the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">MouseEvent</a> object with additional properties. The <b>buttons</b> key is one of the many standard properties already included.
+	The event object is the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">MouseEvent</a> object, but with additional properties included (i.e., <b>buttons</b> is one of the default standard properties).
 </p>
 
 <h2>
@@ -333,6 +336,10 @@
   }, <n>true</n>);
 </code></pre>
 
+<p class="explain">
+  <b>control points</b> is the most usage-specific feature in the library, but its usefulness proved itself so it's worth being included.
+</p>
+
 <h2>
   Animation
 </h2>
@@ -349,13 +356,20 @@
   If you come from a background using Processing or openFrameworks, the following code might look fine, but it contains a serious issue in the case of this SVG library.
 </p>
 
-  <pre class="code"><code><c>// bad code!</c><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=&gt;</f> {<br>  svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>10</n>)<br>  <c>// after a few seconds, your svg</c><br>  <c>// will contain hundreds of circles</c><br>  <c>// slowing down the renderer</c><br>}</code></pre>
+  <pre class="code"><code><c>// bad code!</c><br>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=&gt;</f> {<br>  <c>// each frame, a new circle is</c><br>  <c>// added without removing the previous</c><br>  svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>10</n>)<br>  <c>// after a few seconds, your svg</c><br>  <c>// will contain hundreds of circles</c><br>  <c>// slowing down the renderer</c><br>}</code></pre>
 
 <p>
   the SVG primitives are actual objects that get appended to the SVG. There are no pixels, and there is no automatic screen clearing. At the very least, call <b>removeChildren</b> somewhere in your animation loop.
 </p>
 
   <pre class="code"><code>svg.<f>removeChildren</f>()</code></pre>
+
+<p>
+  The code above can be corrected to:
+</p>
+
+
+  <pre class="code"><code>svg.<f>play</f> <key>=</key> (<arg>e</arg>) <f>=&gt;</f> {<br>  svg.<f>removeChildren</f>()<br>  svg.<f>circle</f>(<n>50</n>, <n>50</n>, <n>10</n>)<br>}</code></pre>
 
 <p>
   Better yet, consider this approach to animation.
@@ -379,51 +393,83 @@
 </h2>
 
 <p>
-	This SVG library was written to be fully independent and work alone if needed. (~35kb)
+  Everything up until this point is available as a fully independent library (~35kb), hosted here,
 </p>
 
 	<pre class="code"><code><str>https://robbykraft.github.io/SVG/svg.js</str></code></pre>
 
 <p>
-	But when integrated with Rabbit Ear additional features become unlocked.
+  but it's also included in Rabbit Ear, an integration which unlocks additional features.
 </p>
 
 <h3>
-	Graph
+	Origami
 </h3>
 
 <p>
-	The SVG library can create renderings of FOLD graphs.
+	The SVG library can create renderings of FOLD objects.
 </p>
 
-  <div id="canvas-svg-graph"></div>
+  <div id="canvas-svg-origami"></div>
 
-	<pre class="code"><code>svg.<f>graph</f>(<arg>fold</arg>)<br>g.<f>graph</f>(<arg>fold</arg>)</code></pre>
+	<pre class="code"><code>svg.<f>origami</f>(<arg>fold</arg>)<br/></code></pre>
 
 <p>
-  The element itself is a nesting of <b>g</b> elements.
+  The renderer is able to differentiate between crease patterns and folded origami, including known and unknown layer order, and style them accordingly.
 </p>
 
-	<pre class="code"><code><f>var</f> drawing <key>=</key> svg.<f>graph</f>(<arg>fold</arg>)
-<c>// quick component access</c>
-drawing.vertices.childNodes.<f>forEach</f>(v <f>=&gt;</f> v.<f>fill</f>(<str>"yellow"</str>))
+<p class="explain">
+  The renderer assumes a crease pattern unless <b>frame_classes</b> contains <b>"foldedState"</b>, and the layer order is determined by the presence of <b>"faces_layer"</b>.
+</p>
+
+<p>
+  The element itself is a nested <b>svg</b> element with components drawn into nested <b>g</b> groups.
+</p>
+
+  <pre class="code">&lt;<key>svg</key> <v>viewBox</v> <v>stroke-width</v>&gt;
+ ┣━&lt;<key>g</key>&gt; <c>// boundary group</c>
+ ┃  ┗━&lt;<key>polygon</key>&gt; <c>// each boundary</c>
+ ┣━&lt;<key>g</key>&gt; <c>// faces group</c>
+ ┃  ┣━&lt;<key>polygon</key>&gt; <c>// each face</c>
+ ┃  ┣━&lt;<key>polygon</key>&gt; <c>// each face</c>
+ ┃  ┗━ ...
+ ┣━&lt;<key>g</key>&gt; <c>// edges group</c>
+ ┃  ┣━&lt;<key>path</key>&gt; <c>// mountain creases</c>
+ ┃  ┣━&lt;<key>path</key>&gt; <c>// valley creases</c>
+ ┃  ┗━ ...   <c>// flat, unassigned ...</c>
+ ┗━&lt;<key>g</key>&gt; <c>// vertices group</c>
+    ┣━&lt;<key>circle</key>&gt; <c>// each vertex</c>
+    ┣━&lt;<key>circle</key>&gt; <c>// each vertex</c>
+    ┗━ ...
+</code></pre>
+
+<p>
+  This nested svg will establish a <b>new viewBox</b> and set the <b>stroke-width</b> so that files of all sizes (800pt wide or 1x1pt unit squares) all render similarly.
+</p>
+
+<p>
+  To prevent auto-size and style, pass in a boolean <b>false</b>.
+</p>
+
+  <pre class="code"><code>svg.<f>origami</f>(<arg>fold</arg>, <n>false</n>)</code></pre>
+
+<p>
+  Graph components are accessible with custom getters, which return the <b>g</b> elements, or <b>childNodes</b>, which return a <b>g</b> element's children.
+</p>
+
+	<pre class="code"><code><f>var</f> drawing <key>=</key> svg.<f>origami</f>(<arg>fold</arg>)
+<c>// access graph components</c>
+drawing.vertices.childNodes<br/>  .<f>forEach</f>(v <f>=&gt;</f> v.<f>fill</f>(<str>"yellow"</str>))
 drawing.edges.mountain.<f>stroke</f>(<str>"blue"</str>)
 drawing.faces.<f>fill</f>(<str>"white"</str>)
 drawing.boundaries.<f>fill</f>(<str>"linen"</str>)</code></pre>
 
-<p>
-  The element contains keys to access the geometry. These return the <b>g</b> element in question, and the geometry elements are found under the <b>childNodes</b> key.
-</p>
+  <div id="canvas-graph-components"></div>
 
-  <pre class="code"><code>svg.<f>graph</f>(<arg>graph</arg>)
-ear.graph.<f>svg</f>(<arg>graph</arg>).<f>appendTo</f>(<arg>svg</arg>)</code></pre>
-
-<p>
-  Graphs can be drawn two ways: from the SVG or from the graph key and appended later.
-
-<p>
+<!-- <p>
   See more: <a href="https://github.com/robbykraft/fold-to-svg">fold-to-svg</a>.
 </p>
+ -->
 
 <h3>
 	Math Primitives
@@ -433,20 +479,10 @@ ear.graph.<f>svg</f>(<arg>graph</arg>).<f>appendTo</f>(<arg>svg</arg>)</code></p
   Rabbit Ear's math primitives gain an <b>svg</b> method that converts them into path elements.
 </p>
 
-  <pre class="code"><code>ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>).<f>svg</f>()<br>  .<f>appendTo</f>(svg)</code></pre>
-
-<p class="quote">
-	This returns an SVG path object.
-</p>
-
-  <pre class="code"><code>.<f>appendTo</f>(svg)</code></pre>
+  <pre class="code"><code><f>var</f> segment <key>=</key> ear.<f>segment</f>(<n>10</n>, <n>10</n>, <n>50</n>, <n>60</n>)<br>segment.<f>svg</f>().<f>appendTo</f>(svg)</code></pre>
 
 <p>
-	These elements aren't created as children of any parent. You'll need to append it.
-</p>
-
-<p>
-	Finally, there are small features here and there, like event handlers return mouse location data as <b>vector</b> objects, making calculations a lot easier.
+  These elements are created independent of any svg parent, they need to be appended to one, and the easiest way by calling <b>appendTo</b>.
 </p>
 
   <div id="canvas-svg-spiral"></div>
@@ -462,7 +498,7 @@ var options = {
 			};
 
 		  var string = "{<br>"
-		    + "  x: <n>" + printNum(e.x) + "</n>,<br>"
+		    + "  x: <n>" + printNum(e.x) + "</n>, <c>// viewBox coordinate space</c><br>"
 		    + "  y: <n>" + printNum(e.y) + "</n>,<br>"
 		    + "  position: {x: <n>" + printNum(e.position.x)
 		    + "</n>, y: <n>" + printNum(e.position.y) + "</n>},<br>"
@@ -496,7 +532,8 @@ loadExamples([
   "svg-controls",
   "svg-spiral",
   "svg-hanoi",
-  "svg-graph",
+  "svg-origami",
+  "graph-components",
 ], options);
 </script>
 

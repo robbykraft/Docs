@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js?version=3"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=4"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -39,6 +39,9 @@
           <li class="dropdown">
             <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
+<!--           <li class="dropdown">
+            <a href="/docs/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -214,13 +217,23 @@
   <pre class="code"><code><f>var</f> point <key>=</key> segment.<f>nearestPoint</f>(<span id="nearest-point-mouse"></span>)</code></pre>
 
 <p>
-	All three have an <b>origin</b> and <b>vector</b> property, which is what a line requires for initialization.
+	All three have an <b>vector</b> and <b>origin</b> property, which is what a line requires for initialization.
 </p>
 
 	<pre class="code"><code><f>var</f> segment <key>=</key> ear.<f>segment</f>(<n>1</n>, <n>0</n>, <n>2</n>, <n>-1</n>)<br><f>var</f> line <key>=</key> ear.<f>line</f>(segment)</code></pre>
 
 <p class="quote">
 	A segment being converted into a line (infinite length).
+</p>
+
+<p id="u-d-parameterization">
+	One problem with the <b>vector</b>, <b>origin</b> form is uniqueness, the same line can be represented infinite ways. In <a href="//langorigami.com/wp-content/uploads/2017/09/origami_constructions.pdf">Origami and Geometric Constructions</a> Robert Lang offers a solution that is implemented in this library; so, each line also contains these two properties.
+</p>
+
+	<div id="canvas-line-u-d"></div>
+
+<p>
+	Lines can be uniquely defined by a unit normal vector <b>u</b> and the shortest distance to the origin <b>d</b>.
 </p>
 
 <h2>
@@ -246,16 +259,16 @@
   <pre class="code"><code>ear.polygon.<f>convexHull</f>(<key>...</key><arg>points</arg>)</code></pre>
 
 <p>
-	<b>Convex hull</b> is a static initializer that will also fix any winding issues in an ordered set of points.
+	<b>Convex hull</b> is a static initializer that can also be used to fix any winding issues in a set of points.
+</p>
+
+<p>
+  The <b>straight skeleton</b> is an operation on a polygon that creates a flat-foldable crease pattern, and when folded, the boundary becomes collinear.
 </p>
 
   <div id="canvas-polygon-straight-skeleton"></div>
 
   <pre class="code"><code>polygon.<f>straightSkeleton</f>()</code></pre>
-
-<p>
-  The <b>straight skeleton</b> is an operation on a polygon that creates a flat-foldable crease pattern, and when folded, the boundary becomes collinear.
-</p>
 
 <h3>
 	Rect
@@ -281,6 +294,10 @@ polygon.<f>overlap</f>(<arg>anyShape</arg>)
 polygon.<f>split</f>(<arg>line</arg>)
 polygon.<f>clip</f>(<arg>anyLine</arg>)
 polygon.<f>svgPath</f>()</code></pre>
+
+<p>
+  <b>enclosingRectangle</b> returns an axis-aligned rectangle, <b>nearest</b> returns the nearest point <em>on the boundary</em>, <b>transform</b> takes in a 3x4 matrix.
+</p>
 
 <h3>
   Circle
@@ -393,8 +410,8 @@ polygon.<f>overlap</f>(<arg>point</arg>)</code></pre>
 
   <div id="canvas-overlap-segment-segment"></div>
 
-	<pre class="code"><code><f>var</f> segment1 <key>=</key> math.<f>segment</f>().<f>inclusive</f>()
-<f>var</f> segment2 <key>=</key> math.<f>segment</f>().<f>exclusive</f>()
+	<pre class="code"><code><f>var</f> segment1 <key>=</key> ear.<f>segment</f>().<f>inclusive</f>()
+<f>var</f> segment2 <key>=</key> ear.<f>segment</f>().<f>exclusive</f>()
 segment1.<f>overlap</f>(segment2)</code></pre>
 
 <p class="quote">
@@ -694,6 +711,7 @@ loadExamples([
   "junction-bisect",
   "line-nearest-point",
   "line-ray-segment",
+	"line-u-d",
   "matrix-reflection",
   "polygon-fold",
   "polygon-straight-skeleton",
