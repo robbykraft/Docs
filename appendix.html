@@ -140,7 +140,7 @@ function intersectionSegment (...)
 
 
 <pre><code>
-make_vertices_edges({ edges_vertices })
+make_vertices_edges_unsorted({ edges_vertices })
 make_vertices_vertices({ vertices_coords, vertices_edges, edges_vertices })
 make_vertices_faces({ faces_vertices })
 make_vertices_to_edge_bidirectional({ edges_vertices })
@@ -234,7 +234,7 @@ make_faces_coloring({ faces_vertices, faces_faces }, root_face = 0)
 </p>
 
 <pre class="code compact"><code>┃ <c>// makers</c>
-┣━ <f>make_vertices_edges</f>(<arg>graph</arg>)
+┣━ <f>make_vertices_edges_unsorted</f>(<arg>graph</arg>)
 ┣━ <f>make_edges_vertices</f>(<arg>graph</arg>)
 ┣━ <f>make_faces_faces</f>(<arg>graph</arg>)
 ┣━ <f>make_edges_faces</f>(<arg>graph</arg>)

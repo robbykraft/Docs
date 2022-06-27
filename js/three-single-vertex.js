@@ -115,7 +115,7 @@ window.addEventListener('load', () => {
 		sceneMeshes.forEach(mesh => scene.add(mesh));
 	};
 	
-	const cp = ear.cp.circle();
+	const cp = ear.cp.polygon(96);
 	// make 3 random angles, sorted
 	const angles = [0,1,2]
 	  .map(() => Math.random() * Math.PI * 2)
@@ -123,7 +123,7 @@ window.addEventListener('load', () => {
 	// kawasaki solver will give anywhere between 1-3 solutions
 	// paired with sectors, so we need to filter undefineds.
 	// get one. any will work. just get the first one.
-	angles.push(ear.vertex.kawasaki_solutions_radians(angles)
+	angles.push(ear.singleVertex.kawasakiSolutionsRadians(angles)
 	  .filter(a => a !== undefined)
 	  .shift());
 	// crease 4 rays. currently they have no assignment
@@ -133,10 +133,10 @@ window.addEventListener('load', () => {
 	// what is the index of the vertex at the center?
 	const vert = cp.nearest(0, 0).vertex;
 	// get the 4 sector angles
-	const vertices_sectors = ear.graph.make_vertices_sectors(cp);
+	const vertices_sectors = ear.graph.makeVerticesSectors(cp);
 	const sectors = vertices_sectors[vert];
 	// this solves the crease assignment and layer over
-	const solution = ear.layer.assignment_solver(sectors).shift();
+	const solution = ear.layer.assignmentSolver(sectors).shift();
 	cp.vertices_edges[vert].forEach((e, i) => {
 	  cp.edges_assignment[e] = solution.assignment[i];
 	});
@@ -144,12 +144,12 @@ window.addEventListener('load', () => {
 	
 	const foldOrigami = (t) => {
 		const copied = JSON.parse(JSON.stringify(cp));
-		const res = ear.vertex.fold_angles4(sectors, assignments, t);
+		const res = ear.singleVertex.foldAngles4(sectors, assignments, t);
 		cp.vertices_edges[vert].forEach((e, i) => {
 	 	  copied.edges_foldAngle[e] = res[i] * 180 / Math.PI;
 		});
 		delete copied.faces_matrix;
-		const coords = ear.graph.make_vertices_coords_folded(copied);
+		const coords = ear.graph.makeVerticesCoordsFolded(copied);
 		copied.vertices_coords = coords;
 		draw(copied);
 	};

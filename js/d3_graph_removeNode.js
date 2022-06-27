@@ -24,5 +24,6 @@ function fillGraph(graph, numNodes){
 			graph.newEdge( graph.nodes[rand1], graph.nodes[rand2] );
 		}
 	}
-	graph.clean();
+  ear.graph.removeCircularEdges(graph);
+  ear.graph.removeDuplicateEdges(graph);
 }

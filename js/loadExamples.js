@@ -39,10 +39,13 @@ var appendScript = (id, code, options = {}) => {
   if (node) {
     var scriptLink = window.document.createElement("div");
     scriptLink.className = "script-link";
-    scriptLink.onclick = function (e) {
-      e.preventDefault();
-      window.location.href = EarCodeEditorURL + "?example=" + id;
-    }
+    // scriptLink.onclick = function (e) {
+    //   e.preventDefault();
+    //   window.location.href = EarCodeEditorURL + "?example=" + id;
+    // }
+    var scriptHref = window.document.createElement("a");
+    scriptHref.setAttribute("href", EarCodeEditorURL + "?example=" + id);
+    scriptLink.appendChild(scriptHref);
     node.appendChild(scriptLink);
   } else {
 		console.log(id + " could not locate div to append");

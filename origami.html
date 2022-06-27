@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js?version=4"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=5"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -25,22 +25,22 @@
       <div class="nav-wrapper">
         <ul>
           <li class="dropdown">
-            <a href="/docs/">HELLO</a>
+            <a href="/book/">HELLO</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
+            <a href="/book/math.html" class="dropbtn">I. MATH</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
+            <a href="/book/graph.html" class="dropbtn">II. GRAPHS</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
+            <a href="/book/svg.html" class="dropbtn">III: SVG</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
+            <a href="/book/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
 <!--           <li class="dropdown">
-            <a href="/docs/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
+            <a href="/book/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
           </li> -->
         </ul>
       </div>
@@ -119,6 +119,10 @@ origami.<f>flatFold</f>(<arg>line</arg>)</code></pre>
 
 <p>
   Currently, there is only one fold, the all-layers valley fold. In the future, more folds will be introduced here, like the reverse fold, squash, pedal.
+</p>
+
+<p class="explain">
+  Be mindful of Y-axis direction for SVG renders. "counter-clockwise" is such in the mathematical, +Y upwards context. The sketch above has an upwards +Y.
 </p>
 
 <h3 id="crease-pattern">
@@ -390,7 +394,7 @@ cp.<f>segment</f>(<n>1.0</n>, <n>0.5</n>, <n>0.75</n>, <n>0.75</n>).<f>mountain<
   <div id="canvas-origami-kawasaki-solver-options"></div>
 
 <p class="explain">
-  These methods require <a href="/docs/math.html#sorting">sorted</a> vectors/radians as an input. Use these methods below:
+  These methods require <a href="/book/math.html#sorting">sorted</a> vectors/radians as an input. Use these methods below:
 </p>
 
   <pre class="code"><code>ear.math.<f>counter_clockwise_order2</f>(vectors)
@@ -685,7 +689,7 @@ cp.<f>segment</f>(<n>1.0</n>, <n>0.5</n>, <n>0.75</n>, <n>0.75</n>).<f>mountain<
   <div id="canvas-layer-cycle-square-twist"></div>
 
 <p>
-  The exact placement of these flat creases is important. Conveniently, the necessary flat creases typically arise naturally when folding these origamis by hand. But this isn't guaranteed, and an algorithm which takes care of this would be nice to develop.
+  This relies on a crease pattern already having this exact placement of these flat creases. An algorithm which takes care of this would be nice to develop.
 </p>
 
 <!-- 

@@ -12,7 +12,8 @@ window.document.addEventListener("DOMContentLoaded", () => {
       graph.edges_vertices.push([
         Math.floor(Math.random() * numVertices),
         Math.floor(Math.random() * numVertices)]);
-      ear.graph.clean(graph);
+      ear.graph.removeCircularEdges(graph);
+      ear.graph.removeDuplicateEdges(graph);
     }
     ear.graph.populate(graph);
   }

@@ -20,7 +20,7 @@
 .code {
 	display: block;
 	overflow: auto;
-	background: #272822;
+	background-color: #272822;
 }
 
 pre.language {

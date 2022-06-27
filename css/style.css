@@ -110,8 +110,8 @@ h3:first-of-type { margin: 6rem 0 1rem 0; }
 	width: 550px;
 	padding: 1rem;
 }
-.color-yellow { color: #ea3; } /* #fb4 */
-.color-blue   { color: #379; } /* #58c */
+.color-yellow { color: #ea3; } /* #ecb233 #fb4 */
+.color-blue   { color: #6096bb; } /* #379 #58c */ 
 .color-red    { color: #e53; } /* #f75 */
 .color-green  { color: #5a3; }
 
@@ -148,6 +148,11 @@ div[id^=webgl-] {
 	background-position: 0.25rem 0.25rem;
 	background-repeat: no-repeat;
 	cursor: pointer;
+}
+.script-link a {
+	width: 1.5rem;
+	height: 1.5rem;
+	display: inline-block;
 }
 
 .button-row {

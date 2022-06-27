@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js?version=4"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=5"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -25,22 +25,22 @@
       <div class="nav-wrapper">
         <ul>
           <li class="dropdown">
-            <a href="/docs/">HELLO</a>
+            <a href="/book/">HELLO</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
+            <a href="/book/math.html" class="dropbtn">I. MATH</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
+            <a href="/book/graph.html" class="dropbtn">II. GRAPHS</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
+            <a href="/book/svg.html" class="dropbtn">III: SVG</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
+            <a href="/book/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
 <!--           <li class="dropdown">
-            <a href="/docs/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
+            <a href="/book/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
           </li> -->
         </ul>
       </div>
@@ -80,7 +80,7 @@
 
   <div id="canvas-vector"></div>
 
-  <pre class="code"><code><f>var</f> vec <key>=</key> ear.<f>vector</f>(<span id="vec-sketch-vector"><n>0.5</n>, <n>0.666</n></span>)<br>vec.<f>normalize</f>()<br> ↳ <span id="vec-sketch-vector-normalized"></span></code></pre>
+  <pre class="code"><code><f>var</f> vector <key>=</key> ear.<f>vector</f>(<span id="vec-sketch-vector"><n>0.5</n>, <n>0.666</n></span>)<br>vector.<f>normalize</f>()<br> ↳ <span id="vec-sketch-vector-normalized"></span></code></pre>
 
 <p class="explain">
   2D and 3D specific methods often end in numbers like cross2 and cross3.
@@ -88,17 +88,39 @@
 
   <div id="canvas-vector-lerp"></div>
 
-  <pre class="code"><code><span style="color:#6096bb">blue1</span> = <span style="color:#e44f2a">red1</span>.lerp(<span style="color:#e44f2a">red2</span>, <span id="lerp-time-1">t</span>)<br><span style="color:#6096bb">blue2</span> = <span style="color:#e44f2a">red2</span>.lerp(<span style="color:#e44f2a">red3</span>, <span id="lerp-time-2">t</span>)<br><span style="color:#ecb233">yellow</span> = <span style="color:#6096bb">blue1</span>.lerp(<span style="color:#6096bb">blue2</span>, <span id="lerp-time-3">t</span>)</code></pre>
+  <pre class="code"><code><span class="color-blue">blue1</span> = <span class="color-red">red1</span>.lerp(<span class="color-red">red2</span>, <span id="lerp-time-1">t</span>)<br><span class="color-blue">blue2</span> = <span class="color-red">red2</span>.lerp(<span class="color-red">red3</span>, <span id="lerp-time-2">t</span>)<br><span class="color-yellow">yellow</span> = <span class="color-blue">blue1</span>.lerp(<span class="color-blue">blue2</span>, <span id="lerp-time-3">t</span>)</code></pre>
 
 <p>
   The vector object is a Javascript array of numbers. A number can be accessed using either brackets [ ] or dot notation with x, y, z. Brackets are required beyond 3-dimensions.
 </p>
 
-  <pre class="code"><code>vector.x  <c>// the x value</c><br>vector[<n>0</n>] <c>// also, the x value</c></code></pre>
+  <pre class="code"><code>vector.x  <c>// the x component</c><br>vector[<n>0</n>] <c>// also, the x component</c></code></pre>
 
 <p class="explain">
   This vector object is <b>immutable</b>; each method returns a new, transformed vector.
 </p>
+
+  <pre class="code"><code>vector.<f>isEquivalent</f>(<arg>vector</arg>) <key>:</key> <f>boolean</f>
+vector.<f>isParallel</f>(<arg>vector</arg>) <key>:</key> <f>boolean</f>
+vector.<f>isCollinear</f>(<arg>line</arg>) <key>:</key> <f>boolean</f>
+vector.<f>overlap</f>([<arg>vector</arg>/<arg>segment</arg>/<arg>ray</arg>/<arg>line</arg>/<arg>circle</arg>/<arg>polygon</arg>]) <key>:</key> <f>boolean</f>
+vector.<f>magnitude</f>() <key>:</key> <f>number</f>
+vector.<f>dot</f>(<arg>vector</arg>) <key>:</key> <f>number</f>
+vector.<f>distanceTo</f>(<arg>vector</arg>) <key>:</key> <f>number</f>
+vector.<f>copy</f>() <key>:</key> <v>ear.vector</v>
+vector.<f>normalize</f>() <key>:</key> <v>ear.vector</v>
+vector.<f>scale</f>(<arg>number</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>flip</f>() <key>:</key> <v>ear.vector</v>
+vector.<f>rotate90</f>() <key>:</key> <v>ear.vector</v>
+vector.<f>rotate270</f>() <key>:</key> <v>ear.vector</v>
+vector.<f>cross</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>transform</f>(<arg>matrix</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>add</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>subtract</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>rotateZ</f>(<arg>number</arg>, <arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>lerp</f>(<arg>vector</arg>, <arg>number</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>midpoint</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+vector.<f>bisect</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v></code></pre>
 
 <h2 id="matrix">
   MATRIX
@@ -160,17 +182,22 @@
   <div class="equation" id="matrix-4"></div>
 
 <p class="explain">
-  Unlike vectors and most objects, matrices are <b>mutable</b>; each method modifies the matrix.
+  Unlike vectors and most objects, matrices are <b>mutable</b>; each method modifies the matrix.<br />These methods will still return <b>this</b>, the modified matrix.
 </p>
 
-<pre class="code"><code><f>multiply</f>(<arg>matrix</arg>)
-<f>determinant</f>(<arg></arg>)
-<f>inverse</f>(<arg></arg>)
-<f>translate</f>(<arg>x</arg>, <arg>y</arg>, <arg>z</arg>)
-<f>rotate</f>(<arg>radians</arg>, <arg>vector</arg>, <arg>origin</arg>)
-<f>scale</f>(<arg>amount</arg>)
-<f>reflectZ</f>(<arg>vector</arg>, <arg>origin</arg>)
-<f>transform</f>(<arg>vector</arg> or <arg>line</arg>)</code></pre>
+<pre class="code"><code>matrix.<f>isIdentity</f>() <key>:</key> <f>boolean</f>
+matrix.<f>determinant</f>(<arg></arg>) <key>:</key> <f>number</f>
+matrix.<f>copy</f>() <key>:</key> <v>ear.matrix</v>
+matrix.<f>set</f>(<arg>matrix</arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>multiply</f>(<arg>matrix</arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>inverse</f>(<arg></arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>translate</f>(<arg>x</arg>, <arg>y</arg>, <arg>z</arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>rotate</f>(<arg>radians</arg>, <arg>vector</arg>, <arg>origin</arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>scale</f>(<arg>amount</arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>reflectZ</f>(<arg>vector</arg>, <arg>origin</arg>) <key>:</key> <v>ear.matrix</v>
+matrix.<f>transformVector</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+matrix.<f>transformLine</f>(<arg>line</arg>) <key>:</key> <v>ear.line</v>
+</code></pre>
 
 <h2 id="line">
   Lines, Rays, Segments
@@ -197,7 +224,11 @@
   <pre class="code"><code>ear.<f>line</f>(<arg>vector</arg>, <arg>origin</arg>)<br>ear.<f>ray</f>(<arg>vector</arg>, <arg>origin</arg>)<br>ear.<f>segment</f>(<arg>point</arg>, <arg>point</arg>)</code></pre>
 
 <p>
-  If you leave out the origin argument it is assumed to be (0, 0, 0). Also, it may be easier to create lines and rays with the static method: <b>fromPoints</b>.
+  If you leave out the origin argument it is assumed to be (0, 0, 0).
+</p>
+
+<p>
+  Also, it may be easier to create lines and rays with the static method: <b>fromPoints</b>.
 </p>
 
   <div id="canvas-line-ray-segment"></div>
@@ -235,6 +266,25 @@
 <p>
 	Lines can be uniquely defined by a unit normal vector <b>u</b> and the shortest distance to the origin <b>d</b>.
 </p>
+
+<pre class="code"><code><c>// lines, rays, and segments</c>
+line.<f>isParallel</f>([<arg>line</arg>/<arg>ray</arg>/<arg>segment</arg>]) <key>:</key> <f>boolean</f>
+line.<f>isCollinear</f>([<arg>line</arg>/<arg>ray</arg>/<arg>segment</arg>]) <key>:</key> <f>boolean</f>
+line.<f>isDegenerate</f>(<arg>epsilon</arg> <key>:</key> <v>number</v>) <key>:</key> <f>boolean</f>
+line.<f>intersect</f>([<arg>polygon</arg>/<arg>circle</arg>/<arg>line</arg>/<arg>ray</arg>/<arg>segment</arg>]) <key>:</key> <f>boolean</f>
+line.<f>overlap</f>([<arg>line</arg>/<arg>ray</arg>/<arg>segment</arg>/<arg>vector</arg>]) <key>:</key> <f>boolean</f>
+line.<f>reflectionMatrix</f>() <key>:</key> <v>ear.matrix</v>
+line.<f>nearestPoint</f>(<arg>vector</arg>) <key>:</key> <v>ear.vector</v>
+line.<f>transform</f>(<arg>matrix</arg>) <key>:</key> <v>ear.line</v>
+line.<f>translate</f>([<arg>vector</arg>]) <key>:</key> <v>ear.line</v>
+line.<f>bisect</f>([<arg>line</arg>/<arg>ray</arg>/<arg>segment</arg>]) <key>:</key> <v>ear.line</v>
+line.<f>svgPath</f>() <key>:</key> <f>string</f>
+<c>// ray only</c>
+ray.<f>flip</f>() : <v>ear.ray</v>
+ray.<f>scale</f>(<arg>number</arg>) : <v>ear.ray</v>
+ray.<f>normalize</f>() : <v>ear.ray</v>
+<c>// segment only</c>
+segment.<f>midpoint</f>() : <v>ear.vector</v></code></pre>
 
 <h2>
   Polygons
@@ -642,15 +692,15 @@ const options = {
 		"vector": (e) => {
 			if (e === undefined) { return; }
   		const vec = `<n>${e.vector.x.toFixed(2)}</n>, <n>${e.vector.y.toFixed(2)}</n>`;
-  		const norm = `[${e.normalized.x.toFixed(2)}, ${e.normalized.y.toFixed(2)}]`;
+  		const norm = `[<n>${e.normalized.x.toFixed(2)}</n>, <n>${e.normalized.y.toFixed(2)}</n>]`;
   		document.querySelector("#vec-sketch-vector").innerHTML = vec;
   		document.querySelector("#vec-sketch-vector-normalized").innerHTML = norm;
 		},
 		"vector-lerp": (e) => {
   		if (e == undefined || e.t === undefined) { return; }
-  		document.querySelector("#lerp-time-1").innerHTML = e.t.toFixed(2);
-  		document.querySelector("#lerp-time-2").innerHTML = e.t.toFixed(2);
-  		document.querySelector("#lerp-time-3").innerHTML = e.t.toFixed(2);
+  		document.querySelector("#lerp-time-1").innerHTML = `<n>${e.t.toFixed(2)}</n>`;
+  		document.querySelector("#lerp-time-2").innerHTML = `<n>${e.t.toFixed(2)}</n>`;
+  		document.querySelector("#lerp-time-3").innerHTML = `<n>${e.t.toFixed(2)}</n>`;
 		},
 		"line-ray-segment": (e) => {
   		if (e == undefined) { return; }

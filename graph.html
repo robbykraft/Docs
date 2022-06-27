@@ -8,7 +8,7 @@
 <title>Rabbit Ear</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/rabbit-ear.js?version=4"></script>
+<script type="text/javascript" src="/rabbit-ear.js?version=5"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant:300,500" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700" />
 <link rel="stylesheet" href="./css/reset.css" />
@@ -25,22 +25,22 @@
       <div class="nav-wrapper">
         <ul>
           <li class="dropdown">
-            <a href="/docs/">HELLO</a>
+            <a href="/book/">HELLO</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/math.html" class="dropbtn">I. MATH</a>
+            <a href="/book/math.html" class="dropbtn">I. MATH</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/graph.html" class="dropbtn">II. GRAPHS</a>
+            <a href="/book/graph.html" class="dropbtn">II. GRAPHS</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/svg.html" class="dropbtn">III: SVG</a>
+            <a href="/book/svg.html" class="dropbtn">III: SVG</a>
           </li>
           <li class="dropdown">
-            <a href="/docs/origami.html" class="dropbtn">IV. ORIGAMI</a>
+            <a href="/book/origami.html" class="dropbtn">IV. ORIGAMI</a>
           </li>
 <!--           <li class="dropdown">
-            <a href="/docs/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
+            <a href="/book/rabbit-ear.html" class="dropbtn">V. RABBIT EAR</a>
           </li> -->
         </ul>
       </div>
@@ -199,13 +199,13 @@
   <pre class="code"><code>ear.graph.<f>populate</f>(<arg>graph</arg>)<br>ear.graph.<f>translate</f>(<arg>graph</arg>, <arg>x</arg>, <arg>y</arg>)</code></pre>
 
 <p>
-  There is also an object-oriented approach. The top-level graph key is also a constructor:
+  Alternatively, this library offers a more object-oriented style. Create a graph object:
 </p>
 
   <pre class="code"><code><f>var</f> myGraph <key>=</key> ear.<f>graph</f>()</code></pre>
 
 <p>
-  If you prefer the object-oriented approach, all the methods exist on your object, allowing you to leave out the first parameter.
+  This graph object binds all relevant functions as object methods, where the first parameter can now be left out.
 </p>
 
 <div class="grid-2">
@@ -322,45 +322,64 @@ faces_faces: [[<n>1</n>], [<n>0</n>]]
 </h3>
 
 <p>
-  <b>Populate</b> calls a bunch of methods, each of which is also available for you to call individually. Prerequisites for each method vary.
+  <b>Populate</b> calls a bunch of methods, each of which is also available for you to call individually.
 </p>
 
 <pre class="code"><code><f>var</f> array <key>=</key> ear.graph.<f>make_vertices_vertices</f>(<arg>graph</arg>)</code></pre>
 
 <p>
-  Unlike <b>populate</b>, these methods <em>do not modify the input graph</em>; they construct and return a new array, it's up to you to assign it to the graph if you wish.
+  These return the data requested as an array. It will not modify the input graph by appending this array, that is up to you to do if you choose.
 </p>
 
-<pre class="code"><code>ear.graph.<f>make_vertices_edges</f>()
-ear.graph.<f>make_vertices_vertices</f>()
-ear.graph.<f>make_vertices_faces</f>()
-ear.graph.<f>make_vertices_to_edge_bidirectional</f>()
-ear.graph.<f>make_vertices_to_edge</f>()
-ear.graph.<f>make_vertices_vertices_vector</f>()
-ear.graph.<f>make_vertices_sectors</f>()
-ear.graph.<f>make_vertices_coords_folded</f>()
+<pre class="code"><code>ear.graph.<f>make_vertices_vertices</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_edges</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_edges_unsorted</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_faces</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_faces_unsorted</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_edges</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_faces</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_faces_unsorted</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_foldAngle</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_assignment</f>(<arg>graph</arg>)
+ear.graph.<f>make_faces_vertices_from_edges</f>(<arg>graph</arg>)
+ear.graph.<f>make_faces_edges_from_vertices</f>(<arg>graph</arg>)
+ear.graph.<f>make_planar_faces</f>(<arg>graph</arg>)
+ear.graph.<f>make_planar_faces_vertices</f>(<arg>graph</arg>)
+ear.graph.<f>make_planar_faces_edges</f>(<arg>graph</arg>)
+ear.graph.<f>make_faces_faces</f>(<arg>graph</arg>)
 </code></pre>
 
-<pre class="code"><code>ear.graph.<f>make_edges_vertices</f>()
-ear.graph.<f>make_edges_edges</f>()
-ear.graph.<f>make_edges_faces</f>()
-ear.graph.<f>make_edges_foldAngle</f>()
-ear.graph.<f>make_edges_assignment</f>()
-ear.graph.<f>make_edges_vector</f>()
-ear.graph.<f>make_edges_length</f>()
-ear.graph.<f>make_edges_collinear_vertices</f>()
+<pre class="code"><code>ear.graph.<f>make_vertices_to_edge</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_to_edge_bidirectional</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_to_face</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_vertices_vector</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_sectors</f>(<arg>graph</arg>)
+ear.graph.<f>make_vertices_coords_folded</f>(<arg>graph</arg>, <arg>root_face</arg>)
+ear.graph.<f>make_vertices_coords_flat_folded</f>(<arg>graph</arg>, <arg>root_face</arg>)
+ear.graph.<f>make_edges_coords</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_vector</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_length</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_coords_min_max</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_coords_min_max_exclusive</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_edges_coords_min_max_inclusive</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_edges_edges_parallel</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_edges_edges_crossing</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_edges_edges_parallel_overlap</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_edges_is_flat_folded</f>(<arg>graph</arg>)
+ear.graph.<f>make_edges_faces_overlap</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_faces_faces_overlap</f>(<arg>graph</arg>, <arg>epsilon</arg>)
+ear.graph.<f>make_faces_center</f>(<arg>graph</arg>)
+ear.graph.<f>make_faces_center_quick</f>(<arg>graph</arg>)
+ear.graph.<f>make_faces_matrix</f>(<arg>graph</arg>, <arg>root_face</arg>)
+ear.graph.<f>make_faces_matrix2</f>(<arg>graph</arg>, <arg>root_face</arg>)
+ear.graph.<f>make_faces_winding</f>(<arg>graph</arg>)
+ear.graph.<f>make_faces_winding_from_matrix</f>(<arg>faces_matrix</arg>)
+ear.graph.<f>make_faces_winding_from_matrix2</f>(<arg>faces_matrix2</arg>)
 </code></pre>
 
-<pre class="code"><code>ear.graph.<f>make_planar_faces</f>()
-ear.graph.<f>make_faces_vertices</f>()
-ear.graph.<f>make_faces_edges</f>()
-ear.graph.<f>make_faces_faces</f>()
-ear.graph.<f>make_face_spanning_tree</f>()
-ear.graph.<f>make_faces_matrix</f>()
-ear.graph.<f>make_faces_center</f>()
-ear.graph.<f>make_faces_winding_from_matrix</f>()
-ear.graph.<f>make_faces_coloring</f>()
-</code></pre>
+<p>
+  The second parameter (epsilon, root_face) of each method is optional.
+</p>
 
 <h2>
   More Methods
@@ -375,7 +394,7 @@ ear.graph.<f>make_faces_coloring</f>()
   <pre class="code"><code>graph.<f>faceSpanningTree</f>(<n><span id="graph-faces-tree-number">5</span></n>)</code></pre>
 
 <p>
-  A minimum face spanning tree finds edge-adjacent faces; any face can be the starting face.
+  A minimum face spanning tree finds a tree that visits all faces exactly once. Any face can be the starting face.
 </p>
 
 <h3>
@@ -428,10 +447,10 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 
 <div class="grid-2">
   <div>
-  <pre class="code"><code>graph.<f>folded</f>()</code></pre>
+  <pre class="code"><code>graph.<f>folded</f>()<br />graph.<f>flatFolded</f>()</code></pre>
   </div>
   <div>
-  <pre class="code"><code>ear.graph.<f>make_faces_matrix</f>(<arg>graph</arg>)<br>ear.graph.<f>make_vertices_coords_folded</f>(<arg>graph</arg>)</code></pre>
+  <pre class="code"><code>ear.graph.<f>make_vertices_coords_folded</f>(<arg>graph</arg>)<br>ear.graph.<f>make_vertices_coords_flat_folded</f>(<arg>graph</arg>)</code></pre>
   </div>
 </div>
 
@@ -451,23 +470,19 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   Counting Components
 </h2>
 
-  <pre class="code"><code>ear.graph.<f>count</f>(<arg>graph</arg>, <str>"key"</str>)</code></pre>
+  <pre class="code"><code>ear.graph.<f>count</f>(<arg>graph</arg>, <str>"vertices"</str>)</code></pre>
 
 <p>
-  Because the geometry is stored in flat, separate arrays, it's possible that the faces are defined in <b>faces_edges</b> but not <b>faces_vertices</b>; and querying the number of faces by checking <b>faces_vertices</b> will break. <b>Count</b> will search all the keys that begin with "faces_" and return the longest one.
+  The FOLD spec does not require components be defined in one particular way. Faces can be defined in <b>faces_edges</b> and/or <b>faces_vertices</b>. This method searches all relevant arrays, and returns the longest length if there are contradictions.
 </p>
 
   <pre class="code"><code>ear.graph.count.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.count.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.count.<f>vertices</f>(<arg>graph</arg>)</code></pre>
 
 <p>
-  The <b>implied count</b> is useful for things like abstract graphs, a search for vertices will look inside things like "faces_vertices" for the largest index.
+  The <b>implied count</b> is useful for things like abstract graphs, where a search for vertices will look inside things like "faces_vertices" for the largest index.
 </p>
 
-  <pre class="code"><code>ear.graph.implied.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.implied.<f>vertices</f>(<arg>graph</arg>)</code></pre>
-
-<p class="explain">
-  It's possible that arrays get out of sync, in which case, the longest might not be the correct one. It's very important to watch carefully and never let a component's arrays become unsynchronized.
-</p>
+  <pre class="code"><code>ear.graph.countImplied.<f>faces</f>(<arg>graph</arg>)<br>ear.graph.countImplied.<f>edges</f>(<arg>graph</arg>)<br>ear.graph.countImplied.<f>vertices</f>(<arg>graph</arg>)</code></pre>
 
 <h2>
   Rebuilding Graphs
@@ -524,12 +539,20 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   <li>lines don't always end at <em>exactly</em> the same point.</li>
 </ul>
 
+<p>
+  An origami does not need to be a planar graph (a folded origami exists in 3D), but <em>a crease pattern does</em>.
+</p>
+
 <h3>
   Fragment
 </h3>
 
 <p>
-  The fragment method converts a graph into a planar graph by solving the first issue: <b>lines crossing other lines</b>.
+  The fragment method converts a graph into a planar graph by solving the first issue: <b>lines crossing other lines</b>. It also walks all edges and constructs all valid faces.
+</p>
+
+<p>
+  Faces can have leaf edges poking inside, this is still considered valid.
 </p>
 
 <div class="grid-2">
@@ -568,7 +591,7 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
 <p class="explain">
-  The final parameter in many of these methods is an <b>optional epsilon</b>. By default it is very precise (1e-6). When importing crease patterns that were made in some vector drawing program you will want to increase this.
+  The final parameter in many of these methods is an <b>optional epsilon</b>. By default it is precise (1e-6). When importing crease patterns that were made in some vector drawing program you might want to decrease the precision.
 </p>
 
   <pre class="code"><code>ear.graph.<f>fragment</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)<br>ear.graph.<f>remove_duplicate_vertices</f>(<arg>graph</arg>, <arg>epsilon</arg> <key>=</key> <n>1e-6</n>)</code></pre>
@@ -584,6 +607,32 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 
   <pre class="code"><code>ear.graph.<f>clip</f>(<arg>graph</arg>, <arg>line</arg>)</code></pre>
  -->
+
+<p>
+  <b>Fragment</b> is necessary when importing a pattern from an outside environment, but it is expensive and destructive too (rebuilds all faces).
+</p>
+
+<h3>
+  Planar Segment
+</h3>
+
+<p>
+  Once your graph is already planar, or if you are starting from scratch, use <b>add_planar_segment</b> to add a segment. This method only modifies what is necessary.
+</p>
+
+  <div id="canvas-graph-overlap-faces"></div>
+
+  <pre class="code"><code>ear.graph.<f>add_planar_segment</f>(<arg>graph</arg>, <arg>point1</arg>, <arg>point2</arg>)</code></pre>
+
+<p class="quote">
+  Add a segment between two points (point1, point2)
+</p>
+
+  <div id="canvas-graph-overlap-edge-boxes"></div>
+
+<p>
+  The edges-segment intersection test uses a bounding box to filter <span class="color-red">possible candidates</span> to uncover <span class="color-yellow">intersections</span>.
+</p>
 
 <h3>
   Face-Finding
@@ -602,7 +651,25 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
   </div>
 
 <p class="explain">
-  This library can build faces in 2D only. Notice how faces can be built even if edges are crossing.
+  This library can build faces in 2D only, and can only be guaranteed if no edges are crossing.
+</p>
+
+  <pre class="code"><code>ear.graph.<f>make_planar_faces</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  This method ensures the faces are counter-clockwise and will exclude the one face which winds backwards around the entire boundary.
+</p>
+
+<p>
+  Or, can call these subroutines directly:
+</p>
+
+  <pre class="code"><code>ear.graph.<f>counter_clockwise_walk</f>(<arg>graph</arg>, <arg>vertex0</arg>, <arg>vertex1</arg>)</code></pre>
+
+  <pre class="code"><code>ear.graph.<f>planar_vertex_walk</f>(<arg>graph</arg>)</code></pre>
+
+<p>
+  <b>counter_clockwise_walk</b> will look for a single face by starting at vertex0 and begin walking to vertex1, and <b>planar_vertex_walk</b> will give you all faces <em>including</em> the outer boundary.
 </p>
 
 <h3>
@@ -622,11 +689,11 @@ ear.graph.<f>transform</f>(<arg>graph</arg>, <arg>matrix</arg>)</code></pre>
 </p>
 
 <h2>
-  Tracking Changes
+  Advanced: Graph Changes
 </h2>
 
 <p>
-	Imagine adding a crease to a crease pattern but the crease became three edges due to planar overlaps. If you intend to update mountain/valley assignments for example, you need those three indices. This section explains how indices shift and how to keep track of them.
+	Imagine adding a crease to a crease pattern, and this one crease becomes three graph edges having been split across existing lines. If you intend to update mountain/valley assignments for example, you need those three indices. This section explains how indices shift and how to keep track of changes even after many operations have taken place.
 </p>
 
 <h3>
@@ -979,7 +1046,7 @@ options.callback["graph-nearest-components"] = (event) => {
   "  edge: <n>" + e.edge + "</n>,\n" +
   "  face: <n>" + e.face + "</n>,\n" +
   "  vertices_coords: [" + e.vertices_coords
-    .map(n => "<n>" + ear.math.clean_number(n) + "</n>")
+    .map(n => "<n>" + ear.math.cleanNumber(n) + "</n>")
     .join(", ") + "],\n" +
   "  edges_assignment: <str>\"" + e.edges_assignment + "\"</str>,\n" +
   "  <key>...</key> " + "}";
@@ -1006,6 +1073,8 @@ loadExamples([
   "graph-fragment-edges",
   "graph-fragment-faces",
   "graph-fragment-epsilon-collinear",
+  "graph-overlap-edge-boxes",
+  "graph-overlap-faces",
 ], options);
 </script>
 
@@ -1015,6 +1084,7 @@ loadExamples([
 <script type="text/javascript" src="./js/d3_graph_adjNode.js"></script>
 <script type="text/javascript" src="./js/d3_graph_adjEdge.js"></script>
 
+<!-- 
 <script>
   function updateNodesAdjacentToNode(input, output){
     var outString = '[<span class="token argument">' + output + '</span>] ← ';
@@ -1046,6 +1116,7 @@ loadExamples([
     .attr("viewBox", "0 0 960 400")
     .classed("svg-content", true);
 </script>
+ -->
 
 <!-- START OF FOOTER -->
 <!-- START OF FOOTER -->
